@@ -4,7 +4,7 @@
 var World = {
   parser: PEG.buildParser(" \
     start = entity* \
-    entity = ' '* e:[^;\\n]+ (';' / '\\n' / !.) { return Query.parser.parse(e.join('')) } \
+    entity = ' '* e:[^;\\n]+ (';' / '\\n' / !.) { return Query.parser.parse(e.join(''))[0] } \
   "),
 
   compile: function(state_source) {
@@ -12,7 +12,10 @@ var World = {
       var entity = {}
 
       predicates.forEach(function(predicate) {
-        if(predicate.infix) {
+        if(predicate.simple) {
+          entity[predicate.property] = true;
+
+        } else if(predicate.infix) {
           switch(predicate.infix) {
             case '=': entity[predicate.property] = predicate.value; break;
             case '!=': if(predicate.value == undefined) entity[predicate.property] = true; break;

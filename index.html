@@ -85,20 +85,13 @@
       }
     }
 
-    bounces yspeed y>350 {
-      this.yspeed *= -1
-      this.xspeed += Graphics.random(-1, 1)
-    }
-
+    bounces yspeed y>350,
     bounces yspeed y<50 {
       this.yspeed *= -1
       this.xspeed += Graphics.random(-1, 1)
     }
 
-    bounces x<0 {
-      this.offscreen = true
-    }
-
+    bounces x<0,
     bounces x>400 {
       this.offscreen = true
     }

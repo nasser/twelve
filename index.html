@@ -1,0 +1,144 @@
+<html>
+<head>
+  <title>Entity</title>
+    <script type="text/state">
+    paddle player y=200
+    paddle computer y=200
+    ball x=50 y=100 bounces
+    game player_score=0 computer_score=0
+    </script>
+
+    <script type="text/logic">
+    
+    game !inited {
+      Graphics.size(400, 400, Graphics.P2D);
+      Graphics.background(0);
+      Graphics.color(255);
+      Graphics.stroke(255);
+      Graphics.ellipseMode(Graphics.CENTER)
+    }
+
+    game {
+      Graphics.background(0);
+      Graphics.strokeWeight(1);
+      Graphics.line(0, 50, Graphics.width, 50);
+      Graphics.line(0, 350, Graphics.width, 350);
+    }
+
+    ball {
+      Graphics.ellipse(this.x, this.y, 5, 5)
+    }
+
+    ball x<0 {
+      World.query("game")[0].computer_score += 1
+    }
+
+    ball x>400 {
+      World.query("game")[0].player_score += 1
+    }
+
+    ball offscreen {
+      this.x = Graphics.width/2
+      this.y = Graphics.height/2
+      this.xspeed = Graphics.random(-0.5, 0.5)
+      this.yspeed = Graphics.random(-0.5, 0.5)
+
+      delete this.offscreen
+    }
+
+
+    player y {
+      this.y = Graphics.mouseY
+    }
+
+    computer y {
+      var balls = World.query("ball y")
+      var avg = balls.reduce(function(prev, ball) { return prev + ball.y }, 0) / balls.length;
+      this.y = avg// - this.y)/50
+    }
+
+
+    bounces x y xspeed yspeed {
+      this.x += this.xspeed
+      this.y += this.yspeed
+    }
+
+    bounces !xspeed !yspeed {
+      this.xspeed = Graphics.random(-0.5, 0.5)
+      this.yspeed = Graphics.random(-0.5, 0.5)
+    }
+
+    bounces xspeed x>350 x<355 {
+      var paddle = World.query("computer")[0];
+      if(this.y < (paddle.y + paddle.size) && this.y > (paddle.y - paddle.size)) {
+        this.xspeed *= -1
+        this.yspeed += Graphics.random(-1, 1)
+      }
+
+    }
+
+    bounces xspeed x<50 x>45 {
+      var paddle = World.query("player")[0];
+      if(this.y < (paddle.y + paddle.size) && this.y > (paddle.y - paddle.size)) {
+        this.xspeed *= -1
+        this.yspeed += Graphics.random(-1, 1)
+      }
+    }
+
+    bounces yspeed y>350 {
+      this.yspeed *= -1
+      this.xspeed += Graphics.random(-1, 1)
+    }
+
+    bounces yspeed y<50 {
+      this.yspeed *= -1
+      this.xspeed += Graphics.random(-1, 1)
+    }
+
+    bounces x<0 {
+      this.offscreen = true
+    }
+
+    bounces x>400 {
+      this.offscreen = true
+    }
+
+
+
+    paddle !size {
+      this.size = 50
+    }
+
+    paddle player {
+      this.x = 50
+    }
+
+    paddle computer {
+      this.x = 400-50
+    }
+
+    paddle size {
+      Graphics.strokeWeight(5)
+      Graphics.line(this.x, this.y-this.size, this.x, this.y+this.size)
+    }
+    
+    </script>
+
+    <script src="js/core/peg.js"></script>
+    <script src="js/core/query.js"></script>
+    <script src="js/core/world.js"></script>
+    <script src="js/core/logic.js"></script>
+
+    <script src="js/backends/graphics/processing.js"></script>
+    <script src="js/backends/graphics/graphics.js"></script>
+
+    <script type="text/javascript">
+      window.onload = function() {
+        Logic.runAll();
+        setInterval(function(){Logic.runAll()}, 3);
+      }
+    </script>
+</head>
+<body>
+</body>
+</html>

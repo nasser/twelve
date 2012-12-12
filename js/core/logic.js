@@ -49,3 +49,8 @@ var scripts = document.querySelectorAll("script[type='text/logic']");
 for (var i = 0; i < scripts.length; i++) {
   Logic.add( scripts[i].text.trim() )
 };
+
+window.onload = function() {
+  Logic.runAll();
+  setInterval(function(){Logic.runAll()}, 3);
+}

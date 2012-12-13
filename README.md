@@ -2,7 +2,7 @@
 Experimental game engine based on an extreme interpretation of the Entity Component System architchture.
 
 ## Status
-This is highly experimental, both conceptually and technically. It may well be a terrible idea. 
+This is still highly experimental, both conceptually and technically. Approach with that in mind.
 
 ## Overview
 A game in Twelve is made up of three things: **objects**, **logic**, and **backends**. Broadly, objects store the state of the game, like positions or speed, logic implements behavior, like movement or death, and backends access non-game specific utilities like, graphics or input.

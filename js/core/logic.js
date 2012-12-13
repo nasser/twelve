@@ -13,7 +13,7 @@ var Logic = {
   compile: function(logics) {
     return this.parser.parse(logics).map(function(logic) {
       logic.apply = function() {
-        var entities = World.queryRaw(logic.query);
+        var entities = World.queryRaw(this.query);
         for (var i = 0; i < entities.length; i++)
           this.action.call(entities[i]);
       }

@@ -114,6 +114,19 @@
       Graphics.strokeWeight(5)
       Graphics.line(this.x, this.y-this.size, this.x, this.y+this.size)
     }
+
+
+    inspector_hover x y {
+      Graphics.pushStyle();
+        Graphics.noFill();
+        Graphics.strokeWeight(1)
+        Graphics.stroke(255, 0, 0, 128);
+        Graphics.line(0, this.y, Graphics.width, this.y);
+        Graphics.line(this.x, 0, this.x, Graphics.height);
+      Graphics.popStyle();
+    }
+    
+
     
     </script>
 
@@ -124,6 +137,33 @@
 
     <script src="js/backends/graphics/processing.js"></script>
     <script src="js/backends/graphics/graphics.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/inspector.css">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+    <script type="text/javascript">
+    setInterval(function() {
+      if($("#inspector").size() == 0) $('body').append($("<div id='inspector'>"))
+        $("#inspector").empty();
+
+        World.state.forEach(function(e) {
+          var entityElement = $("<div class='entity'>")
+          for(var p in e) {
+
+            var property = p;
+            var value;
+            switch(typeof e[p]) {
+              case 'number': value = Math.round(e[p] * 100) / 100; break;
+              default: value = e[p]
+            }
+
+            entityElement.append($("<span class='property'>" + property + "</span><span class='value'>" + value + "</span>"));
+            entityElement.hover(function() { e.inspector_hover = true; setTimeout(function() { delete e.inspector_hover }, 1000) } )
+          }
+
+          $("#inspector").append(entityElement);
+        })
+    }, 50);
+    </script>
 </head>
 <body>
 </body>

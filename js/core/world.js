@@ -42,7 +42,14 @@ var World = {
     this.state.splice(this.state.indexOf(entity), 1)
   },
 
-  createEntity: function() {
+  clone: function(original) {
+    var clone = this.spawn();
+    for(var prop in original)
+      clone[prop] = original[prop]
+    return clone
+  },
+
+  spawn: function() {
     var newEntity = {};
     this.state.push(newEntity);
     return newEntity;

@@ -5,13 +5,14 @@ var Query = {
   parser: PEG.buildParser(" \
     start = first:single_query rest:additional_query* { return [first].concat(rest) } \
     \
-    single_query = predicate* \
+    single_query = p:predicate* comment? { return p } \
     additional_query = ',' white q:single_query { return q } \
     \
-    predicate = prefix_predicate / infix_predicate / simple_predicate \
-    prefix_predicate = operator:operator property:alpha white { return { property:property, prefix:operator} } \
-    infix_predicate  = property:alpha operator:operator value:value white { return { property:property, infix:operator, value:value } }\
-    simple_predicate = property:alpha white { return { property:property, simple:true } } \
+    predicate = infix_predicate / prefix_predicate / simple_predicate \
+    prefix_predicate = comment? operator:operator property:alpha white { return { property:property, prefix:operator} } \
+    infix_predicate  = comment? property:alpha operator:operator value:value white { return { property:property, infix:operator, value:value } }\
+    simple_predicate = comment? property:alpha white { return { property:property, simple:true } } \
+    comment = '/*' (!'*/' .)* '*/' white / '//' [^\\n]* '\\n' white \
     \
     operator = '=' / '!' / '<' / '>' / '!=' / '<=' / '>=' / '~' \
     \
@@ -21,7 +22,7 @@ var Query = {
     string = '\"' s:[^\"]+ '\"' { return '\"' + s.join('') + '\"' } \
     \
     alpha = a:[a-zA-Z_]+ { return a.join('') } \
-    white = ' '* \
+    white = [\\n  ]* \
   "),
 
   compile: function(query_string) {

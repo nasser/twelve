@@ -12,7 +12,7 @@ var Query = {
     prefix_predicate = comment? operator:operator property:alpha white { return { property:property, prefix:operator} } \
     infix_predicate  = comment? property:alpha operator:operator value:value white { return { property:property, infix:operator, value:value } }\
     simple_predicate = comment? property:alpha white { return { property:property, simple:true } } \
-    comment = '/*' (!'*/' .)* '*/' white / '//' [^\\n]* '\\n' white \
+    comment = '/*' (!'*/' .)* '*/' white / ('//'/'#') [^\\n]* '\\n' white \
     \
     operator = '=' / '!' / '<' / '>' / '!=' / '<=' / '>=' / '~' \
     \

@@ -5,12 +5,12 @@ Experimental game engine based on an extreme interpretation of the Entity Compon
 This is still highly experimental, both conceptually and technically. Approach with that in mind.
 
 ## Overview
-A game in Twelve is made up of three things: **objects**, **logic**, and **backends**. Broadly, objects store the state of the game, like positions or speed, logic implements behavior, like movement or death, and backends access non-game specific utilities like, graphics or input.
+A game in Twelve is made up of three things: **objects**, **logic**, and **backends**. Broadly, objects represent the distinct entities in your game and store state, like positions or speed, logic implements behavior, like movement or death, and backends expose non-game specific utilities like, graphics or input.
 
-Each bit of game logic *selects* a particular set of objects, runs code *on each* matching object. This select-and-apply paradigm, inspired by Entity Component Systems, is what Twelve is exploring.
+Each bit of game logic *selects* a particular set of objects, and runs code *on each* matching object. This select-and-apply paradigm is inspired by Entity Component Systems and it's what Twelve is exploring.
 
 ### Objects
-Objects are just collections of data, represented as named *properties* with *values*. They have no behavior attached to them, and can't do anything on their own. Each object represents the state of one entity in your game, and taken together they represent the state of the entire game.
+Objects are just collections of data, comprised of named *properties* with *values*. They have no behavior attached to them, and can't do anything on their own. Each object represents the state of one entity in your game.
 
 This is an object that has three properties, `name`, `x`, and `y`, with values `"Ramsey"`, `13`, and `17` respectively.
 
@@ -18,7 +18,7 @@ This is an object that has three properties, `name`, `x`, and `y`, with values `
 name="Ramsey" x=13 y=17
 ```
 
-Sometimes you will want to 'tag' an object to categorize it. For example, maybe the previous object represents the player in the game. You could do this
+Sometimes you will want to use a property to 'tag' an object without assigning it a value. For example, maybe the previous object represents the player in the game. You could do this
 
 ```javascript
 player=true name="Ramsey" x=13 y=17
@@ -39,16 +39,20 @@ paddle computer y=100
 ball x=100 y=100 bounces
 ```
 
-Again, none of these properties have any inherent meaning. They are only brought to life by logic.
+Again, none of these objects or properties have any inherent meaning. They are only brought to life by logic.
 
 ### Logic
-Logic is where you implement your game mechanic. It is also where Twelve's paradigm is most visible: a logic block is made up of a **query** and an **action**.
+Logic is where you implement your game mechanic. It is also where Twelve's paradigm is most visible: a logic block is made up of a **query** and an **action**. For example, in
 
 ```javascript
-query {
-  action
+moves_left x {
+  this.x += 1
 }
 ```
+
+`moves_left x` is the query and `this.x += 1` is the action. Every frame, every object matching the query `moves_left x` will have the action `this.x += 1`. 1The query is written in Twelve's query language, and the action is written in JavaScrpt.
+
+Every frame, each logic block is evaluated in order. A list of objects matching the query is built. Then, every object in that list  
 
 While the game is running, each logic block is selected in turn, a list of all objects matching the query is built, and the action is run on every object in the list. Actions are specified in JavaScrpt.
 

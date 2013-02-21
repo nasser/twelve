@@ -4,7 +4,7 @@
 var World = {
   parser: PEG.buildParser(" \
     start = entity* \
-    entity = ' '* e:[^;\\n]+ (';' / '\\n' / !.) { return Query.parser.parse(e.join(''))[0] } \
+    entity = (' ' / '\\n')* e:[^;\\n]+ (';' / '\\n' / !.) { return Query.parser.parse(e.join(''))[0] } \
   "),
 
   compile: function(state_source) {

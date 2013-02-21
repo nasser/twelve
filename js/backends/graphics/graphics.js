@@ -12,3 +12,8 @@ Graphics.keyReleased = function() {
     delete e.key;
   });
 }
+
+Logic.store.unshift({apply: function() {
+  Graphics.background(0)
+}});
+Logic.addFromFile("/js/backends/graphics/graphics.logic")

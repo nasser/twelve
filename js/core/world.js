@@ -68,6 +68,9 @@ var World = {
   }
 }
 
+window['$'] = World.queryFirst
+window['$$'] = World.query
+
 var scripts = document.querySelectorAll("script[type='text/state']");
 for (var i = 0; i < scripts.length; i++) {
   World.add( scripts[i].text.trim() )

@@ -59,6 +59,10 @@ var World = {
     return World.state.filter(Query.compile(expression));
   },
 
+  queryFirst: function(expression) {
+    return World.query(expression)[0];
+  },
+
   queryRaw: function(fn) {
     return World.state.filter(fn);
   }

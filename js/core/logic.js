@@ -4,10 +4,14 @@
 var Logic = {
   parser: PEG.buildParser(" \
     start = logic* \
-    logic = q:query a:action ' '* { return {query:Query.compile(q), action:CoffeeScript.eval('-> ' + a.trim().replace(/^\{/, '').replace(/\}$/, '')) } }  \
-    query = q:[^{]+ { return q.join('').trim() } \
-    action = block:curly { return block } \
+    logic = comment? q:query a:action ' '* { return {query:Query.compile(q), action:CoffeeScript.eval('-> ' + a.replace(/^\{/, '').replace(/\}$/, '')) } }  \
+    query = q:[^{\\n]+ { return q.join('').trim() } \
+    action = block:(curly / indented) { return block } \
     curly = curly:('{' ([^{}]+ / curly)+ '}') { return curly.flatten().join('') } \
+    indented = '\\n' indented:indented_line+ ('\\n' / !.) { return '\\n  ' + indented.join('\\n  ') } \
+    indented_line = '  ' line:[^\\n]+ ('\\n' / !.) { return line.join('') } \
+    comment = '/*' (!'*/' .)* '*/' white / ('//'/'#') [^\\n]* '\\n' white \
+    white = [\\n  ]* \
   "),
 
   compile: function(logics) {

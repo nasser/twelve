@@ -4,9 +4,9 @@
 var Logic = {
   parser: PEG.buildParser(" \
     start = logic* \
-    logic = q:query a:action ' '* { return {query:q, action:a} }  \
-    query = q:[^{]+ { return Query.compile(q.join('').trim()) } \
-    action = block:curly { return eval('(function()' + block + ')') } \
+    logic = q:query a:action ' '* { return {query:Query.compile(q), action:CoffeeScript.eval('-> ' + a.trim().replace(/^\{/, '').replace(/\}$/, '')) } }  \
+    query = q:[^{]+ { return q.join('').trim() } \
+    action = block:curly { return block } \
     curly = curly:('{' ([^{}]+ / curly)+ '}') { return curly.flatten().join('') } \
   "),
 

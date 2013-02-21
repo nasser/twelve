@@ -24,8 +24,18 @@ var Logic = {
 
   store: [],
   
-  add: function(logics) {
-    this.store = this.store.concat(this.compile(logics));
+  add: function(logic_objects) {
+    this.store = this.store.concat(logic_objects);
+  },
+
+  addFromString: function(logics) {
+    this.add(this.compile(logics));
+  },
+
+  addFromFile: function(url) {
+    (new XHConn()).connect(url, 'get', '', function(xhr) {
+      Logic.addFromString(xhr.responseText.trim())
+    });
   },
 
   runAll: function() {

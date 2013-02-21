@@ -8,7 +8,7 @@ var World = {
   "),
 
   compile: function(state_source) {
-    return this.parser.parse(state_source).map(function(predicates) {
+    return World.parser.parse(state_source).map(function(predicates) {
       var entity = {}
 
       predicates.forEach(function(predicate) {
@@ -35,15 +35,15 @@ var World = {
   state: [],
 
   add: function(state_source) {
-    this.state = this.state.concat(this.compile(state_source));
+    World.state = World.state.concat(World.compile(state_source));
   },
 
   remove: function(entity) {
-    this.state.splice(this.state.indexOf(entity), 1)
+    World.state.splice(World.state.indexOf(entity), 1)
   },
 
   clone: function(original) {
-    var clone = this.spawn();
+    var clone = World.spawn();
     for(var prop in original)
       clone[prop] = original[prop]
     return clone
@@ -51,16 +51,16 @@ var World = {
 
   spawn: function() {
     var newEntity = {};
-    this.state.push(newEntity);
+    World.state.push(newEntity);
     return newEntity;
   },
 
   query: function(expression) {
-    return this.state.filter(Query.compile(expression));
+    return World.state.filter(Query.compile(expression));
   },
 
   queryRaw: function(fn) {
-    return this.state.filter(fn);
+    return World.state.filter(fn);
   }
 }
 

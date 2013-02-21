@@ -47,7 +47,8 @@ var Logic = {
 
 var scripts = document.querySelectorAll("script[type='text/logic']");
 for (var i = 0; i < scripts.length; i++) {
-  Logic.add( scripts[i].text.trim() )
+  if(scripts[i].src.length > 0) Logic.addFromFile(scripts[i].src);
+  Logic.addFromString( scripts[i].text.trim() )
 };
 
 window.onload = function() {

@@ -38,6 +38,12 @@ var World = {
     World.state = World.state.concat(World.compile(state_source));
   },
 
+  addFile: function(url) {
+    (new XHConn()).connect(url, 'get', '', function(xhr) {
+      World.add(xhr.responseText.trim())
+    });
+  },
+
   remove: function(entity) {
     World.state.splice(World.state.indexOf(entity), 1)
   },
@@ -73,5 +79,6 @@ window['$$'] = World.query
 
 var scripts = document.querySelectorAll("script[type='text/state']");
 for (var i = 0; i < scripts.length; i++) {
+  if(scripts[i].src.length > 0) World.addFile(scripts[i].src)
   World.add( scripts[i].text.trim() )
 };

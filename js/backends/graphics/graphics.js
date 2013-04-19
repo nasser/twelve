@@ -13,7 +13,6 @@ Graphics.keyReleased = function() {
   });
 }
 
-Logic.store.unshift({apply: function() {
-  Graphics.background(0)
-}});
-Logic.addFromFile("/js/backends/graphics/graphics.logic")
+Logic.addFromFile("/js/backends/graphics/graphics.12")
+
+var canvas = World.spawn("canvas width=900 height=400");

@@ -9,21 +9,22 @@ function XHConn()
   catch (e) { try { xmlhttp = new XMLHttpRequest(); }
   catch (e) { xmlhttp = false; }}}
   if (!xmlhttp) return null;
-  this.connect = function(sURL, sMethod, sVars, fnDone)
+  this.connect = function(sURL, sMethod, sVars, fnDone, sAsync)
   {
     if (!xmlhttp) return false;
     bComplete = false;
     sMethod = sMethod.toUpperCase();
+    if(sAsync === undefined) sAsync = false;
 
     try {
       if (sMethod == "GET")
       {
-        xmlhttp.open(sMethod, sURL+"?"+sVars, true);
+        xmlhttp.open(sMethod, sURL+"?"+sVars, sAsync);
         sVars = "";
       }
       else
       {
-        xmlhttp.open(sMethod, sURL, true);
+        xmlhttp.open(sMethod, sURL, sAsync);
         xmlhttp.setRequestHeader("Method", "POST "+sURL+" HTTP/1.1");
         xmlhttp.setRequestHeader("Content-Type",
           "application/x-www-form-urlencoded");

@@ -2,134 +2,16 @@
 <head>
   <title>Entity</title>
     <script type="text/state">
-    paddle player y=200
-    paddle computer y=200
-    ball x=50 y=100 bounces
-    game player_score=0 computer_score=0
+    ball x=5 y=75
+    ball x=55 y=75 bounces
+    canvas
     </script>
 
-    <script type="text/logic">
-    
-    game !inited {
-      Graphics.size(400, 400, Graphics.P2D);
-      Graphics.background(0);
-      Graphics.color(255);
-      Graphics.stroke(255);
-      Graphics.ellipseMode(Graphics.CENTER)
-    }
+    <script type="text/logic" src="examples/sandbox.logic.coffee"></script>
+    <script type="text/logic" src="js/backends/proto/proto.logic"></script>
 
-    game {
-      Graphics.background(0);
-      Graphics.strokeWeight(1);
-      Graphics.line(0, 50, Graphics.width, 50);
-      Graphics.line(0, 350, Graphics.width, 350);
-    }
-
-    ball {
-      Graphics.ellipse(this.x, this.y, 5, 5)
-    }
-
-    ball x<0 {
-      World.query("game")[0].computer_score += 1
-    }
-
-    ball x>400 {
-      World.query("game")[0].player_score += 1
-    }
-
-    ball offscreen {
-      this.x = Graphics.width/2
-      this.y = Graphics.height/2
-      this.xspeed = Graphics.random(-0.5, 0.5)
-      this.yspeed = Graphics.random(-0.5, 0.5)
-
-      delete this.offscreen
-    }
-
-
-    player y {
-      this.y = Graphics.mouseY
-    }
-
-    computer y {
-      var balls = World.query("ball y")
-      var avg = balls.reduce(function(prev, ball) { return prev + ball.y }, 0) / balls.length;
-      this.y = avg// - this.y)/50
-    }
-
-
-    bounces x y xspeed yspeed {
-      this.x += this.xspeed
-      this.y += this.yspeed
-    }
-
-    bounces !xspeed !yspeed {
-      this.xspeed = Graphics.random(-0.5, 0.5)
-      this.yspeed = Graphics.random(-0.5, 0.5)
-    }
-
-    bounces xspeed x>350 x<355 {
-      var paddle = World.query("computer")[0];
-      if(this.y < (paddle.y + paddle.size) && this.y > (paddle.y - paddle.size)) {
-        this.xspeed *= -1
-        this.yspeed += Graphics.random(-1, 1)
-      }
-
-    }
-
-    bounces xspeed x<50 x>45 {
-      var paddle = World.query("player")[0];
-      if(this.y < (paddle.y + paddle.size) && this.y > (paddle.y - paddle.size)) {
-        this.xspeed *= -1
-        this.yspeed += Graphics.random(-1, 1)
-      }
-    }
-
-    bounces yspeed y>350,
-    bounces yspeed y<50 {
-      this.yspeed *= -1
-      this.xspeed += Graphics.random(-1, 1)
-    }
-
-    bounces x<0,
-    bounces x>400 {
-      this.offscreen = true
-    }
-
-
-
-    paddle !size {
-      this.size = 50
-    }
-
-    paddle player {
-      this.x = 50
-    }
-
-    paddle computer {
-      this.x = 400-50
-    }
-
-    paddle size {
-      Graphics.strokeWeight(5)
-      Graphics.line(this.x, this.y-this.size, this.x, this.y+this.size)
-    }
-
-
-    inspector_hover x y {
-      Graphics.pushStyle();
-        Graphics.noFill();
-        Graphics.strokeWeight(1)
-        Graphics.stroke(255, 0, 0, 128);
-        Graphics.line(0, this.y, Graphics.width, this.y);
-        Graphics.line(this.x, 0, this.x, Graphics.height);
-      Graphics.popStyle();
-    }
-    
-
-    
-    </script>
-
+    <script src="js/core/ajax.js"></script>
+    <script src="js/core/coffeescript.js"></script>
     <script src="js/core/peg.js"></script>
     <script src="js/core/ext.js"></script>
     <script src="js/core/query.js"></script>
@@ -138,33 +20,7 @@
 
     <script src="js/backends/graphics/processing.js"></script>
     <script src="js/backends/graphics/graphics.js"></script>
-
-    <link rel="stylesheet" type="text/css" href="css/inspector.css">
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
-    <script type="text/javascript">
-    setInterval(function() {
-      if($("#inspector").size() == 0) $('body').append($("<div id='inspector'>"))
-        $("#inspector").empty();
-
-        World.state.forEach(function(e) {
-          var entityElement = $("<div class='entity'>")
-          for(var p in e) {
-
-            var property = p;
-            var value;
-            switch(typeof e[p]) {
-              case 'number': value = Math.round(e[p] * 100) / 100; break;
-              default: value = e[p]
-            }
-
-            entityElement.append($("<span class='property'>" + property + "</span><span class='value'>" + value + "</span>"));
-            entityElement.hover(function() { e.inspector_hover = true; setTimeout(function() { delete e.inspector_hover }, 1000) } )
-          }
-
-          $("#inspector").append(entityElement);
-        })
-    }, 50);
-    </script>
+    <script src="js/backends/graphics/graphics.js"></script>
 </head>
 <body>
 </body>

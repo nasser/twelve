@@ -1,17 +1,23 @@
 /*
  * Application state
  */
+
+var PEG = require("./peg.js")
+var Query = require("./query.js")
+var fs = require("fs")
+var inspect = require("eyes").inspector()
+
 var World = {
   parser: PEG.buildParser(" \
     start = entity* \
-    entity = (' ' / '\\n')* e:[^;\\n]+ (';' / '\\n' / !.) { return Query.parser.parse(e.join(''))[0] } \
+    entity = (' ' / '\\n')* e:[^;\\n]+ (';' / '\\n' / !.) { return e.join('') } \
   "),
 
   compile: function(state_source) {
-    return World.parser.parse(state_source).map(function(predicates) {
+    return World.parser.parse(state_source).map(function(queryString) {
       var entity = {}
 
-      predicates.forEach(function(predicate) {
+      Query.parser.parse(queryString)[0].forEach(function(predicate) {
         if(predicate.simple) {
           entity[predicate.property] = true;
 
@@ -25,6 +31,9 @@ var World = {
         } else if(predicate.prefix) {
           console.warn("Ignoring unsupported prefix operator '" + predicate.prefix + "' in entity")
 
+        } else if(predicate.wildcard) {
+          console.warn("Ignoring wildcard predicate in spawn")
+
         }
       });
 
@@ -34,14 +43,24 @@ var World = {
 
   state: [],
 
-  add: function(state_source) {
-    World.state = World.state.concat(World.compile(state_source));
+  Entity: {
+    toString: function() {
+      var obj = this
+      return "{" + Object.keys(this).map(function(k) { return typeof obj[k] == 'string' ? k +"='"+obj[k] +"'" : k }).join(" ") + "}";
+    }
   },
 
-  addFile: function(url) {
-    (new XHConn()).connect(url, 'get', '', function(xhr) {
-      World.add(xhr.responseText.trim())
-    });
+  id: function() {
+    return (Date.now() + Math.random()).toString(36)
+  },
+
+  add: function(state_source) {
+    World.parser.parse(state_source).forEach(function(source) { World.spawn(source) });
+  },
+
+  load: function(file) {
+    console.log("Loading state from %s...", file)
+    World.add(fs.readFileSync(file).toString());
   },
 
   remove: function(entity) {
@@ -55,9 +74,12 @@ var World = {
     return clone
   },
 
-  spawn: function() {
-    var newEntity = {};
+  spawn: function(structure) {
+    var newEntity = structure ? World.compile(structure)[0] : {};
+    newEntity.__proto__ = World.Entity;
+
     World.state.push(newEntity);
+    newEntity.start()
     return newEntity;
   },
 
@@ -74,11 +96,13 @@ var World = {
   }
 }
 
-window['$'] = World.queryFirst
-window['$$'] = World.query
+GLOBAL.World = World
+GLOBAL['$'] = World.queryFirst
+GLOBAL['$$'] = World.query
 
-var scripts = document.querySelectorAll("script[type='text/state']");
-for (var i = 0; i < scripts.length; i++) {
-  if(scripts[i].src.length > 0) World.addFile(scripts[i].src)
-  World.add( scripts[i].text.trim() )
-};
+
+// var scripts = document.querySelectorAll("script[type='text/state']");
+// for (var i = 0; i < scripts.length; i++) {
+//   if(scripts[i].src.length > 0) World.addFile(scripts[i].src)
+//   World.add( scripts[i].text.trim() )
+// };

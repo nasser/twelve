@@ -1,0 +1,47 @@
+<html>
+<head>
+  <title>Asteroids</title>
+  <script type="text/logic">
+    canvas :start {
+      console.log "starting!"
+
+      World.spawn "ship player x=30 y=120"
+    }
+
+    ship :start {
+      console.log "I am the ship!"
+    }
+
+    ship :draw {
+      console.log "draw ship"
+      Graphics.stroke 255
+      Graphics.line 0, 0, @x, @y
+
+      $("enemy dying").remove()
+    }
+
+    ship state='dying' :draw {
+      @debug = true
+    }
+
+    ship x<10, ship y<10 :draw {
+      @draw width:90, color:'red', intensity:'extreme'
+    }
+  </script>
+
+  <!-- Twelve Core -->
+  <script src="js/core/ajax.js"></script>
+  <script src="js/core/coffeescript.js"></script>
+  <script src="js/core/peg.js"></script>
+  <script src="js/core/ext.js"></script>
+  <script src="js/core/query.js"></script>
+  <script src="js/core/world.js"></script>
+  <script src="js/core/logic.js"></script>
+  
+  <script src="js/backends/graphics/processing.js"></script>
+  <script src="js/backends/graphics/graphics.js"></script>
+</head>
+<body>
+
+</body>
+</html>

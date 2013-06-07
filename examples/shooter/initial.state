@@ -1,0 +1,4 @@
+canvas width=500 height=500
+bullet x=100 y=80 xspeed=0.5 yspeed=0.3
+
+player keyboard ship x=120 y=230 size=30 angle=90 speed=2

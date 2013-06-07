@@ -1,0 +1,20 @@
+x y {
+  Graphics.noFill()
+  Graphics.ellipse @x, @y, 1, 1
+}
+
+x y size {
+  Graphics.noFill()
+  Graphics.ellipse @x, @y, @size, @size
+}
+
+x y angle !size {
+  size = 10
+  Graphics.line @x, @y, @x + Math.cos(Graphics.radians(@angle)) * size, @y + Math.sin(Graphics.radians(@angle)) * size
+}
+
+x y angle size {
+  Graphics.line @x, @y, @x + Math.cos(Graphics.radians(@angle)) * @size/2, @y + Math.sin(Graphics.radians(@angle)) * @size/2
+}
+
+

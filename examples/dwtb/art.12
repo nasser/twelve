@@ -1,0 +1,10 @@
+item :draw { Graphics.draw sprite:@item }
+
+item="clock" {
+  if @time > 0
+    Graphics.draw sprite:"clock-quiet"
+  else
+    Graphics.draw sprite:"clock-noisy"
+
+  Graphics.draw sprite:if @time > 0 then "clock-quiet" else "clock-noisy"
+}

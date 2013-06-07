@@ -1,0 +1,31 @@
+<html>
+<head>
+  <title>Shooter!</title>
+  <script type="text/state" src="examples/shooter/initial.state"></script>
+  <script type="text/logic" src="examples/shooter/input.logic"></script>
+  <script type="text/logic">
+  bullet {
+    @x += @xspeed
+    @y += @yspeed
+  }
+  </script>
+
+  <script type="text/logic" src="js/backends/proto/proto.logic"></script>
+
+  <!-- Twelve Core -->
+  <script src="js/core/ajax.js"></script>
+  <script src="js/core/coffeescript.js"></script>
+  <script src="js/core/peg.js"></script>
+  <script src="js/core/ext.js"></script>
+  <script src="js/core/query.js"></script>
+  <script src="js/core/world.js"></script>
+  <script src="js/core/logic.js"></script>
+
+  <!-- Backends -->
+  <script src="js/backends/graphics/processing.js"></script>
+  <script src="js/backends/graphics/graphics.js"></script>
+</head>
+<body>
+
+</body>
+</html>

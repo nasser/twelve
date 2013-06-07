@@ -1,0 +1,39 @@
+ship :start {
+  @speed = 5
+  @health = 100
+
+  @turn amount:20
+  @thrust force:5
+}
+
+ship :thrust {
+  @x += Math.cos(@angle) * args.force
+  @y += Math.sin(@angle) * args.force
+}
+
+ship :turn {
+  @angle += args.amount
+}
+
+ship :fire {
+  World.spawn "bullet x=#{@x} y=#{@y} angle=#{@angle}"
+}
+
+
+moves :start {
+  @x ||= 0
+  @y ||= 0
+  @angle ||= 0
+  @speed ||= 1
+}
+
+moves {
+  @x += Math.cos(@angle) * @speed
+  @y += Math.sin(@angle) * @speed
+}
+
+asteroid random :start {
+  @x = Math.random() * 100
+  @y = Math.random() * 100
+  delete @random
+}

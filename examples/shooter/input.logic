@@ -1,0 +1,18 @@
+# turning
+player angle key=37 { @angle -= 1 }
+player angle key=39 { @angle += 1 }
+
+player key=38 {
+  speed = @speed or 10
+  @x += Math.cos(Graphics.radians @angle) * speed
+  @y += Math.sin(Graphics.radians @angle) * speed
+}
+
+player key=32 {
+  bullet = World.spawn()
+  bullet.bullet = true
+  bullet.x = @x
+  bullet.y = @y
+  bullet.xspeed = Math.cos(Graphics.radians(@angle))
+  bullet.yspeed = Math.sin(Graphics.radians(@angle))
+}

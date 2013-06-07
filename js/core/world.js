@@ -46,7 +46,8 @@ var World = {
   Entity: {
     toString: function() {
       var obj = this
-      return "{" + Object.keys(this).map(function(k) { return typeof obj[k] == 'string' ? k +"='"+obj[k] +"'" : k }).join(" ") + "}";
+      return "{" + Object.keys(this).map(function(k) { return k }).join(" ") + "}";
+    },
     }
   },
 

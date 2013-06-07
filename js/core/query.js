@@ -52,7 +52,7 @@ var Query = {
             break;
 
           } else if(predicate.simple) {
-            query_code.push('e["' + predicate.property + '"]!==undefined');
+            query_code.push('e._tags["' + predicate.property + '"]!==undefined');
 
           } else if(predicate.prefix) {
             switch(predicate.prefix) {

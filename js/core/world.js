@@ -15,11 +15,11 @@ var World = {
 
   compile: function(state_source) {
     return World.parser.parse(state_source).map(function(queryString) {
-      var entity = {}
+      var entity = { _tags:{} }
 
       Query.parser.parse(queryString)[0].forEach(function(predicate) {
         if(predicate.simple) {
-          entity[predicate.property] = true;
+          entity._tags[predicate.property] = true;
 
         } else if(predicate.infix) {
           switch(predicate.infix) {

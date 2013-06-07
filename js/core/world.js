@@ -48,7 +48,15 @@ var World = {
       var obj = this
       return "{" + Object.keys(this).map(function(k) { return k }).join(" ") + "}";
     },
+
+    addTag: function(tag) {
+      this._tags[tag] = true;
+    },
+
+    removeTag: function(tag) {
+      delete this._tags[tag];
     }
+
   },
 
   id: function() {

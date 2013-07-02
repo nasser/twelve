@@ -27,7 +27,7 @@ var Query = {
     string_dq = '\"' s:[^\"]+ '\"' { return s.join('') } \
     string_sq = \"'\" s:[^\']+ \"'\" { return s.join('') } \
     \
-    alpha = a:[a-zA-Z_]+ { return a.join('') } \
+    alpha = a:[a-zA-Z_\.]+ { return a.join('') } \
     white = [\\n  ]* \
   "),
   

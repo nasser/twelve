@@ -1,13 +1,34 @@
-# Nice
-canvas {
-  console.log "background"
-  # Graphics.background(0)
+mouse {
+  @addTag 'mouse'
+  @mouse.pressed = false
+  @mouse.x = 0
+  @mouse.y = 0
 }
 
-canvas:start {
+canvas {
   Graphics.size @width, @height, Graphics.P2D
   Graphics.background 0
   Graphics.color 255
   Graphics.stroke 255
   Graphics.ellipseMode Graphics.CENTER
+}
+
+canvas :draw {
+  Graphics.background(0, 0, 0, 0);
+  Graphics.color 255
+  Graphics.stroke 255
+  Graphics.ellipseMode Graphics.CENTER
+}
+
+debug mouse.hitbox mouse.hover=false :draw {
+  Graphics.fill(0, 255, 255, 64);
+}
+
+debug mouse.hitbox mouse.hover=true :draw {
+  Graphics.fill(0, 255, 255, 128);
+}
+
+debug mouse.hitbox :draw {
+  Graphics.noStroke()
+  Graphics.rect(@mouse.hitbox.x, @mouse.hitbox.y, @mouse.hitbox.width, @mouse.hitbox.height);
 }

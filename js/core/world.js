@@ -2,116 +2,127 @@
  * Application state
  */
 
-var PEG = require("./peg.js")
-var Query = require("./query.js")
-var fs = require("fs")
-var inspect = require("eyes").inspector()
-
-var World = {
-  parser: PEG.buildParser(" \
-    start = entity* \
-    entity = (' ' / '\\n')* e:[^;\\n]+ (';' / '\\n' / !.) { return e.join('') } \
-  "),
-
-  compile: function(state_source) {
-    return World.parser.parse(state_source).map(function(queryString) {
-      var entity = { _tags:{} }
-
-      Query.parser.parse(queryString)[0].forEach(function(predicate) {
-        if(predicate.simple) {
-          entity._tags[predicate.property] = true;
-
-        } else if(predicate.infix) {
-          switch(predicate.infix) {
-            case '=': entity[predicate.property] = predicate.value; break;
-            case '!=': if(predicate.value == undefined) entity[predicate.property] = true; break;
-            default: console.warn("Ignoring unsupported infix operator '" + predicate.infix + "' in entity")
-          }
-
-        } else if(predicate.prefix) {
-          console.warn("Ignoring unsupported prefix operator '" + predicate.prefix + "' in entity")
-
-        } else if(predicate.wildcard) {
-          console.warn("Ignoring wildcard predicate in spawn")
-
-        }
-      });
-
-      return entity;
-    });
-  },
-
-  state: [],
-
-  Entity: {
-    toString: function() {
-      var obj = this
-      return "{" + Object.keys(this).map(function(k) { return k }).join(" ") + "}";
-    },
-
-    addTag: function(tag) {
-      this._tags[tag] = true;
-    },
-
-    removeTag: function(tag) {
-      delete this._tags[tag];
-    }
-
-  },
-
-  newId: function() {
-    return (Date.now() + Math.random()).toString(36)
-  },
-
-  add: function(state_source) {
-    World.parser.parse(state_source).forEach(function(source) { World.spawn(source) });
-  },
-
-  load: function(file) {
-    console.log("Loading state from %s...", file)
-    World.add(fs.readFileSync(file).toString());
-  },
-
-  remove: function(entity) {
-    World.state.splice(World.state.indexOf(entity), 1)
-  },
-
-  clone: function(original) {
-    var clone = World.spawn();
-    for(var prop in original)
-      clone[prop] = original[prop]
-    return clone
-  },
-
-  spawn: function(structure) {
-    var newEntity = structure ? World.compile(structure)[0] : {};
-    newEntity.__proto__ = World.Entity;
-
-    World.state.push(newEntity);
-    newEntity.start()
-    return newEntity;
-  },
-
-  query: function(expression) {
-    return World.state.filter(Query.compile(expression));
-  },
-
-  queryFirst: function(expression) {
-    return World.query(expression)[0];
-  },
-
-  queryRaw: function(fn) {
-    return World.state.filter(fn);
+define(["core/peg", "core/query", "core/entity", "core/ajax", "core/math"], function(PEG, Query, Entity, Ajax) {
+  function nestedObjects(str, val) {
+    return str.split(".").reverse().reduce(function(m, f) { var h={}; h[f] = m; return h; }, val);
   }
-}
 
-GLOBAL.World = World
-GLOBAL['$'] = World.queryFirst
-GLOBAL['$$'] = World.query
+  var World = {
+    parser: PEG.buildParser(" \
+      start = entity* \
+      entity = (' ' / '\\n')* e:[^;\\n]+ (';' / '\\n' / !.) { return e.join('') } \
+    "),
 
+    compile: function(state_source) {
+      return !state_source ? [{}] : World.parser.parse(state_source).map(function(queryString) {
+        var predicates = []
 
-// var scripts = document.querySelectorAll("script[type='text/state']");
-// for (var i = 0; i < scripts.length; i++) {
-//   if(scripts[i].src.length > 0) World.addFile(scripts[i].src)
-//   World.add( scripts[i].text.trim() )
-// };
+        var ast = Query.parser.parse(queryString)[0]
+        for (var i = 0; i < ast.length; i++) {
+          if(ast[i].simple) {
+            predicates.push( nestedObjects(ast[i].property, {}) )
+
+          } else if(ast[i].infix) {
+            switch(ast[i].infix) {
+              case '=':
+                predicates.push( nestedObjects(ast[i].property, ast[i].value) )
+                break;
+              case '!=':
+                if(ast[i].value == undefined)
+                  predicates.push( nestedObjects(ast[i].property, true) )
+                break;
+              default:
+                console.warn("Ignoring unsupported infix operator '" + ast[i].infix + "' in World.compile")
+            }
+
+          } else if(ast[i].prefix) {
+            switch(ast[i].prefix) {
+              case '&':
+                delete ast[i].prefix;
+                ast[i].infix = "=";
+                ast[i].value = ast[i].property;
+                ast[i].property = "id";
+                i--;
+                break;
+              default:
+                console.warn("Ignoring unsupported prefix operator '" + ast[i].prefix + "' in World.compile")
+            }
+
+          } else if(ast[i].wildcard) {
+            console.warn("Ignoring wildcard predicate in World.compile")
+
+          }
+        }
+
+        return predicates.reduce(function(e, p) { return Object.merge(e, p, true); }, {});
+      });
+    },
+
+    state: {},
+
+    stateArray: [],
+
+    newId: function() {
+      return (Date.now() + Math.random()).toString(36)
+    },
+
+    add: function(state_source) {
+      World.parser.parse(state_source).forEach(function(source) { World.spawn(source) });
+    },
+
+    load: function(file) {
+      console.log("Loading state from %s...", file);
+      (new Ajax()).connect(file, "GET", "", function(res) {
+        World.add(res.response)
+      })
+    },
+
+    removeEntity: function(entity) {
+      World.remove(entity.id);
+    },
+
+    remove: function(id) {
+      World.stateArray.needs_rebuild = true;
+      delete World.state[id];
+    },
+
+    spawn: function(structure) {
+      World.stateArray.needs_rebuild = true;
+
+      var newEntity = new Entity(structure);
+
+      World.state[newEntity.id] = newEntity;
+      // this is an issue when spawned was never defined
+      if(newEntity.spawned)
+        newEntity.spawned()
+      
+      return newEntity;
+    },
+
+    rebuildStateArray: function() {
+      World.stateArray = Object.keys(World.state).map(function(k) { return World.state[k] });
+      World.stateArray.needs_rebuild = false;
+    },
+
+    query: function(expression) {
+      var compiledQuery = Query.compile(expression)
+      return compiledQuery.id_query ? [World.state[compiledQuery.id_query]] : World.queryRaw(compiledQuery);
+    },
+
+    queryFirst: function(expression) {
+      var compiledQuery = Query.compile(expression)
+      return World.state[compiledQuery.id_query] || World.queryRaw(compiledQuery)[0];
+    },
+
+    queryRaw: function(fn) {
+      if(World.stateArray.needs_rebuild) World.rebuildStateArray();
+      return World.stateArray.filter(fn)
+    }
+  }
+
+  window.World = World
+  window['$'] = World.queryFirst
+  window['$$'] = World.query
+
+  return World;
+});

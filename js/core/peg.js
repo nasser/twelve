@@ -5,5 +5,4518 @@
  *
  * Copyright (c) 2010-2012 David Majda
  * Licensend under the MIT license.
- */var PEG=function(undefined){function range(a,b){b===undefined&&(b=a,a=0);var c=new Array(Math.max(0,b-a));for(var d=0,e=a;e<b;d++,e++)c[d]=e;return c}function find(a,b){var c=a.length;for(var d=0;d<c;d++)if(b(a[d]))return a[d]}function contains(a,b){var c=a.length;for(var d=0;d<c;d++)if(a[d]===b)return!0;return!1}function each(a,b){var c=a.length;for(var d=0;d<c;d++)b(a[d],d)}function map(a,b){var c=[],d=a.length;for(var e=0;e<d;e++)c[e]=b(a[e],e);return c}function pluck(a,b){return map(a,function(a){return a[b]})}function keys(a){var b=[];for(var c in a)b.push(c);return b}function values(a){var b=[];for(var c in a)b.push(a[c]);return b}function padLeft(a,b,c){var d=a,e=c-a.length;for(var f=0;f<e;f++)d=b+d;return d}function escape(a){var b=a.charCodeAt(0),c,d;return b<=255?(c="x",d=2):(c="u",d=4),"\\"+c+padLeft(b.toString(16).toUpperCase(),"0",d)}function quote(a){return'"'+a.replace(/\\/g,"\\\\").replace(/"/g,'\\"').replace(/\x08/g,"\\b").replace(/\t/g,"\\t").replace(/\n/g,"\\n").replace(/\f/g,"\\f").replace(/\r/g,"\\r").replace(/[\x00-\x07\x0B\x0E-\x1F\x80-\uFFFF]/g,escape)+'"'}function quoteForRegexpClass(a){return a.replace(/\\/g,"\\\\").replace(/\//g,"\\/").replace(/\]/g,"\\]").replace(/-/g,"\\-").replace(/\0/g,"\\0").replace(/\t/g,"\\t").replace(/\n/g,"\\n").replace(/\v/g,"\\x0B").replace(/\f/g,"\\f").replace(/\r/g,"\\r").replace(/[\x01-\x08\x0E-\x1F\x80-\uFFFF]/g,escape)}function buildNodeVisitor(a){return function(b){return a[b.type].apply(null,arguments)}}function findRuleByName(a,b){return find(a.rules,function(a){return a.name===b})}var PEG={VERSION:"0.7.0",buildParser:function(a,b){return PEG.compiler.compile(PEG.parser.parse(a),b)}};return PEG.GrammarError=function(a){this.name="PEG.GrammarError",this.message=a},PEG.GrammarError.prototype=Error.prototype,PEG.parser=function(){function a(a){return'"'+a.replace(/\\/g,"\\\\").replace(/"/g,'\\"').replace(/\x08/g,"\\b").replace(/\t/g,"\\t").replace(/\n/g,"\\n").replace(/\f/g,"\\f").replace(/\r/g,"\\r").replace(/[\x00-\x07\x0B\x0E-\x1F\x80-\uFFFF]/g,escape)+'"'}var b={parse:function(b,c){function i(a,b,c){var d=a,e=c-a.length;for(var f=0;f<e;f++)d=b+d;return d}function j(a){var b=a.charCodeAt(0),c,d;return b<=255?(c="x",d=2):(c="u",d=4),"\\"+c+i(b.toString(16).toUpperCase(),"0",d)}function k(a){if(e<g)return;e>g&&(g=e,h=[]),h.push(a)}function l(){var a,b,c,d,f,g;f=e,g=e,a=bg();if(a!==null){b=m(),b=b!==null?b:"";if(b!==null){d=n();if(d!==null){c=[];while(d!==null)c.push(d),d=n()}else c=null;c!==null?a=[a,b,c]:(a=null,e=g)}else a=null,e=g}else a=null,e=g;return a!==null&&(a=function(a,b,c){return{type:"grammar",initializer:b!==""?b:null,rules:c,startRule:c[0].name}}(f,a[1],a[2])),a===null&&(e=f),a}function m(){var a,b,c,d;return c=e,d=e,a=u(),a!==null?(b=A(),b=b!==null?b:"",b!==null?a=[a,b]:(a=null,e=d)):(a=null,e=d),a!==null&&(a=function(a,b){return{type:"initializer",code:b}}(c,a[0])),a===null&&(e=c),a}function n(){var a,b,c,d,f,g,h;return g=e,h=e,a=K(),a!==null?(b=M(),b=b!==null?b:"",b!==null?(c=y(),c!==null?(d=o(),d!==null?(f=A(),f=f!==null?f:"",f!==null?a=[a,b,c,d,f]:(a=null,e=h)):(a=null,e=h)):(a=null,e=h)):(a=null,e=h)):(a=null,e=h),a!==null&&(a=function(a,b,c,d){return{type:"rule",name:b,displayName:c!==""?c:null,expression:d}}(g,a[0],a[1],a[3])),a===null&&(e=g),a}function o(){var a,b,c,d,f,g,h;f=e,g=e,a=p();if(a!==null){b=[],h=e,c=B(),c!==null?(d=p(),d!==null?c=[c,d]:(c=null,e=h)):(c=null,e=h);while(c!==null)b.push(c),h=e,c=B(),c!==null?(d=p(),d!==null?c=[c,d]:(c=null,e=h)):(c=null,e=h);b!==null?a=[a,b]:(a=null,e=g)}else a=null,e=g;return a!==null&&(a=function(a,b,c){if(c.length>0){var d=[b].concat(map(c,function(a){return a[1]}));return{type:"choice",alternatives:d}}return b}(f,a[0],a[1])),a===null&&(e=f),a}function p(){var a,b,c,d;c=e,d=e,a=[],b=q();while(b!==null)a.push(b),b=q();a!==null?(b=u(),b!==null?a=[a,b]:(a=null,e=d)):(a=null,e=d),a!==null&&(a=function(a,b,c){var d=b.length!==1?{type:"sequence",elements:b}:b[0];return{type:"action",expression:d,code:c}}(c,a[0],a[1])),a===null&&(e=c);if(a===null){c=e,a=[],b=q();while(b!==null)a.push(b),b=q();a!==null&&(a=function(a,b){return b.length!==1?{type:"sequence",elements:b}:b[0]}(c,a)),a===null&&(e=c)}return a}function q(){var a,b,c,d,f;return d=e,f=e,a=K(),a!==null?(b=z(),b!==null?(c=r(),c!==null?a=[a,b,c]:(a=null,e=f)):(a=null,e=f)):(a=null,e=f),a!==null&&(a=function(a,b,c){return{type:"labeled",label:b,expression:c}}(d,a[0],a[2])),a===null&&(e=d),a===null&&(a=r()),a}function r(){var a,b,c,d;return c=e,d=e,a=C(),a!==null?(b=u(),b!==null?a=[a,b]:(a=null,e=d)):(a=null,e=d),a!==null&&(a=function(a,b){return{type:"semantic_and",code:b}}(c,a[1])),a===null&&(e=c),a===null&&(c=e,d=e,a=C(),a!==null?(b=s(),b!==null?a=[a,b]:(a=null,e=d)):(a=null,e=d),a!==null&&(a=function(a,b){return{type:"simple_and",expression:b}}(c,a[1])),a===null&&(e=c),a===null&&(c=e,d=e,a=D(),a!==null?(b=u(),b!==null?a=[a,b]:(a=null,e=d)):(a=null,e=d),a!==null&&(a=function(a,b){return{type:"semantic_not",code:b}}(c,a[1])),a===null&&(e=c),a===null&&(c=e,d=e,a=D(),a!==null?(b=s(),b!==null?a=[a,b]:(a=null,e=d)):(a=null,e=d),a!==null&&(a=function(a,b){return{type:"simple_not",expression:b}}(c,a[1])),a===null&&(e=c),a===null&&(a=s())))),a}function s(){var a,b,c,d;return c=e,d=e,a=t(),a!==null?(b=E(),b!==null?a=[a,b]:(a=null,e=d)):(a=null,e=d),a!==null&&(a=function(a,b){return{type:"optional",expression:b}}(c,a[0])),a===null&&(e=c),a===null&&(c=e,d=e,a=t(),a!==null?(b=F(),b!==null?a=[a,b]:(a=null,e=d)):(a=null,e=d),a!==null&&(a=function(a,b){return{type:"zero_or_more",expression:b}}(c,a[0])),a===null&&(e=c),a===null&&(c=e,d=e,a=t(),a!==null?(b=G(),b!==null?a=[a,b]:(a=null,e=d)):(a=null,e=d),a!==null&&(a=function(a,b){return{type:"one_or_more",expression:b}}(c,a[0])),a===null&&(e=c),a===null&&(a=t()))),a}function t(){var a,b,c,d,g,h,i;return d=e,g=e,a=K(),a!==null?(h=e,f++,i=e,b=M(),b=b!==null?b:"",b!==null?(c=y(),c!==null?b=[b,c]:(b=null,e=i)):(b=null,e=i),f--,b===null?b="":(b=null,e=h),b!==null?a=[a,b]:(a=null,e=g)):(a=null,e=g),a!==null&&(a=function(a,b){return{type:"rule_ref",name:b}}(d,a[0])),a===null&&(e=d),a===null&&(a=L(),a===null&&(d=e,a=J(),a!==null&&(a=function(a){return{type:"any"}}(d)),a===null&&(e=d),a===null&&(a=T(),a===null&&(d=e,g=e,a=H(),a!==null?(b=o(),b!==null?(c=I(),c!==null?a=[a,b,c]:(a=null,e=g)):(a=null,e=g)):(a=null,e=g),a!==null&&(a=function(a,b){return b}(d,a[1])),a===null&&(e=d))))),a}function u(){var a,b,c,d;return f++,c=e,d=e,a=v(),a!==null?(b=bg(),b!==null?a=[a,b]:(a=null,e=d)):(a=null,e=d),a!==null&&(a=function(a,b){return b.substr(1,b.length-2)}(c,a[0])),a===null&&(e=c),f--,f===0&&a===null&&k("action"),a}function v(){var a,c,d,g,h;g=e,h=e,b.charCodeAt(e)===123?(a="{",e++):(a=null,f===0&&k('"{"'));if(a!==null){c=[],d=v(),d===null&&(d=x());while(d!==null)c.push(d),d=v(),d===null&&(d=x());c!==null?(b.charCodeAt(e)===125?(d="}",e++):(d=null,f===0&&k('"}"')),d!==null?a=[a,c,d]:(a=null,e=h)):(a=null,e=h)}else a=null,e=h;return a!==null&&(a=function(a,b){return"{"+b.join("")+"}"}(g,a[1])),a===null&&(e=g),a}function w(){var a,b,c;c=e,b=x();if(b!==null){a=[];while(b!==null)a.push(b),b=x()}else a=null;return a!==null&&(a=function(a,b){return b.join("")}(c,a)),a===null&&(e=c),a}function x(){var a;return/^[^{}]/.test(b.charAt(e))?(a=b.charAt(e),e++):(a=null,f===0&&k("[^{}]")),a}function y(){var a,c,d,g;return d=e,g=e,b.charCodeAt(e)===61?(a="=",e++):(a=null,f===0&&k('"="')),a!==null?(c=bg(),c!==null?a=[a,c]:(a=null,e=g)):(a=null,e=g),a!==null&&(a=function(a){return"="}(d)),a===null&&(e=d),a}function z(){var a,c,d,g;return d=e,g=e,b.charCodeAt(e)===58?(a=":",e++):(a=null,f===0&&k('":"')),a!==null?(c=bg(),c!==null?a=[a,c]:(a=null,e=g)):(a=null,e=g),a!==null&&(a=function(a){return":"}(d)),a===null&&(e=d),a}function A(){var a,c,d,g;return d=e,g=e,b.charCodeAt(e)===59?(a=";",e++):(a=null,f===0&&k('";"')),a!==null?(c=bg(),c!==null?a=[a,c]:(a=null,e=g)):(a=null,e=g),a!==null&&(a=function(a){return";"}(d)),a===null&&(e=d),a}function B(){var a,c,d,g;return d=e,g=e,b.charCodeAt(e)===47?(a="/",e++):(a=null,f===0&&k('"/"')),a!==null?(c=bg(),c!==null?a=[a,c]:(a=null,e=g)):(a=null,e=g),a!==null&&(a=function(a){return"/"}(d)),a===null&&(e=d),a}function C(){var a,c,d,g;return d=e,g=e,b.charCodeAt(e)===38?(a="&",e++):(a=null,f===0&&k('"&"')),a!==null?(c=bg(),c!==null?a=[a,c]:(a=null,e=g)):(a=null,e=g),a!==null&&(a=function(a){return"&"}(d)),a===null&&(e=d),a}function D(){var a,c,d,g;return d=e,g=e,b.charCodeAt(e)===33?(a="!",e++):(a=null,f===0&&k('"!"')),a!==null?(c=bg(),c!==null?a=[a,c]:(a=null,e=g)):(a=null,e=g),a!==null&&(a=function(a){return"!"}(d)),a===null&&(e=d),a}function E(){var a,c,d,g;return d=e,g=e,b.charCodeAt(e)===63?(a="?",e++):(a=null,f===0&&k('"?"')),a!==null?(c=bg(),c!==null?a=[a,c]:(a=null,e=g)):(a=null,e=g),a!==null&&(a=function(a){return"?"}(d)),a===null&&(e=d),a}function F(){var a,c,d,g;return d=e,g=e,b.charCodeAt(e)===42?(a="*",e++):(a=null,f===0&&k('"*"')),a!==null?(c=bg(),c!==null?a=[a,c]:(a=null,e=g)):(a=null,e=g),a!==null&&(a=function(a){return"*"}(d)),a===null&&(e=d),a}function G(){var a,c,d,g;return d=e,g=e,b.charCodeAt(e)===43?(a="+",e++):(a=null,f===0&&k('"+"')),a!==null?(c=bg(),c!==null?a=[a,c]:(a=null,e=g)):(a=null,e=g),a!==null&&(a=function(a){return"+"}(d)),a===null&&(e=d),a}function H(){var a,c,d,g;return d=e,g=e,b.charCodeAt(e)===40?(a="(",e++):(a=null,f===0&&k('"("')),a!==null?(c=bg(),c!==null?a=[a,c]:(a=null,e=g)):(a=null,e=g),a!==null&&(a=function(a){return"("}(d)),a===null&&(e=d),a}function I(){var a,c,d,g;return d=e,g=e,b.charCodeAt(e)===41?(a=")",e++):(a=null,f===0&&k('")"')),a!==null?(c=bg(),c!==null?a=[a,c]:(a=null,e=g)):(a=null,e=g),a!==null&&(a=function(a){return")"}(d)),a===null&&(e=d),a}function J(){var a,c,d,g;return d=e,g=e,b.charCodeAt(e)===46?(a=".",e++):(a=null,f===0&&k('"."')),a!==null?(c=bg(),c!==null?a=[a,c]:(a=null,e=g)):(a=null,e=g),a!==null&&(a=function(a){return"."}(d)),a===null&&(e=d),a}function K(){var a,c,d,g,h;f++,g=e,h=e,a=bd(),a===null&&(b.charCodeAt(e)===95?(a="_",e++):(a=null,f===0&&k('"_"')),a===null&&(b.charCodeAt(e)===36?(a="$",e++):(a=null,f===0&&k('"$"'))));if(a!==null){c=[],d=bd(),d===null&&(d=bb(),d===null&&(b.charCodeAt(e)===95?(d="_",e++):(d=null,f===0&&k('"_"')),d===null&&(b.charCodeAt(e)===36?(d="$",e++):(d=null,f===0&&k('"$"')))));while(d!==null)c.push(d),d=bd(),d===null&&(d=bb(),d===null&&(b.charCodeAt(e)===95?(d="_",e++):(d=null,f===0&&k('"_"')),d===null&&(b.charCodeAt(e)===36?(d="$",e++):(d=null,f===0&&k('"$"')))));c!==null?(d=bg(),d!==null?a=[a,c,d]:(a=null,e=h)):(a=null,e=h)}else a=null,e=h;return a!==null&&(a=function(a,b,c){return b+c.join("")}(g,a[0],a[1])),a===null&&(e=g),f--,f===0&&a===null&&k("identifier"),a}function L(){var a,c,d,g,h;return f++,g=e,h=e,a=N(),a===null&&(a=Q()),a!==null?(b.charCodeAt(e)===105?(c="i",e++):(c=null,f===0&&k('"i"')),c=c!==null?c:"",c!==null?(d=bg(),d!==null?a=[a,c,d]:(a=null,e=h)):(a=null,e=h)):(a=null,e=h),a!==null&&(a=function(a,b,c){return{type:"literal",value:b,ignoreCase:c==="i"}}(g,a[0],a[1])),a===null&&(e=g),f--,f===0&&a===null&&k("literal"),a}function M(){var a,b,c,d;return f++,c=e,d=e,a=N(),a===null&&(a=Q()),a!==null?(b=bg(),b!==null?a=[a,b]:(a=null,e=d)):(a=null,e=d),a!==null&&(a=function(a,b){return b}(c,a[0])),a===null&&(e=c),f--,f===0&&a===null&&k("string"),a}function N(){var a,c,d,g,h;g=e,h=e,b.charCodeAt(e)===34?(a='"',e++):(a=null,f===0&&k('"\\""'));if(a!==null){c=[],d=O();while(d!==null)c.push(d),d=O();c!==null?(b.charCodeAt(e)===34?(d='"',e++):(d=null,f===0&&k('"\\""')),d!==null?a=[a,c,d]:(a=null,e=h)):(a=null,e=h)}else a=null,e=h;return a!==null&&(a=function(a,b){return b.join("")}(g,a[1])),a===null&&(e=g),a}function O(){var a;return a=P(),a===null&&(a=Y(),a===null&&(a=Z(),a===null&&(a=$(),a===null&&(a=_(),a===null&&(a=ba()))))),a}function P(){var a,c,d,g,h;return d=e,g=e,h=e,f++,b.charCodeAt(e)===34?(a='"',e++):(a=null,f===0&&k('"\\""')),a===null&&(b.charCodeAt(e)===92?(a="\\",e++):(a=null,f===0&&k('"\\\\"')),a===null&&(a=bl())),f--,a===null?a="":(a=null,e=h),a!==null?(b.length>e?(c=b.charAt(e),e++):(c=null,f===0&&k("any character")),c!==null?a=[a,c]:(a=null,e=g)):(a=null,e=g),a!==null&&(a=function(a,b){return b}(d,a[1])),a===null&&(e=d),a}function Q(){var a,c,d,g,h;g=e,h=e,b.charCodeAt(e)===39?(a="'",e++):(a=null,f===0&&k('"\'"'));if(a!==null){c=[],d=R();while(d!==null)c.push(d),d=R();c!==null?(b.charCodeAt(e)===39?(d="'",e++):(d=null,f===0&&k('"\'"')),d!==null?a=[a,c,d]:(a=null,e=h)):(a=null,e=h)}else a=null,e=h;return a!==null&&(a=function(a,b){return b.join("")}(g,a[1])),a===null&&(e=g),a}function R(){var a;return a=S(),a===null&&(a=Y(),a===null&&(a=Z(),a===null&&(a=$(),a===null&&(a=_(),a===null&&(a=ba()))))),a}function S(){var a,c,d,g,h;return d=e,g=e,h=e,f++,b.charCodeAt(e)===39?(a="'",e++):(a=null,f===0&&k('"\'"')),a===null&&(b.charCodeAt(e)===92?(a="\\",e++):(a=null,f===0&&k('"\\\\"')),a===null&&(a=bl())),f--,a===null?a="":(a=null,e=h),a!==null?(b.length>e?(c=b.charAt(e),e++):(c=null,f===0&&k("any character")),c!==null?a=[a,c]:(a=null,e=g)):(a=null,e=g),a!==null&&(a=function(a,b){return b}(d,a[1])),a===null&&(e=d),a}function T(){var a,c,d,g,h,i,j,l;f++,j=e,l=e,b.charCodeAt(e)===91?(a="[",e++):(a=null,f===0&&k('"["'));if(a!==null){b.charCodeAt(e)===94?(c="^",e++):(c=null,f===0&&k('"^"')),c=c!==null?c:"";if(c!==null){d=[],g=U(),g===null&&(g=V());while(g!==null)d.push(g),g=U(),g===null&&(g=V());d!==null?(b.charCodeAt(e)===93?(g="]",e++):(g=null,f===0&&k('"]"')),g!==null?(b.charCodeAt(e)===105?(h="i",e++):(h=null,f===0&&k('"i"')),h=h!==null?h:"",h!==null?(i=bg(),i!==null?a=[a,c,d,g,h,i]:(a=null,e=l)):(a=null,e=l)):(a=null,e=l)):(a=null,e=l)}else a=null,e=l}else a=null,e=l;return a!==null&&(a=function(a,b,c,d){var e=map(c,function(a){return a.data}),f="["+b+map(c,function(a){return a.rawText}).join("")+"]"+d;return{type:"class",inverted:b==="^",ignoreCase:d==="i",parts:e,rawText:f}}(j,a[1],a[2],a[4])),a===null&&(e=j),f--,f===0&&a===null&&k("character class"),a}function U(){var a,c,d,g,h;return g=e,h=e,a=V(),a!==null?(b.charCodeAt(e)===45?(c="-",e++):(c=null,f===0&&k('"-"')),c!==null?(d=V(),d!==null?a=[a,c,d]:(a=null,e=h)):(a=null,e=h)):(a=null,e=h),a!==null&&(a=function(a,b,c){if(b.data.charCodeAt(0)>c.data.charCodeAt(0))throw new this.SyntaxError("Invalid character range: "+b.rawText+"-"+c.rawText+".");return{data:[b.data,c.data],rawText:b.rawText+"-"+c.rawText}}(g,a[0],a[2])),a===null&&(e=g),a}function V(){var a,b;return b=e,a=W(),a!==null&&(a=function(a,b){return{data:b,rawText:quoteForRegexpClass(b)}}(b,a)),a===null&&(e=b),a}function W(){var a;return a=X(),a===null&&(a=Y(),a===null&&(a=Z(),a===null&&(a=$(),a===null&&(a=_(),a===null&&(a=ba()))))),a}function X(){var a,c,d,g,h;return d=e,g=e,h=e,f++,b.charCodeAt(e)===93?(a="]",e++):(a=null,f===0&&k('"]"')),a===null&&(b.charCodeAt(e)===92?(a="\\",e++):(a=null,f===0&&k('"\\\\"')),a===null&&(a=bl())),f--,a===null?a="":(a=null,e=h),a!==null?(b.length>e?(c=b.charAt(e),e++):(c=null,f===0&&k("any character")),c!==null?a=[a,c]:(a=null,e=g)):(a=null,e=g),a!==null&&(a=function(a,b){return b}(d,a[1])),a===null&&(e=d),a}function Y(){var a,c,d,g,h,i;return g=e,h=e,b.charCodeAt(e)===92?(a="\\",e++):(a=null,f===0&&k('"\\\\"')),a!==null?(i=e,f++,c=bb(),c===null&&(b.charCodeAt(e)===120?(c="x",e++):(c=null,f===0&&k('"x"')),c===null&&(b.charCodeAt(e)===117?(c="u",e++):(c=null,f===0&&k('"u"')),c===null&&(c=bl()))),f--,c===null?c="":(c=null,e=i),c!==null?(b.length>e?(d=b.charAt(e),e++):(d=null,f===0&&k("any character")),d!==null?a=[a,c,d]:(a=null,e=h)):(a=null,e=h)):(a=null,e=h),a!==null&&(a=function(a,b){return b.replace("b","\b").replace("f","\f").replace("n","\n").replace("r","\r").replace("t","\t").replace("v","")}(g,a[2])),a===null&&(e=g),a}function Z(){var a,c,d,g,h;return d=e,g=e,b.substr(e,2)==="\\0"?(a="\\0",e+=2):(a=null,f===0&&k('"\\\\0"')),a!==null?(h=e,f++,c=bb(),f--,c===null?c="":(c=null,e=h),c!==null?a=[a,c]:(a=null,e=g)):(a=null,e=g),a!==null&&(a=function(a){return"\0"}(d)),a===null&&(e=d),a}function $(){var a,c,d,g,h;return g=e,h=e,b.substr(e,2)==="\\x"?(a="\\x",e+=2):(a=null,f===0&&k('"\\\\x"')),a!==null?(c=bc(),c!==null?(d=bc(),d!==null?a=[a,c,d]:(a=null,e=h)):(a=null,e=h)):(a=null,e=h),a!==null&&(a=function(a,b,c){return String.fromCharCode(parseInt(b+c,16))}(g,a[1],a[2])),a===null&&(e=g),a}function _(){var a,c,d,g,h,i,j;return i=e,j=e,b.substr(e,2)==="\\u"?(a="\\u",e+=2):(a=null,f===0&&k('"\\\\u"')),a!==null?(c=bc(),c!==null?(d=bc(),d!==null?(g=bc(),g!==null?(h=bc(),h!==null?a=[a,c,d,g,h]:(a=null,e=j)):(a=null,e=j)):(a=null,e=j)):(a=null,e=j)):(a=null,e=j),a!==null&&(a=function(a,b,c,d,e){return String.fromCharCode(parseInt(b+c+d+e,16))}(i,a[1],a[2],a[3],a[4])),a===null&&(e=i),a}function ba(){var a,c,d,g;return d=e,g=e,b.charCodeAt(e)===92?(a="\\",e++):(a=null,f===0&&k('"\\\\"')),a!==null?(c=bk(),c!==null?a=[a,c]:(a=null,e=g)):(a=null,e=g),a!==null&&(a=function(a,b){return b}(d,a[1])),a===null&&(e=d),a}function bb(){var a;return/^[0-9]/.test(b.charAt(e))?(a=b.charAt(e),e++):(a=null,f===0&&k("[0-9]")),a}function bc(){var a;return/^[0-9a-fA-F]/.test(b.charAt(e))?(a=b.charAt(e),e++):(a=null,f===0&&k("[0-9a-fA-F]")),a}function bd(){var a;return a=be(),a===null&&(a=bf()),a}function be(){var a;return/^[a-z]/.test(b.charAt(e))?(a=b.charAt(e),e++):(a=null,f===0&&k("[a-z]")),a}function bf(){var a;return/^[A-Z]/.test(b.charAt(e))?(a=b.charAt(e),e++):(a=null,f===0&&k("[A-Z]")),a}function bg(){var a,b;a=[],b=bm(),b===null&&(b=bk(),b===null&&(b=bh()));while(b!==null)a.push(b),b=bm(),b===null&&(b=bk(),b===null&&(b=bh()));return a}function bh(){var a;return f++,a=bi(),a===null&&(a=bj()),f--,f===0&&a===null&&k("comment"),a}function bi(){var a,c,d,g,h,i,j;h=e,b.substr(e,2)==="//"?(a="//",e+=2):(a=null,f===0&&k('"//"'));if(a!==null){c=[],i=e,j=e,f++,d=bl(),f--,d===null?d="":(d=null,e=j),d!==null?(b.length>e?(g=b.charAt(e),e++):(g=null,f===0&&k("any character")),g!==null?d=[d,g]:(d=null,e=i)):(d=null,e=i);while(d!==null)c.push(d),i=e,j=e,f++,d=bl(),f--,d===null?d="":(d=null,e=j),d!==null?(b.length>e?(g=b.charAt(e),e++):(g=null,f===0&&k("any character")),g!==null?d=[d,g]:(d=null,e=i)):(d=null,e=i);c!==null?a=[a,c]:(a=null,e=h)}else a=null,e=h;return a}function bj(){var a,c,d,g,h,i,j;h=e,b.substr(e,2)==="/*"?(a="/*",e+=2):(a=null,f===0&&k('"/*"'));if(a!==null){c=[],i=e,j=e,f++,b.substr(e,2)==="*/"?(d="*/",e+=2):(d=null,f===0&&k('"*/"')),f--,d===null?d="":(d=null,e=j),d!==null?(b.length>e?(g=b.charAt(e),e++):(g=null,f===0&&k("any character")),g!==null?d=[d,g]:(d=null,e=i)):(d=null,e=i);while(d!==null)c.push(d),i=e,j=e,f++,b.substr(e,2)==="*/"?(d="*/",e+=2):(d=null,f===0&&k('"*/"')),f--,d===null?d="":(d=null,e=j),d!==null?(b.length>e?(g=b.charAt(e),e++):(g=null,f===0&&k("any character")),g!==null?d=[d,g]:(d=null,e=i)):(d=null,e=i);c!==null?(b.substr(e,2)==="*/"?(d="*/",e+=2):(d=null,f===0&&k('"*/"')),d!==null?a=[a,c,d]:(a=null,e=h)):(a=null,e=h)}else a=null,e=h;return a}function bk(){var a;return f++,b.charCodeAt(e)===10?(a="\n",e++):(a=null,f===0&&k('"\\n"')),a===null&&(b.substr(e,2)==="\r\n"?(a="\r\n",e+=2):(a=null,f===0&&k('"\\r\\n"')),a===null&&(b.charCodeAt(e)===13?(a="\r",e++):(a=null,f===0&&k('"\\r"')),a===null&&(b.charCodeAt(e)===8232?(a="\u2028",e++):(a=null,f===0&&k('"\\u2028"')),a===null&&(b.charCodeAt(e)===8233?(a="\u2029",e++):(a=null,f===0&&k('"\\u2029"')))))),f--,f===0&&a===null&&k("end of line"),a}function bl(){var a;return/^[\n\r\u2028\u2029]/.test(b.charAt(e))?(a=b.charAt(e),e++):(a=null,f===0&&k("[\\n\\r\\u2028\\u2029]")),a}function bm(){var a;return f++,/^[ \t\x0B\f\xA0\uFEFF\u1680\u180E\u2000-\u200A\u202F\u205F\u3000]/.test(b.charAt(e))?(a=b.charAt(e),e++):(a=null,f===0&&k("[ \\t\\x0B\\f\\xA0\\uFEFF\\u1680\\u180E\\u2000-\\u200A\\u202F\\u205F\\u3000]")),f--,f===0&&a===null&&k("whitespace"),a}function bn(a){a.sort();var b=null,c=[];for(var d=0;d<a.length;d++)a[d]!==b&&(c.push(a[d]),b=a[d]);return c}function bo(){var a=1,c=1,d=!1;for(var f=0;f<Math.max(e,g);f++){var h=b.charAt(f);h==="\n"?(d||a++,c=1,d=!1):h==="\r"||h==="\u2028"||h==="\u2029"?(a++,c=1,d=!0):(c++,d=!1)}return{line:a,column:c}}var d={grammar:l,initializer:m,rule:n,choice:o,sequence:p,labeled:q,prefixed:r,suffixed:s,primary:t,action:u,braced:v,nonBraceCharacters:w,nonBraceCharacter:x,equals:y,colon:z,semicolon:A,slash:B,and:C,not:D,question:E,star:F,plus:G,lparen:H,rparen:I,dot:J,identifier:K,literal:L,string:M,doubleQuotedString:N,doubleQuotedCharacter:O,simpleDoubleQuotedCharacter:P,singleQuotedString:Q,singleQuotedCharacter:R,simpleSingleQuotedCharacter:S,"class":T,classCharacterRange:U,classCharacter:V,bracketDelimitedCharacter:W,simpleBracketDelimitedCharacter:X,simpleEscapeSequence:Y,zeroEscapeSequence:Z,hexEscapeSequence:$,unicodeEscapeSequence:_,eolEscapeSequence:ba,digit:bb,hexDigit:bc,letter:bd,lowerCaseLetter:be,upperCaseLetter:bf,__:bg,comment:bh,singleLineComment:bi,multiLineComment:bj,eol:bk,eolChar:bl,whitespace:bm};if(c!==undefined){if(d[c]===undefined)throw new Error("Invalid rule name: "+a(c)+".")}else c="grammar";var e=0,f=0,g=0,h=[],bp=d[c]();if(bp===null||e!==b.length){var bq=Math.max(e,g),br=bq<b.length?b.charAt(bq):null,bs=bo();throw new this.SyntaxError(bn(h),br,bq,bs.line,bs.column)}return bp},toSource:function(){return this._source}};return b.SyntaxError=function(b,c,d,e,f){function g(b,c){var d,e;switch(b.length){case 0:d="end of input";break;case 1:d=b[0];break;default:d=b.slice(0,b.length-1).join(", ")+" or "+b[b.length-1]}return e=c?a(c):"end of input","Expected "+d+" but "+e+" found."}this.name="SyntaxError",this.expected=b,this.found=c,this.message=g(b,c),this.offset=d,this.line=e,this.column=f},b.SyntaxError.prototype=Error.prototype,b}(),PEG.compiler={appliedPassNames:["reportMissingRules","reportLeftRecursion","removeProxyRules","computeVarNames","computeParams"],compile:function(ast,options){var that=this;each(this.appliedPassNames,function(a){that.passes[a](ast)});var source=this.emitter(ast,options),result=eval(source);return result._source=source,result}},PEG.compiler.passes={reportMissingRules:function(a){function b(){}function c(a){e(a.expression)}function d(a){return function(b){each(b[a],e)}}var e=buildNodeVisitor({grammar:d("rules"),rule:c,choice:d("alternatives"),sequence:d("elements"),labeled:c,simple_and:c,simple_not:c,semantic_and:b,semantic_not:b,optional:c,zero_or_more:c,one_or_more:c,action:c,rule_ref:function(b){if(!findRuleByName(a,b.name))throw new PEG.GrammarError('Referenced rule "'+b.name+'" does not exist.')},literal:b,any:b,"class":b});e(a)},reportLeftRecursion:function(a){function b(){}function c(a,b){e(a.expression,b)}function d(a){return function(b,c){each(b[a],function(a){e(a,c)})}}var e=buildNodeVisitor({grammar:d("rules"),rule:function(a,b){e(a.expression,b.concat(a.name))},choice:d("alternatives"),sequence:function(a,b){a.elements.length>0&&e(a.elements[0],b)},labeled:c,simple_and:c,simple_not:c,semantic_and:b,semantic_not:b,optional:c,zero_or_more:c,one_or_more:c,action:c,rule_ref:function(b,c){if(contains(c,b.name))throw new PEG.GrammarError('Left recursion detected for rule "'+b.name+'".');e(findRuleByName(a,b.name),c)},literal:b,any:b,"class":b});e(a,[])},removeProxyRules:function(a){function b(a){return a.type==="rule"&&a.expression.type==="rule_ref"}function c(a,b,c){function d(){}function e(a,b,c){g(a.expression,b,c)}function f(a){return function(b,c,d){each(b[a],function(a){g(a,c,d)})}}var g=buildNodeVisitor({grammar:f("rules"),rule:e,choice:f("alternatives"),sequence:f("elements"),labeled:e,simple_and:e,simple_not:e,semantic_and:d,semantic_not:d,optional:e,zero_or_more:e,one_or_more:e,action:e,rule_ref:function(a,b,c){a.name===b&&(a.name=c)},literal:d,any:d,"class":d});g(a,b,c)}var d=[];each(a.rules,function(e,f){b(e)&&(c(a,e.name,e.expression.name),e.name===a.startRule&&(a.startRule=e.expression.name),d.push(f))}),d.reverse(),each(d,function(b){a.rules.splice(b,1)})},computeVarNames:function(a){function b(a){return"result"+a}function c(a){return"pos"+a}function d(a,c){return a.resultVar=b(c.result),{result:0,pos:0}}function e(a){return function(d,e){var g=f(d.expression,{result:e.result+a.result,pos:e.pos+a.pos});return d.resultVar=b(e.result),a.pos!==0&&(d.posVar=c(e.pos)),{result:g.result+a.result,pos:g.pos+a.pos}}}var f=buildNodeVisitor({grammar:function(a,b){each(a.rules,function(a){f(a,b)})},rule:function(a,d){var e=f(a.expression,d);a.resultVar=b(d.result),a.resultVars=map(range(e.result+1),b),a.posVars=map(range(e.pos),c)},choice:function(a,c){var d=map(a.alternatives,function(a){return f(a,c)});return a.resultVar=b(c.result),{result:Math.max.apply(null,pluck(d,"result")),pos:Math.max.apply(null,pluck(d,"pos"))}},sequence:function(a,d){var e=map(a.elements,function(a,b){return f(a,{result:d.result+b,pos:d.pos+1})});return a.resultVar=b(d.result),a.posVar=c(d.pos),{result:a.elements.length>0?Math.max.apply(null,map(e,function(a,b){return b+a.result})):0,pos:a.elements.length>0?1+Math.max.apply(null,pluck(e,"pos")):1}},labeled:e({result:0,pos:0}),simple_and:e({result:0,pos:1}),simple_not:e({result:0,pos:1}),semantic_and:d,semantic_not:d,optional:e({result:0,pos:0}),zero_or_more:e({result:1,pos:0}),one_or_more:e({result:1,pos:0}),action:e({result:0,pos:1}),rule_ref:d,literal:d,any:d,"class":d});f(a,{result:0,pos:0})},computeParams:function(a){function c(a){b.push({}),a(),b.pop()}function d(){}function e(a){c(function(){g(a.expression)})}function f(a){var c=b[b.length-1],d={},e;for(e in c)d[e]=c[e];a.params=d}var b=[],g=buildNodeVisitor({grammar:function(a){each(a.rules,g)},rule:e,choice:function(a){c(function(){each(a.alternatives,g)})},sequence:function(a){function e(b){each(pluck(a.elements,"resultVar"),function(d,e){(new RegExp("^"+d+"(\\[\\d+\\])*$")).test(c[b])&&(c[b]=a.resultVar+"["+e+"]"+c[b].substr(d.length))})}var c=b[b.length-1],d;each(a.elements,g);for(d in c)e(d)},labeled:function(a){b[b.length-1][a.label]=a.resultVar,c(function(){g(a.expression)})},simple_and:e,simple_not:e,semantic_and:f,semantic_not:f,optional:e,zero_or_more:e,one_or_more:e,action:function(a){c(function(){g(a.expression),f(a)})},rule_ref:d,literal:d,any:d,"class":d});g(a)}},PEG.compiler.emitter=function(a,b){function e(a,c){return c.string=quote,c.pluck=pluck,c.keys=keys,c.values=values,c.emit=g,c.options=b,b.trackLineAndColumn?(c.posInit=function(a){return"var "+a+" = "+"{ offset: 0, line: 1, column: 1, seenCR: false }"},c.posClone=function(a){return"clone("+a+")"},c.posOffset=function(a){return a+".offset"},c.posAdvance=function(a){return"advance(pos, "+a+")"}):(c.posInit=function(a){return"var "+a+" = 0"},c.posClone=function(a){return a},c.posOffset=function(a){return a},c.posAdvance=function(a){return a===1?"pos++":"pos += "+a}),c.posSave=function(a){return a.posVar+" = "+c.posClone("pos")},c.posRestore=function(a){return"pos = "+c.posClone(a.posVar)},d[a](c)}function f(a){return function(b){return e(a,{node:b})}}b=b||{},b.cache===undefined&&(b.cache=!1),b.trackLineAndColumn===undefined&&(b.trackLineAndColumn=!1);var c=function(a){function b(a){function b(a){return a.charCodeAt(0).toString(16).toUpperCase()}return a.replace(/\\/g,"\\\\").replace(/"/g,'\\"').replace(/\x08/g,"\\b").replace(/\t/g,"\\t").replace(/\n/g,"\\n").replace(/\f/g,"\\f").replace(/\r/g,"\\r").replace(/[\x00-\x07\x0B\x0E\x0F]/g,function(a){return"\\x0"+b(a)}).replace(/[\x10-\x1F\x80-\xFF]/g,function(a){return"\\x"+b(a)}).replace(/[\u0180-\u0FFF]/g,function(a){return"\\u0"+b(a)}).replace(/[\u1080-\uFFFF]/g,function(a){return"\\u"+b(a)})}function c(a){return"__p.push("+a+");"}function d(a,d,e){function f(a,b,c){return a.replace(new RegExp("^.{"+b+"}","gm"),function(a,b){return b===0?c?"":a:""})}var g=b(f(a.substring(0,d),e.indentLevel(),e.atBOL));return g.length>0?c('"'+g+'"'):""}var e={VERSION:"1.1.0",indentStep:2,commands:{"if":{params:/^(.*)$/,compile:function(a,b,c){return["if("+c[0]+"){",[]]},stackOp:"push"},"else":{params:/^$/,compile:function(a){var b=a.commandStack,c=b[b.length-1]==="else",d=b[b.length-1]==="if";if(c)throw new Error("Multiple #elses.");if(!d)throw new Error("Using #else outside of #if.");return["}else{",[]]},stackOp:"replace"},"for":{params:/^([a-zA-Z_][a-zA-Z0-9_]*)[ \t]+in[ \t]+(.*)$/,init:function(a){a.forCurrLevel=0,a.forMaxLevel=0},compile:function(a,b,c){var d="__c"+a.forCurrLevel,e="__l"+a.forCurrLevel,f="__i"+a.forCurrLevel;return a.forCurrLevel++,a.forMaxLevel<a.forCurrLevel&&(a.forMaxLevel=a.forCurrLevel),[d+"="+c[1]+";"+e+"="+d+".length;"+"for("+f+"=0;"+f+"<"+e+";"+f+"++){"+c[0]+"="+d+"["+f+"];",[c[0],d,e,f]]},exit:function(a){a.forCurrLevel--},stackOp:"push"},end:{params:/^$/,compile:function(a){var b=a.commandStack,c;if(b.length===0)throw new Error("Too many #ends.");return c=e.commands[b[b.length-1]].exit,c&&c(a),["}",[]]},stackOp:"pop"},block:{params:/^(.*)$/,compile:function(a,d,e){var f="__x",g="__n",h="__l",i="__i";return[f+'="'+b(d.substring(a.indentLevel()))+'";'+g+"=("+e[0]+').toString().split("\\n");'+h+"="+g+".length;"+"for("+i+"=0;"+i+"<"+h+";"+i+"++){"+g+"["+i+"]="+f+"+"+g+"["+i+']+"\\n";'+"}"+c(g+'.join("")'),[f,g,h,i]]},stackOp:"nop"}},template:function(b){function g(a,b){return a.atBOL=!1,[c(b),[]]}function h(a,b,c,d){var g,h,i;g=e.commands[c];if(!g)throw new Error("Unknown command: #"+c+".");h=g.params.exec(d);if(h===null)throw new Error("Invalid params for command #"+c+": "+d+".");return i=g.compile(a,b,h.slice(1)),f[g.stackOp](a.commandStack,c),a.atBOL=!0,i}var f={push:function(a,b){a.push(b)},replace:function(a,b){a[a.length-1]=b},pop:function(a){a.pop()},nop:function(){}},i={commandStack:[],atBOL:!0,indentLevel:function(){return e.indentStep*this.commandStack.length}},j="",k=["__p=[]"],l,m,n,o;for(l in e.commands)e.commands[l].init&&e.commands[l].init(i);while((m=/^([ \t]*)#([a-zA-Z_][a-zA-Z0-9_]*)(?:[ \t]+([^ \t\n][^\n]*))?[ \t]*(?:\n|$)|#\{([^}]*)\}/m.exec(b))!==null)j+=d(b,m.index,i),n=m[2]!==a&&m[2]!==""?h(i,m[1],m[2],m[3]||""):g(i,m[4]),j+=n[0],k=k.concat(n[1]),b=b.substring(m.index+m[0].length);j+=d(b,b.length,i);if(i.commandStack.length>0)throw new Error("Missing #end.");k.sort();for(o=0;o<k.length;o++)k[o]===k[o-1]&&k.splice(o--,1);return new Function("__v",["__v=__v||{};","var "+k.join(",")+";","with(__v){",j,'return __p.join("").replace(/^\\n+|\\n+$/g,"");};'].join(""))}};return e}(),d=function(){var a,b={},d={grammar:["(function(){","  /*","   * Generated by PEG.js 0.7.0.","   *","   * http://pegjs.majda.cz/","   */","  ","  function quote(s) {","    /*","     * ECMA-262, 5th ed., 7.8.4: All characters may appear literally in a","     * string literal except for the closing quote character, backslash,","     * carriage return, line separator, paragraph separator, and line feed.","     * Any character may appear in the form of an escape sequence.","     *","     * For portability, we also escape escape all control and non-ASCII",'     * characters. Note that "\\0" and "\\v" escape sequences are not used',"     * because JSHint does not like the first and IE the second.","     */","     return '\"' + s","      .replace(/\\\\/g, '\\\\\\\\')  // backslash","      .replace(/\"/g, '\\\\\"')    // closing quote character","      .replace(/\\x08/g, '\\\\b') // backspace","      .replace(/\\t/g, '\\\\t')   // horizontal tab","      .replace(/\\n/g, '\\\\n')   // line feed","      .replace(/\\f/g, '\\\\f')   // form feed","      .replace(/\\r/g, '\\\\r')   // carriage return","      .replace(/[\\x00-\\x07\\x0B\\x0E-\\x1F\\x80-\\uFFFF]/g, escape)","      + '\"';","  }","  ","  var result = {","    /*","     * Parses the input with a generated parser. If the parsing is successfull,","     * returns a value explicitly or implicitly specified by the grammar from","     * which the parser was generated (see |PEG.buildParser|). If the parsing is","     * unsuccessful, throws |PEG.parser.SyntaxError| describing the error.","     */","    parse: function(input, startRule) {","      var parseFunctions = {","        #for rule in node.rules",'          #{string(rule.name) + ": parse_" + rule.name + (rule !== node.rules[node.rules.length - 1] ? "," : "")}',"        #end","      };","      ","      if (startRule !== undefined) {","        if (parseFunctions[startRule] === undefined) {",'          throw new Error("Invalid rule name: " + quote(startRule) + ".");',"        }","      } else {","        startRule = #{string(node.startRule)};","      }","      ",'      #{posInit("pos")};',"      var reportFailures = 0;",'      #{posInit("rightmostFailuresPos")};',"      var rightmostFailuresExpected = [];","      #if options.cache","        var cache = {};","      #end","      ","      function padLeft(input, padding, length) {","        var result = input;","        ","        var padLength = length - input.length;"
-,"        for (var i = 0; i < padLength; i++) {","          result = padding + result;","        }","        ","        return result;","      }","      ","      function escape(ch) {","        var charCode = ch.charCodeAt(0);","        var escapeChar;","        var length;","        ","        if (charCode <= 0xFF) {","          escapeChar = 'x';","          length = 2;","        } else {","          escapeChar = 'u';","          length = 4;","        }","        ","        return '\\\\' + escapeChar + padLeft(charCode.toString(16).toUpperCase(), '0', length);","      }","      ","      #if options.trackLineAndColumn","        function clone(object) {","          var result = {};","          for (var key in object) {","            result[key] = object[key];","          }","          return result;","        }","        ","        function advance(pos, n) {","          var endOffset = pos.offset + n;","          ","          for (var offset = pos.offset; offset < endOffset; offset++) {","            var ch = input.charAt(offset);",'            if (ch === "\\n") {',"              if (!pos.seenCR) { pos.line++; }","              pos.column = 1;","              pos.seenCR = false;",'            } else if (ch === "\\r" || ch === "\\u2028" || ch === "\\u2029") {',"              pos.line++;","              pos.column = 1;","              pos.seenCR = true;","            } else {","              pos.column++;","              pos.seenCR = false;","            }","          }","          ","          pos.offset += n;","        }","        ","      #end","      function matchFailed(failure) {",'        if (#{posOffset("pos")} < #{posOffset("rightmostFailuresPos")}) {',"          return;","        }","        ",'        if (#{posOffset("pos")} > #{posOffset("rightmostFailuresPos")}) {','          rightmostFailuresPos = #{posClone("pos")};',"          rightmostFailuresExpected = [];","        }","        ","        rightmostFailuresExpected.push(failure);","      }","      ","      #for rule in node.rules","        #block emit(rule)","        ","      #end","      ","      function cleanupExpected(expected) {","        expected.sort();","        ","        var lastExpected = null;","        var cleanExpected = [];","        for (var i = 0; i < expected.length; i++) {","          if (expected[i] !== lastExpected) {","            cleanExpected.push(expected[i]);","            lastExpected = expected[i];","          }","        }","        return cleanExpected;","      }","      ","      #if !options.trackLineAndColumn","        function computeErrorPosition() {","          /*","           * The first idea was to use |String.split| to break the input up to the","           * error position along newlines and derive the line and column from","           * there. However IE's |split| implementation is so broken that it was","           * enough to prevent it.","           */","          ","          var line = 1;","          var column = 1;","          var seenCR = false;","          ","          for (var i = 0; i < Math.max(pos, rightmostFailuresPos); i++) {","            var ch = input.charAt(i);",'            if (ch === "\\n") {',"              if (!seenCR) { line++; }","              column = 1;","              seenCR = false;",'            } else if (ch === "\\r" || ch === "\\u2028" || ch === "\\u2029") {',"              line++;","              column = 1;","              seenCR = true;","            } else {","              column++;","              seenCR = false;","            }","          }","          ","          return { line: line, column: column };","        }","      #end","      ","      #if node.initializer","        #block emit(node.initializer)","      #end","      ","      var result = parseFunctions[startRule]();","      ","      /*","       * The parser is now in one of the following three states:","       *","       * 1. The parser successfully parsed the whole input.","       *","       *    - |result !== null|",'       *    - |#{posOffset("pos")} === input.length|',"       *    - |rightmostFailuresExpected| may or may not contain something","       *","       * 2. The parser successfully parsed only a part of the input.","       *","       *    - |result !== null|",'       *    - |#{posOffset("pos")} < input.length|',"       *    - |rightmostFailuresExpected| may or may not contain something","       *","       * 3. The parser did not successfully parse any part of the input.","       *","       *   - |result === null|",'       *   - |#{posOffset("pos")} === 0|',"       *   - |rightmostFailuresExpected| contains at least one failure","       *","       * All code following this comment (including called functions) must","       * handle these states.","       */",'      if (result === null || #{posOffset("pos")} !== input.length) {','        var offset = Math.max(#{posOffset("pos")}, #{posOffset("rightmostFailuresPos")});',"        var found = offset < input.length ? input.charAt(offset) : null;","        #if options.trackLineAndColumn",'          var errorPosition = #{posOffset("pos")} > #{posOffset("rightmostFailuresPos")} ? pos : rightmostFailuresPos;',"        #else","          var errorPosition = computeErrorPosition();","        #end","        ","        throw new this.SyntaxError(","          cleanupExpected(rightmostFailuresExpected),","          found,","          offset,","          errorPosition.line,","          errorPosition.column","        );","      }","      ","      return result;","    },","    ","    /* Returns the parser source code. */","    toSource: function() { return this._source; }","  };","  ","  /* Thrown when a parser encounters a syntax error. */","  ","  result.SyntaxError = function(expected, found, offset, line, column) {","    function buildMessage(expected, found) {","      var expectedHumanized, foundHumanized;","      ","      switch (expected.length) {","        case 0:",'          expectedHumanized = "end of input";',"          break;","        case 1:","          expectedHumanized = expected[0];","          break;","        default:",'          expectedHumanized = expected.slice(0, expected.length - 1).join(", ")','            + " or "',"            + expected[expected.length - 1];","      }","      ",'      foundHumanized = found ? quote(found) : "end of input";',"      ",'      return "Expected " + expectedHumanized + " but " + foundHumanized + " found.";',"    }","    ",'    this.name = "SyntaxError";',"    this.expected = expected;","    this.found = found;","    this.message = buildMessage(expected, found);","    this.offset = offset;","    this.line = line;","    this.column = column;","  };","  ","  result.SyntaxError.prototype = Error.prototype;","  ","  return result;","})()"],rule:["function parse_#{node.name}() {","  #if options.cache",'    var cacheKey = "#{node.name}@" + #{posOffset("pos")};',"    var cachedResult = cache[cacheKey];","    if (cachedResult) {",'      pos = #{posClone("cachedResult.nextPos")};',"      return cachedResult.result;","    }","    ","  #end","  #if node.resultVars.length > 0",'    var #{node.resultVars.join(", ")};',"  #end","  #if node.posVars.length > 0",'    var #{node.posVars.join(", ")};',"  #end","  ","  #if node.displayName !== null","    reportFailures++;","  #end","  #block emit(node.expression)","  #if node.displayName !== null","    reportFailures--;","    if (reportFailures === 0 && #{node.resultVar} === null) {","      matchFailed(#{string(node.displayName)});","    }","  #end","  #if options.cache","    ","    cache[cacheKey] = {",'      nextPos: #{posClone("pos")},',"      result:  #{node.resultVar}","    };","  #end","  return #{node.resultVar};","}"],choice:["#block emit(alternative)","#block nextAlternativesCode"],"choice.next":["if (#{node.resultVar} === null) {","  #block code","}"],sequence:["#{posSave(node)};","#block code"],"sequence.iteration":["#block emit(element)","if (#{element.resultVar} !== null) {","  #block code","} else {","  #{node.resultVar} = null;","  #{posRestore(node)};","}"],"sequence.inner":['#{node.resultVar} = [#{pluck(node.elements, "resultVar").join(", ")}];'],simple_and:["#{posSave(node)};","reportFailures++;","#block emit(node.expression)","reportFailures--;","if (#{node.resultVar} !== null) {",'  #{node.resultVar} = "";',"  #{posRestore(node)};","} else {","  #{node.resultVar} = null;","}"],simple_not:["#{posSave(node)};","reportFailures++;","#block emit(node.expression)","reportFailures--;","if (#{node.resultVar} === null) {",'  #{node.resultVar} = "";',"} else {","  #{node.resultVar} = null;","  #{posRestore(node)};","}"],semantic_and:['#{node.resultVar} = (function(#{(options.trackLineAndColumn ? ["offset", "line", "column"] : ["offset"]).concat(keys(node.params)).join(", ")}) {#{node.code}})(#{(options.trackLineAndColumn ? ["pos.offset", "pos.line", "pos.column"] : ["pos"]).concat(values(node.params)).join(", ")}) ? "" : null;'],semantic_not:['#{node.resultVar} = (function(#{(options.trackLineAndColumn ? ["offset", "line", "column"] : ["offset"]).concat(keys(node.params)).join(", ")}) {#{node.code}})(#{(options.trackLineAndColumn ? ["pos.offset", "pos.line", "pos.column"] : ["pos"]).concat(values(node.params)).join(", ")}) ? null : "";'],optional:["#block emit(node.expression)",'#{node.resultVar} = #{node.resultVar} !== null ? #{node.resultVar} : "";'],zero_or_more:["#{node.resultVar} = [];","#block emit(node.expression)","while (#{node.expression.resultVar} !== null) {","  #{node.resultVar}.push(#{node.expression.resultVar});","  #block emit(node.expression)","}"],one_or_more:["#block emit(node.expression)","if (#{node.expression.resultVar} !== null) {","  #{node.resultVar} = [];","  while (#{node.expression.resultVar} !== null) {","    #{node.resultVar}.push(#{node.expression.resultVar});","    #block emit(node.expression)","  }","} else {","  #{node.resultVar} = null;","}"],action:["#{posSave(node)};","#block emit(node.expression)","if (#{node.resultVar} !== null) {",'  #{node.resultVar} = (function(#{(options.trackLineAndColumn ? ["offset", "line", "column"] : ["offset"]).concat(keys(node.params)).join(", ")}) {#{node.code}})(#{(options.trackLineAndColumn ? [node.posVar + ".offset", node.posVar + ".line", node.posVar + ".column"] : [node.posVar]).concat(values(node.params)).join(", ")});',"}","if (#{node.resultVar} === null) {","  #{posRestore(node)};","}"],rule_ref:["#{node.resultVar} = parse_#{node.name}();"],literal:["#if node.value.length === 0",'  #{node.resultVar} = "";',"#else","  #if !node.ignoreCase","    #if node.value.length === 1",'      if (input.charCodeAt(#{posOffset("pos")}) === #{node.value.charCodeAt(0)}) {',"    #else",'      if (input.substr(#{posOffset("pos")}, #{node.value.length}) === #{string(node.value)}) {',"    #end","  #else",'    if (input.substr(#{posOffset("pos")}, #{node.value.length}).toLowerCase() === #{string(node.value.toLowerCase())}) {',"  #end","    #if !node.ignoreCase","      #{node.resultVar} = #{string(node.value)};","    #else",'      #{node.resultVar} = input.substr(#{posOffset("pos")}, #{node.value.length});',"    #end","    #{posAdvance(node.value.length)};","  } else {","    #{node.resultVar} = null;","    if (reportFailures === 0) {","      matchFailed(#{string(string(node.value))});","    }","  }","#end"],any:['if (input.length > #{posOffset("pos")}) {','  #{node.resultVar} = input.charAt(#{posOffset("pos")});',"  #{posAdvance(1)};","} else {","  #{node.resultVar} = null;","  if (reportFailures === 0) {",'    matchFailed("any character");',"  }","}"],"class":['if (#{regexp}.test(input.charAt(#{posOffset("pos")}))) {','  #{node.resultVar} = input.charAt(#{posOffset("pos")});',"  #{posAdvance(1)};","} else {","  #{node.resultVar} = null;","  if (reportFailures === 0) {","    matchFailed(#{string(node.rawText)});","  }","}"]};for(a in d)b[a]=c.template(d[a].join("\n"));return b}(),g=buildNodeVisitor({grammar:f("grammar"),initializer:function(a){return a.code},rule:f("rule"),choice:function(a){var b,c;for(var d=a.alternatives.length-1;d>=0;d--)c=d!==a.alternatives.length-1?e("choice.next",{node:a,code:b}):"",b=e("choice",{alternative:a.alternatives[d],nextAlternativesCode:c});return b},sequence:function(a){var b=e("sequence.inner",{node:a});for(var c=a.elements.length-1;c>=0;c--)b=e("sequence.iteration",{node:a,element:a.elements[c],code:b});return e("sequence",{node:a,code:b})},labeled:function(a){return g(a.expression)},simple_and:f("simple_and"),simple_not:f("simple_not"),semantic_and:f("semantic_and"),semantic_not:f("semantic_not"),optional:f("optional"),zero_or_more:f("zero_or_more"),one_or_more:f("one_or_more"),action:f("action"),rule_ref:f("rule_ref"),literal:f("literal"),any:f("any"),"class":function(a){var b;return a.parts.length>0?b="/^["+(a.inverted?"^":"")+map(a.parts,function(a){return a instanceof Array?quoteForRegexpClass(a[0])+"-"+quoteForRegexpClass(a[1]):quoteForRegexpClass(a)}).join("")+"]/"+(a.ignoreCase?"i":""):b=a.inverted?"/^[\\S\\s]/":"/^(?!)/",e("class",{node:a,regexp:b})}});return g(a)},PEG}();typeof module!="undefined"&&(module.exports=PEG);
+ */
+define(function() {
+  var PEG = {
+    /* PEG.js version (uses semantic versioning). */
+    VERSION: "0.7.0",
+
+    /*
+     * Generates a parser from a specified grammar and returns it.
+     *
+     * The grammar must be a string in the format described by the metagramar in
+     * the parser.pegjs file.
+     *
+     * Throws |PEG.parser.SyntaxError| if the grammar contains a syntax error or
+     * |PEG.GrammarError| if it contains a semantic error. Note that not all
+     * errors are detected during the generation and some may protrude to the
+     * generated parser and cause its malfunction.
+     */
+    buildParser: function(grammar, options) {
+      return PEG.compiler.compile(PEG.parser.parse(grammar), options);
+    }
+  };
+
+  /* Thrown when the grammar contains an error. */
+
+  PEG.GrammarError = function(message) {
+    this.name = "PEG.GrammarError";
+    this.message = message;
+  };
+
+  PEG.GrammarError.prototype = Error.prototype;
+
+  /* Like Python's |range|, but without |step|. */
+  function range(start, stop) {
+    if (stop === undefined) {
+      stop = start;
+      start = 0;
+    }
+
+    var result = new Array(Math.max(0, stop - start));
+    for (var i = 0, j = start; j < stop; i++, j++) {
+      result[i] = j;
+    }
+    return result;
+  }
+
+  function find(array, callback) {
+    var length = array.length;
+    for (var i = 0; i < length; i++) {
+      if (callback(array[i])) {
+        return array[i];
+      }
+    }
+  }
+
+  function contains(array, value) {
+    /*
+     * Stupid IE does not have Array.prototype.indexOf, otherwise this function
+     * would be a one-liner.
+     */
+    var length = array.length;
+    for (var i = 0; i < length; i++) {
+      if (array[i] === value) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  function each(array, callback) {
+    var length = array.length;
+    for (var i = 0; i < length; i++) {
+      callback(array[i], i);
+    }
+  }
+
+  function map(array, callback) {
+    var result = [];
+    var length = array.length;
+    for (var i = 0; i < length; i++) {
+      result[i] = callback(array[i], i);
+    }
+    return result;
+  }
+
+  function pluck(array, key) {
+    return map(array, function (e) { return e[key]; });
+  }
+
+  function keys(object) {
+    var result = [];
+    for (var key in object) {
+      result.push(key);
+    }
+    return result;
+  }
+
+  function values(object) {
+    var result = [];
+    for (var key in object) {
+      result.push(object[key]);
+    }
+    return result;
+  }
+
+  /*
+   * Returns a string padded on the left to a desired length with a character.
+   *
+   * The code needs to be in sync with the code template in the compilation
+   * function for "action" nodes.
+   */
+  function padLeft(input, padding, length) {
+    var result = input;
+
+    var padLength = length - input.length;
+    for (var i = 0; i < padLength; i++) {
+      result = padding + result;
+    }
+
+    return result;
+  }
+
+  /*
+   * Returns an escape sequence for given character. Uses \x for characters <=
+   * 0xFF to save space, \u for the rest.
+   *
+   * The code needs to be in sync with the code template in the compilation
+   * function for "action" nodes.
+   */
+  function escape(ch) {
+    var charCode = ch.charCodeAt(0);
+    var escapeChar;
+    var length;
+
+    if (charCode <= 0xFF) {
+      escapeChar = 'x';
+      length = 2;
+    } else {
+      escapeChar = 'u';
+      length = 4;
+    }
+
+    return '\\' + escapeChar + padLeft(charCode.toString(16).toUpperCase(), '0', length);
+  }
+
+  /*
+   * Surrounds the string with quotes and escapes characters inside so that the
+   * result is a valid JavaScript string.
+   *
+   * The code needs to be in sync with the code template in the compilation
+   * function for "action" nodes.
+   */
+  function quote(s) {
+    /*
+     * ECMA-262, 5th ed., 7.8.4: All characters may appear literally in a string
+     * literal except for the closing quote character, backslash, carriage return,
+     * line separator, paragraph separator, and line feed. Any character may
+     * appear in the form of an escape sequence.
+     *
+     * For portability, we also escape escape all control and non-ASCII
+     * characters. Note that "\0" and "\v" escape sequences are not used because
+     * JSHint does not like the first and IE the second.
+     */
+    return '"' + s
+      .replace(/\\/g, '\\\\')  // backslash
+      .replace(/"/g, '\\"')    // closing quote character
+      .replace(/\x08/g, '\\b') // backspace
+      .replace(/\t/g, '\\t')   // horizontal tab
+      .replace(/\n/g, '\\n')   // line feed
+      .replace(/\f/g, '\\f')   // form feed
+      .replace(/\r/g, '\\r')   // carriage return
+      .replace(/[\x00-\x07\x0B\x0E-\x1F\x80-\uFFFF]/g, escape)
+      + '"';
+  }
+
+  /*
+   * Escapes characters inside the string so that it can be used as a list of
+   * characters in a character class of a regular expression.
+   */
+  function quoteForRegexpClass(s) {
+    /*
+     * Based on ECMA-262, 5th ed., 7.8.5 & 15.10.1.
+     *
+     * For portability, we also escape escape all control and non-ASCII
+     * characters.
+     */
+    return s
+      .replace(/\\/g, '\\\\')  // backslash
+      .replace(/\//g, '\\/')   // closing slash
+      .replace(/\]/g, '\\]')   // closing bracket
+      .replace(/-/g, '\\-')    // dash
+      .replace(/\0/g, '\\0')   // null
+      .replace(/\t/g, '\\t')   // horizontal tab
+      .replace(/\n/g, '\\n')   // line feed
+      .replace(/\v/g, '\\x0B') // vertical tab
+      .replace(/\f/g, '\\f')   // form feed
+      .replace(/\r/g, '\\r')   // carriage return
+      .replace(/[\x01-\x08\x0E-\x1F\x80-\uFFFF]/g, escape);
+  }
+
+  /*
+   * Builds a node visitor -- a function which takes a node and any number of
+   * other parameters, calls an appropriate function according to the node type,
+   * passes it all its parameters and returns its value. The functions for various
+   * node types are passed in a parameter to |buildNodeVisitor| as a hash.
+   */
+  function buildNodeVisitor(functions) {
+    return function(node) {
+      return functions[node.type].apply(null, arguments);
+    };
+  }
+
+  function findRuleByName(ast, name) {
+    return find(ast.rules, function(r) { return r.name === name; });
+  }
+  PEG.parser = (function(){
+    /*
+     * Generated by PEG.js 0.7.0.
+     *
+     * http://pegjs.majda.cz/
+     */
+    
+    function quote(s) {
+      /*
+       * ECMA-262, 5th ed., 7.8.4: All characters may appear literally in a
+       * string literal except for the closing quote character, backslash,
+       * carriage return, line separator, paragraph separator, and line feed.
+       * Any character may appear in the form of an escape sequence.
+       *
+       * For portability, we also escape escape all control and non-ASCII
+       * characters. Note that "\0" and "\v" escape sequences are not used
+       * because JSHint does not like the first and IE the second.
+       */
+       return '"' + s
+        .replace(/\\/g, '\\\\')  // backslash
+        .replace(/"/g, '\\"')    // closing quote character
+        .replace(/\x08/g, '\\b') // backspace
+        .replace(/\t/g, '\\t')   // horizontal tab
+        .replace(/\n/g, '\\n')   // line feed
+        .replace(/\f/g, '\\f')   // form feed
+        .replace(/\r/g, '\\r')   // carriage return
+        .replace(/[\x00-\x07\x0B\x0E-\x1F\x80-\uFFFF]/g, escape)
+        + '"';
+    }
+    
+    var result = {
+      /*
+       * Parses the input with a generated parser. If the parsing is successfull,
+       * returns a value explicitly or implicitly specified by the grammar from
+       * which the parser was generated (see |PEG.buildParser|). If the parsing is
+       * unsuccessful, throws |PEG.parser.SyntaxError| describing the error.
+       */
+      parse: function(input, startRule) {
+        var parseFunctions = {
+          "grammar": parse_grammar,
+          "initializer": parse_initializer,
+          "rule": parse_rule,
+          "choice": parse_choice,
+          "sequence": parse_sequence,
+          "labeled": parse_labeled,
+          "prefixed": parse_prefixed,
+          "suffixed": parse_suffixed,
+          "primary": parse_primary,
+          "action": parse_action,
+          "braced": parse_braced,
+          "nonBraceCharacters": parse_nonBraceCharacters,
+          "nonBraceCharacter": parse_nonBraceCharacter,
+          "equals": parse_equals,
+          "colon": parse_colon,
+          "semicolon": parse_semicolon,
+          "slash": parse_slash,
+          "and": parse_and,
+          "not": parse_not,
+          "question": parse_question,
+          "star": parse_star,
+          "plus": parse_plus,
+          "lparen": parse_lparen,
+          "rparen": parse_rparen,
+          "dot": parse_dot,
+          "identifier": parse_identifier,
+          "literal": parse_literal,
+          "string": parse_string,
+          "doubleQuotedString": parse_doubleQuotedString,
+          "doubleQuotedCharacter": parse_doubleQuotedCharacter,
+          "simpleDoubleQuotedCharacter": parse_simpleDoubleQuotedCharacter,
+          "singleQuotedString": parse_singleQuotedString,
+          "singleQuotedCharacter": parse_singleQuotedCharacter,
+          "simpleSingleQuotedCharacter": parse_simpleSingleQuotedCharacter,
+          "class": parse_class,
+          "classCharacterRange": parse_classCharacterRange,
+          "classCharacter": parse_classCharacter,
+          "bracketDelimitedCharacter": parse_bracketDelimitedCharacter,
+          "simpleBracketDelimitedCharacter": parse_simpleBracketDelimitedCharacter,
+          "simpleEscapeSequence": parse_simpleEscapeSequence,
+          "zeroEscapeSequence": parse_zeroEscapeSequence,
+          "hexEscapeSequence": parse_hexEscapeSequence,
+          "unicodeEscapeSequence": parse_unicodeEscapeSequence,
+          "eolEscapeSequence": parse_eolEscapeSequence,
+          "digit": parse_digit,
+          "hexDigit": parse_hexDigit,
+          "letter": parse_letter,
+          "lowerCaseLetter": parse_lowerCaseLetter,
+          "upperCaseLetter": parse_upperCaseLetter,
+          "__": parse___,
+          "comment": parse_comment,
+          "singleLineComment": parse_singleLineComment,
+          "multiLineComment": parse_multiLineComment,
+          "eol": parse_eol,
+          "eolChar": parse_eolChar,
+          "whitespace": parse_whitespace
+        };
+        
+        if (startRule !== undefined) {
+          if (parseFunctions[startRule] === undefined) {
+            throw new Error("Invalid rule name: " + quote(startRule) + ".");
+          }
+        } else {
+          startRule = "grammar";
+        }
+        
+        var pos = 0;
+        var reportFailures = 0;
+        var rightmostFailuresPos = 0;
+        var rightmostFailuresExpected = [];
+        
+        function padLeft(input, padding, length) {
+          var result = input;
+          
+          var padLength = length - input.length;
+          for (var i = 0; i < padLength; i++) {
+            result = padding + result;
+          }
+          
+          return result;
+        }
+        
+        function escape(ch) {
+          var charCode = ch.charCodeAt(0);
+          var escapeChar;
+          var length;
+          
+          if (charCode <= 0xFF) {
+            escapeChar = 'x';
+            length = 2;
+          } else {
+            escapeChar = 'u';
+            length = 4;
+          }
+          
+          return '\\' + escapeChar + padLeft(charCode.toString(16).toUpperCase(), '0', length);
+        }
+        
+        function matchFailed(failure) {
+          if (pos < rightmostFailuresPos) {
+            return;
+          }
+          
+          if (pos > rightmostFailuresPos) {
+            rightmostFailuresPos = pos;
+            rightmostFailuresExpected = [];
+          }
+          
+          rightmostFailuresExpected.push(failure);
+        }
+        
+        function parse_grammar() {
+          var result0, result1, result2, result3;
+          var pos0, pos1;
+          
+          pos0 = pos;
+          pos1 = pos;
+          result0 = parse___();
+          if (result0 !== null) {
+            result1 = parse_initializer();
+            result1 = result1 !== null ? result1 : "";
+            if (result1 !== null) {
+              result3 = parse_rule();
+              if (result3 !== null) {
+                result2 = [];
+                while (result3 !== null) {
+                  result2.push(result3);
+                  result3 = parse_rule();
+                }
+              } else {
+                result2 = null;
+              }
+              if (result2 !== null) {
+                result0 = [result0, result1, result2];
+              } else {
+                result0 = null;
+                pos = pos1;
+              }
+            } else {
+              result0 = null;
+              pos = pos1;
+            }
+          } else {
+            result0 = null;
+            pos = pos1;
+          }
+          if (result0 !== null) {
+            result0 = (function(offset, initializer, rules) {
+                return {
+                  type:        "grammar",
+                  initializer: initializer !== "" ? initializer : null,
+                  rules:       rules,
+                  startRule:   rules[0].name
+                };
+              })(pos0, result0[1], result0[2]);
+          }
+          if (result0 === null) {
+            pos = pos0;
+          }
+          return result0;
+        }
+        
+        function parse_initializer() {
+          var result0, result1;
+          var pos0, pos1;
+          
+          pos0 = pos;
+          pos1 = pos;
+          result0 = parse_action();
+          if (result0 !== null) {
+            result1 = parse_semicolon();
+            result1 = result1 !== null ? result1 : "";
+            if (result1 !== null) {
+              result0 = [result0, result1];
+            } else {
+              result0 = null;
+              pos = pos1;
+            }
+          } else {
+            result0 = null;
+            pos = pos1;
+          }
+          if (result0 !== null) {
+            result0 = (function(offset, code) {
+                return {
+                  type: "initializer",
+                  code: code
+                };
+              })(pos0, result0[0]);
+          }
+          if (result0 === null) {
+            pos = pos0;
+          }
+          return result0;
+        }
+        
+        function parse_rule() {
+          var result0, result1, result2, result3, result4;
+          var pos0, pos1;
+          
+          pos0 = pos;
+          pos1 = pos;
+          result0 = parse_identifier();
+          if (result0 !== null) {
+            result1 = parse_string();
+            result1 = result1 !== null ? result1 : "";
+            if (result1 !== null) {
+              result2 = parse_equals();
+              if (result2 !== null) {
+                result3 = parse_choice();
+                if (result3 !== null) {
+                  result4 = parse_semicolon();
+                  result4 = result4 !== null ? result4 : "";
+                  if (result4 !== null) {
+                    result0 = [result0, result1, result2, result3, result4];
+                  } else {
+                    result0 = null;
+                    pos = pos1;
+                  }
+                } else {
+                  result0 = null;
+                  pos = pos1;
+                }
+              } else {
+                result0 = null;
+                pos = pos1;
+              }
+            } else {
+              result0 = null;
+              pos = pos1;
+            }
+          } else {
+            result0 = null;
+            pos = pos1;
+          }
+          if (result0 !== null) {
+            result0 = (function(offset, name, displayName, expression) {
+                return {
+                  type:        "rule",
+                  name:        name,
+                  displayName: displayName !== "" ? displayName : null,
+                  expression:  expression
+                };
+              })(pos0, result0[0], result0[1], result0[3]);
+          }
+          if (result0 === null) {
+            pos = pos0;
+          }
+          return result0;
+        }
+        
+        function parse_choice() {
+          var result0, result1, result2, result3;
+          var pos0, pos1, pos2;
+          
+          pos0 = pos;
+          pos1 = pos;
+          result0 = parse_sequence();
+          if (result0 !== null) {
+            result1 = [];
+            pos2 = pos;
+            result2 = parse_slash();
+            if (result2 !== null) {
+              result3 = parse_sequence();
+              if (result3 !== null) {
+                result2 = [result2, result3];
+              } else {
+                result2 = null;
+                pos = pos2;
+              }
+            } else {
+              result2 = null;
+              pos = pos2;
+            }
+            while (result2 !== null) {
+              result1.push(result2);
+              pos2 = pos;
+              result2 = parse_slash();
+              if (result2 !== null) {
+                result3 = parse_sequence();
+                if (result3 !== null) {
+                  result2 = [result2, result3];
+                } else {
+                  result2 = null;
+                  pos = pos2;
+                }
+              } else {
+                result2 = null;
+                pos = pos2;
+              }
+            }
+            if (result1 !== null) {
+              result0 = [result0, result1];
+            } else {
+              result0 = null;
+              pos = pos1;
+            }
+          } else {
+            result0 = null;
+            pos = pos1;
+          }
+          if (result0 !== null) {
+            result0 = (function(offset, head, tail) {
+                if (tail.length > 0) {
+                  var alternatives = [head].concat(map(
+                      tail,
+                      function(element) { return element[1]; }
+                  ));
+                  return {
+                    type:         "choice",
+                    alternatives: alternatives
+                  };
+                } else {
+                  return head;
+                }
+              })(pos0, result0[0], result0[1]);
+          }
+          if (result0 === null) {
+            pos = pos0;
+          }
+          return result0;
+        }
+        
+        function parse_sequence() {
+          var result0, result1;
+          var pos0, pos1;
+          
+          pos0 = pos;
+          pos1 = pos;
+          result0 = [];
+          result1 = parse_labeled();
+          while (result1 !== null) {
+            result0.push(result1);
+            result1 = parse_labeled();
+          }
+          if (result0 !== null) {
+            result1 = parse_action();
+            if (result1 !== null) {
+              result0 = [result0, result1];
+            } else {
+              result0 = null;
+              pos = pos1;
+            }
+          } else {
+            result0 = null;
+            pos = pos1;
+          }
+          if (result0 !== null) {
+            result0 = (function(offset, elements, code) {
+                var expression = elements.length !== 1
+                  ? {
+                      type:     "sequence",
+                      elements: elements
+                    }
+                  : elements[0];
+                return {
+                  type:       "action",
+                  expression: expression,
+                  code:       code
+                };
+              })(pos0, result0[0], result0[1]);
+          }
+          if (result0 === null) {
+            pos = pos0;
+          }
+          if (result0 === null) {
+            pos0 = pos;
+            result0 = [];
+            result1 = parse_labeled();
+            while (result1 !== null) {
+              result0.push(result1);
+              result1 = parse_labeled();
+            }
+            if (result0 !== null) {
+              result0 = (function(offset, elements) {
+                  return elements.length !== 1
+                    ? {
+                        type:     "sequence",
+                        elements: elements
+                      }
+                    : elements[0];
+                })(pos0, result0);
+            }
+            if (result0 === null) {
+              pos = pos0;
+            }
+          }
+          return result0;
+        }
+        
+        function parse_labeled() {
+          var result0, result1, result2;
+          var pos0, pos1;
+          
+          pos0 = pos;
+          pos1 = pos;
+          result0 = parse_identifier();
+          if (result0 !== null) {
+            result1 = parse_colon();
+            if (result1 !== null) {
+              result2 = parse_prefixed();
+              if (result2 !== null) {
+                result0 = [result0, result1, result2];
+              } else {
+                result0 = null;
+                pos = pos1;
+              }
+            } else {
+              result0 = null;
+              pos = pos1;
+            }
+          } else {
+            result0 = null;
+            pos = pos1;
+          }
+          if (result0 !== null) {
+            result0 = (function(offset, label, expression) {
+                return {
+                  type:       "labeled",
+                  label:      label,
+                  expression: expression
+                };
+              })(pos0, result0[0], result0[2]);
+          }
+          if (result0 === null) {
+            pos = pos0;
+          }
+          if (result0 === null) {
+            result0 = parse_prefixed();
+          }
+          return result0;
+        }
+        
+        function parse_prefixed() {
+          var result0, result1;
+          var pos0, pos1;
+          
+          pos0 = pos;
+          pos1 = pos;
+          result0 = parse_and();
+          if (result0 !== null) {
+            result1 = parse_action();
+            if (result1 !== null) {
+              result0 = [result0, result1];
+            } else {
+              result0 = null;
+              pos = pos1;
+            }
+          } else {
+            result0 = null;
+            pos = pos1;
+          }
+          if (result0 !== null) {
+            result0 = (function(offset, code) {
+                return {
+                  type: "semantic_and",
+                  code: code
+                };
+              })(pos0, result0[1]);
+          }
+          if (result0 === null) {
+            pos = pos0;
+          }
+          if (result0 === null) {
+            pos0 = pos;
+            pos1 = pos;
+            result0 = parse_and();
+            if (result0 !== null) {
+              result1 = parse_suffixed();
+              if (result1 !== null) {
+                result0 = [result0, result1];
+              } else {
+                result0 = null;
+                pos = pos1;
+              }
+            } else {
+              result0 = null;
+              pos = pos1;
+            }
+            if (result0 !== null) {
+              result0 = (function(offset, expression) {
+                  return {
+                    type:       "simple_and",
+                    expression: expression
+                  };
+                })(pos0, result0[1]);
+            }
+            if (result0 === null) {
+              pos = pos0;
+            }
+            if (result0 === null) {
+              pos0 = pos;
+              pos1 = pos;
+              result0 = parse_not();
+              if (result0 !== null) {
+                result1 = parse_action();
+                if (result1 !== null) {
+                  result0 = [result0, result1];
+                } else {
+                  result0 = null;
+                  pos = pos1;
+                }
+              } else {
+                result0 = null;
+                pos = pos1;
+              }
+              if (result0 !== null) {
+                result0 = (function(offset, code) {
+                    return {
+                      type: "semantic_not",
+                      code: code
+                    };
+                  })(pos0, result0[1]);
+              }
+              if (result0 === null) {
+                pos = pos0;
+              }
+              if (result0 === null) {
+                pos0 = pos;
+                pos1 = pos;
+                result0 = parse_not();
+                if (result0 !== null) {
+                  result1 = parse_suffixed();
+                  if (result1 !== null) {
+                    result0 = [result0, result1];
+                  } else {
+                    result0 = null;
+                    pos = pos1;
+                  }
+                } else {
+                  result0 = null;
+                  pos = pos1;
+                }
+                if (result0 !== null) {
+                  result0 = (function(offset, expression) {
+                      return {
+                        type:       "simple_not",
+                        expression: expression
+                      };
+                    })(pos0, result0[1]);
+                }
+                if (result0 === null) {
+                  pos = pos0;
+                }
+                if (result0 === null) {
+                  result0 = parse_suffixed();
+                }
+              }
+            }
+          }
+          return result0;
+        }
+        
+        function parse_suffixed() {
+          var result0, result1;
+          var pos0, pos1;
+          
+          pos0 = pos;
+          pos1 = pos;
+          result0 = parse_primary();
+          if (result0 !== null) {
+            result1 = parse_question();
+            if (result1 !== null) {
+              result0 = [result0, result1];
+            } else {
+              result0 = null;
+              pos = pos1;
+            }
+          } else {
+            result0 = null;
+            pos = pos1;
+          }
+          if (result0 !== null) {
+            result0 = (function(offset, expression) {
+                return {
+                  type:       "optional",
+                  expression: expression
+                };
+              })(pos0, result0[0]);
+          }
+          if (result0 === null) {
+            pos = pos0;
+          }
+          if (result0 === null) {
+            pos0 = pos;
+            pos1 = pos;
+            result0 = parse_primary();
+            if (result0 !== null) {
+              result1 = parse_star();
+              if (result1 !== null) {
+                result0 = [result0, result1];
+              } else {
+                result0 = null;
+                pos = pos1;
+              }
+            } else {
+              result0 = null;
+              pos = pos1;
+            }
+            if (result0 !== null) {
+              result0 = (function(offset, expression) {
+                  return {
+                    type:       "zero_or_more",
+                    expression: expression
+                  };
+                })(pos0, result0[0]);
+            }
+            if (result0 === null) {
+              pos = pos0;
+            }
+            if (result0 === null) {
+              pos0 = pos;
+              pos1 = pos;
+              result0 = parse_primary();
+              if (result0 !== null) {
+                result1 = parse_plus();
+                if (result1 !== null) {
+                  result0 = [result0, result1];
+                } else {
+                  result0 = null;
+                  pos = pos1;
+                }
+              } else {
+                result0 = null;
+                pos = pos1;
+              }
+              if (result0 !== null) {
+                result0 = (function(offset, expression) {
+                    return {
+                      type:       "one_or_more",
+                      expression: expression
+                    };
+                  })(pos0, result0[0]);
+              }
+              if (result0 === null) {
+                pos = pos0;
+              }
+              if (result0 === null) {
+                result0 = parse_primary();
+              }
+            }
+          }
+          return result0;
+        }
+        
+        function parse_primary() {
+          var result0, result1, result2;
+          var pos0, pos1, pos2, pos3;
+          
+          pos0 = pos;
+          pos1 = pos;
+          result0 = parse_identifier();
+          if (result0 !== null) {
+            pos2 = pos;
+            reportFailures++;
+            pos3 = pos;
+            result1 = parse_string();
+            result1 = result1 !== null ? result1 : "";
+            if (result1 !== null) {
+              result2 = parse_equals();
+              if (result2 !== null) {
+                result1 = [result1, result2];
+              } else {
+                result1 = null;
+                pos = pos3;
+              }
+            } else {
+              result1 = null;
+              pos = pos3;
+            }
+            reportFailures--;
+            if (result1 === null) {
+              result1 = "";
+            } else {
+              result1 = null;
+              pos = pos2;
+            }
+            if (result1 !== null) {
+              result0 = [result0, result1];
+            } else {
+              result0 = null;
+              pos = pos1;
+            }
+          } else {
+            result0 = null;
+            pos = pos1;
+          }
+          if (result0 !== null) {
+            result0 = (function(offset, name) {
+                return {
+                  type: "rule_ref",
+                  name: name
+                };
+              })(pos0, result0[0]);
+          }
+          if (result0 === null) {
+            pos = pos0;
+          }
+          if (result0 === null) {
+            result0 = parse_literal();
+            if (result0 === null) {
+              pos0 = pos;
+              result0 = parse_dot();
+              if (result0 !== null) {
+                result0 = (function(offset) { return { type: "any" }; })(pos0);
+              }
+              if (result0 === null) {
+                pos = pos0;
+              }
+              if (result0 === null) {
+                result0 = parse_class();
+                if (result0 === null) {
+                  pos0 = pos;
+                  pos1 = pos;
+                  result0 = parse_lparen();
+                  if (result0 !== null) {
+                    result1 = parse_choice();
+                    if (result1 !== null) {
+                      result2 = parse_rparen();
+                      if (result2 !== null) {
+                        result0 = [result0, result1, result2];
+                      } else {
+                        result0 = null;
+                        pos = pos1;
+                      }
+                    } else {
+                      result0 = null;
+                      pos = pos1;
+                    }
+                  } else {
+                    result0 = null;
+                    pos = pos1;
+                  }
+                  if (result0 !== null) {
+                    result0 = (function(offset, expression) { return expression; })(pos0, result0[1]);
+                  }
+                  if (result0 === null) {
+                    pos = pos0;
+                  }
+                }
+              }
+            }
+          }
+          return result0;
+        }
+        
+        function parse_action() {
+          var result0, result1;
+          var pos0, pos1;
+          
+          reportFailures++;
+          pos0 = pos;
+          pos1 = pos;
+          result0 = parse_braced();
+          if (result0 !== null) {
+            result1 = parse___();
+            if (result1 !== null) {
+              result0 = [result0, result1];
+            } else {
+              result0 = null;
+              pos = pos1;
+            }
+          } else {
+            result0 = null;
+            pos = pos1;
+          }
+          if (result0 !== null) {
+            result0 = (function(offset, braced) { return braced.substr(1, braced.length - 2); })(pos0, result0[0]);
+          }
+          if (result0 === null) {
+            pos = pos0;
+          }
+          reportFailures--;
+          if (reportFailures === 0 && result0 === null) {
+            matchFailed("action");
+          }
+          return result0;
+        }
+        
+        function parse_braced() {
+          var result0, result1, result2;
+          var pos0, pos1;
+          
+          pos0 = pos;
+          pos1 = pos;
+          if (input.charCodeAt(pos) === 123) {
+            result0 = "{";
+            pos++;
+          } else {
+            result0 = null;
+            if (reportFailures === 0) {
+              matchFailed("\"{\"");
+            }
+          }
+          if (result0 !== null) {
+            result1 = [];
+            result2 = parse_braced();
+            if (result2 === null) {
+              result2 = parse_nonBraceCharacter();
+            }
+            while (result2 !== null) {
+              result1.push(result2);
+              result2 = parse_braced();
+              if (result2 === null) {
+                result2 = parse_nonBraceCharacter();
+              }
+            }
+            if (result1 !== null) {
+              if (input.charCodeAt(pos) === 125) {
+                result2 = "}";
+                pos++;
+              } else {
+                result2 = null;
+                if (reportFailures === 0) {
+                  matchFailed("\"}\"");
+                }
+              }
+              if (result2 !== null) {
+                result0 = [result0, result1, result2];
+              } else {
+                result0 = null;
+                pos = pos1;
+              }
+            } else {
+              result0 = null;
+              pos = pos1;
+            }
+          } else {
+            result0 = null;
+            pos = pos1;
+          }
+          if (result0 !== null) {
+            result0 = (function(offset, parts) {
+                return "{" + parts.join("") + "}";
+              })(pos0, result0[1]);
+          }
+          if (result0 === null) {
+            pos = pos0;
+          }
+          return result0;
+        }
+        
+        function parse_nonBraceCharacters() {
+          var result0, result1;
+          var pos0;
+          
+          pos0 = pos;
+          result1 = parse_nonBraceCharacter();
+          if (result1 !== null) {
+            result0 = [];
+            while (result1 !== null) {
+              result0.push(result1);
+              result1 = parse_nonBraceCharacter();
+            }
+          } else {
+            result0 = null;
+          }
+          if (result0 !== null) {
+            result0 = (function(offset, chars) { return chars.join(""); })(pos0, result0);
+          }
+          if (result0 === null) {
+            pos = pos0;
+          }
+          return result0;
+        }
+        
+        function parse_nonBraceCharacter() {
+          var result0;
+          
+          if (/^[^{}]/.test(input.charAt(pos))) {
+            result0 = input.charAt(pos);
+            pos++;
+          } else {
+            result0 = null;
+            if (reportFailures === 0) {
+              matchFailed("[^{}]");
+            }
+          }
+          return result0;
+        }
+        
+        function parse_equals() {
+          var result0, result1;
+          var pos0, pos1;
+          
+          pos0 = pos;
+          pos1 = pos;
+          if (input.charCodeAt(pos) === 61) {
+            result0 = "=";
+            pos++;
+          } else {
+            result0 = null;
+            if (reportFailures === 0) {
+              matchFailed("\"=\"");
+            }
+          }
+          if (result0 !== null) {
+            result1 = parse___();
+            if (result1 !== null) {
+              result0 = [result0, result1];
+            } else {
+              result0 = null;
+              pos = pos1;
+            }
+          } else {
+            result0 = null;
+            pos = pos1;
+          }
+          if (result0 !== null) {
+            result0 = (function(offset) { return "="; })(pos0);
+          }
+          if (result0 === null) {
+            pos = pos0;
+          }
+          return result0;
+        }
+        
+        function parse_colon() {
+          var result0, result1;
+          var pos0, pos1;
+          
+          pos0 = pos;
+          pos1 = pos;
+          if (input.charCodeAt(pos) === 58) {
+            result0 = ":";
+            pos++;
+          } else {
+            result0 = null;
+            if (reportFailures === 0) {
+              matchFailed("\":\"");
+            }
+          }
+          if (result0 !== null) {
+            result1 = parse___();
+            if (result1 !== null) {
+              result0 = [result0, result1];
+            } else {
+              result0 = null;
+              pos = pos1;
+            }
+          } else {
+            result0 = null;
+            pos = pos1;
+          }
+          if (result0 !== null) {
+            result0 = (function(offset) { return ":"; })(pos0);
+          }
+          if (result0 === null) {
+            pos = pos0;
+          }
+          return result0;
+        }
+        
+        function parse_semicolon() {
+          var result0, result1;
+          var pos0, pos1;
+          
+          pos0 = pos;
+          pos1 = pos;
+          if (input.charCodeAt(pos) === 59) {
+            result0 = ";";
+            pos++;
+          } else {
+            result0 = null;
+            if (reportFailures === 0) {
+              matchFailed("\";\"");
+            }
+          }
+          if (result0 !== null) {
+            result1 = parse___();
+            if (result1 !== null) {
+              result0 = [result0, result1];
+            } else {
+              result0 = null;
+              pos = pos1;
+            }
+          } else {
+            result0 = null;
+            pos = pos1;
+          }
+          if (result0 !== null) {
+            result0 = (function(offset) { return ";"; })(pos0);
+          }
+          if (result0 === null) {
+            pos = pos0;
+          }
+          return result0;
+        }
+        
+        function parse_slash() {
+          var result0, result1;
+          var pos0, pos1;
+          
+          pos0 = pos;
+          pos1 = pos;
+          if (input.charCodeAt(pos) === 47) {
+            result0 = "/";
+            pos++;
+          } else {
+            result0 = null;
+            if (reportFailures === 0) {
+              matchFailed("\"/\"");
+            }
+          }
+          if (result0 !== null) {
+            result1 = parse___();
+            if (result1 !== null) {
+              result0 = [result0, result1];
+            } else {
+              result0 = null;
+              pos = pos1;
+            }
+          } else {
+            result0 = null;
+            pos = pos1;
+          }
+          if (result0 !== null) {
+            result0 = (function(offset) { return "/"; })(pos0);
+          }
+          if (result0 === null) {
+            pos = pos0;
+          }
+          return result0;
+        }
+        
+        function parse_and() {
+          var result0, result1;
+          var pos0, pos1;
+          
+          pos0 = pos;
+          pos1 = pos;
+          if (input.charCodeAt(pos) === 38) {
+            result0 = "&";
+            pos++;
+          } else {
+            result0 = null;
+            if (reportFailures === 0) {
+              matchFailed("\"&\"");
+            }
+          }
+          if (result0 !== null) {
+            result1 = parse___();
+            if (result1 !== null) {
+              result0 = [result0, result1];
+            } else {
+              result0 = null;
+              pos = pos1;
+            }
+          } else {
+            result0 = null;
+            pos = pos1;
+          }
+          if (result0 !== null) {
+            result0 = (function(offset) { return "&"; })(pos0);
+          }
+          if (result0 === null) {
+            pos = pos0;
+          }
+          return result0;
+        }
+        
+        function parse_not() {
+          var result0, result1;
+          var pos0, pos1;
+          
+          pos0 = pos;
+          pos1 = pos;
+          if (input.charCodeAt(pos) === 33) {
+            result0 = "!";
+            pos++;
+          } else {
+            result0 = null;
+            if (reportFailures === 0) {
+              matchFailed("\"!\"");
+            }
+          }
+          if (result0 !== null) {
+            result1 = parse___();
+            if (result1 !== null) {
+              result0 = [result0, result1];
+            } else {
+              result0 = null;
+              pos = pos1;
+            }
+          } else {
+            result0 = null;
+            pos = pos1;
+          }
+          if (result0 !== null) {
+            result0 = (function(offset) { return "!"; })(pos0);
+          }
+          if (result0 === null) {
+            pos = pos0;
+          }
+          return result0;
+        }
+        
+        function parse_question() {
+          var result0, result1;
+          var pos0, pos1;
+          
+          pos0 = pos;
+          pos1 = pos;
+          if (input.charCodeAt(pos) === 63) {
+            result0 = "?";
+            pos++;
+          } else {
+            result0 = null;
+            if (reportFailures === 0) {
+              matchFailed("\"?\"");
+            }
+          }
+          if (result0 !== null) {
+            result1 = parse___();
+            if (result1 !== null) {
+              result0 = [result0, result1];
+            } else {
+              result0 = null;
+              pos = pos1;
+            }
+          } else {
+            result0 = null;
+            pos = pos1;
+          }
+          if (result0 !== null) {
+            result0 = (function(offset) { return "?"; })(pos0);
+          }
+          if (result0 === null) {
+            pos = pos0;
+          }
+          return result0;
+        }
+        
+        function parse_star() {
+          var result0, result1;
+          var pos0, pos1;
+          
+          pos0 = pos;
+          pos1 = pos;
+          if (input.charCodeAt(pos) === 42) {
+            result0 = "*";
+            pos++;
+          } else {
+            result0 = null;
+            if (reportFailures === 0) {
+              matchFailed("\"*\"");
+            }
+          }
+          if (result0 !== null) {
+            result1 = parse___();
+            if (result1 !== null) {
+              result0 = [result0, result1];
+            } else {
+              result0 = null;
+              pos = pos1;
+            }
+          } else {
+            result0 = null;
+            pos = pos1;
+          }
+          if (result0 !== null) {
+            result0 = (function(offset) { return "*"; })(pos0);
+          }
+          if (result0 === null) {
+            pos = pos0;
+          }
+          return result0;
+        }
+        
+        function parse_plus() {
+          var result0, result1;
+          var pos0, pos1;
+          
+          pos0 = pos;
+          pos1 = pos;
+          if (input.charCodeAt(pos) === 43) {
+            result0 = "+";
+            pos++;
+          } else {
+            result0 = null;
+            if (reportFailures === 0) {
+              matchFailed("\"+\"");
+            }
+          }
+          if (result0 !== null) {
+            result1 = parse___();
+            if (result1 !== null) {
+              result0 = [result0, result1];
+            } else {
+              result0 = null;
+              pos = pos1;
+            }
+          } else {
+            result0 = null;
+            pos = pos1;
+          }
+          if (result0 !== null) {
+            result0 = (function(offset) { return "+"; })(pos0);
+          }
+          if (result0 === null) {
+            pos = pos0;
+          }
+          return result0;
+        }
+        
+        function parse_lparen() {
+          var result0, result1;
+          var pos0, pos1;
+          
+          pos0 = pos;
+          pos1 = pos;
+          if (input.charCodeAt(pos) === 40) {
+            result0 = "(";
+            pos++;
+          } else {
+            result0 = null;
+            if (reportFailures === 0) {
+              matchFailed("\"(\"");
+            }
+          }
+          if (result0 !== null) {
+            result1 = parse___();
+            if (result1 !== null) {
+              result0 = [result0, result1];
+            } else {
+              result0 = null;
+              pos = pos1;
+            }
+          } else {
+            result0 = null;
+            pos = pos1;
+          }
+          if (result0 !== null) {
+            result0 = (function(offset) { return "("; })(pos0);
+          }
+          if (result0 === null) {
+            pos = pos0;
+          }
+          return result0;
+        }
+        
+        function parse_rparen() {
+          var result0, result1;
+          var pos0, pos1;
+          
+          pos0 = pos;
+          pos1 = pos;
+          if (input.charCodeAt(pos) === 41) {
+            result0 = ")";
+            pos++;
+          } else {
+            result0 = null;
+            if (reportFailures === 0) {
+              matchFailed("\")\"");
+            }
+          }
+          if (result0 !== null) {
+            result1 = parse___();
+            if (result1 !== null) {
+              result0 = [result0, result1];
+            } else {
+              result0 = null;
+              pos = pos1;
+            }
+          } else {
+            result0 = null;
+            pos = pos1;
+          }
+          if (result0 !== null) {
+            result0 = (function(offset) { return ")"; })(pos0);
+          }
+          if (result0 === null) {
+            pos = pos0;
+          }
+          return result0;
+        }
+        
+        function parse_dot() {
+          var result0, result1;
+          var pos0, pos1;
+          
+          pos0 = pos;
+          pos1 = pos;
+          if (input.charCodeAt(pos) === 46) {
+            result0 = ".";
+            pos++;
+          } else {
+            result0 = null;
+            if (reportFailures === 0) {
+              matchFailed("\".\"");
+            }
+          }
+          if (result0 !== null) {
+            result1 = parse___();
+            if (result1 !== null) {
+              result0 = [result0, result1];
+            } else {
+              result0 = null;
+              pos = pos1;
+            }
+          } else {
+            result0 = null;
+            pos = pos1;
+          }
+          if (result0 !== null) {
+            result0 = (function(offset) { return "."; })(pos0);
+          }
+          if (result0 === null) {
+            pos = pos0;
+          }
+          return result0;
+        }
+        
+        function parse_identifier() {
+          var result0, result1, result2;
+          var pos0, pos1;
+          
+          reportFailures++;
+          pos0 = pos;
+          pos1 = pos;
+          result0 = parse_letter();
+          if (result0 === null) {
+            if (input.charCodeAt(pos) === 95) {
+              result0 = "_";
+              pos++;
+            } else {
+              result0 = null;
+              if (reportFailures === 0) {
+                matchFailed("\"_\"");
+              }
+            }
+            if (result0 === null) {
+              if (input.charCodeAt(pos) === 36) {
+                result0 = "$";
+                pos++;
+              } else {
+                result0 = null;
+                if (reportFailures === 0) {
+                  matchFailed("\"$\"");
+                }
+              }
+            }
+          }
+          if (result0 !== null) {
+            result1 = [];
+            result2 = parse_letter();
+            if (result2 === null) {
+              result2 = parse_digit();
+              if (result2 === null) {
+                if (input.charCodeAt(pos) === 95) {
+                  result2 = "_";
+                  pos++;
+                } else {
+                  result2 = null;
+                  if (reportFailures === 0) {
+                    matchFailed("\"_\"");
+                  }
+                }
+                if (result2 === null) {
+                  if (input.charCodeAt(pos) === 36) {
+                    result2 = "$";
+                    pos++;
+                  } else {
+                    result2 = null;
+                    if (reportFailures === 0) {
+                      matchFailed("\"$\"");
+                    }
+                  }
+                }
+              }
+            }
+            while (result2 !== null) {
+              result1.push(result2);
+              result2 = parse_letter();
+              if (result2 === null) {
+                result2 = parse_digit();
+                if (result2 === null) {
+                  if (input.charCodeAt(pos) === 95) {
+                    result2 = "_";
+                    pos++;
+                  } else {
+                    result2 = null;
+                    if (reportFailures === 0) {
+                      matchFailed("\"_\"");
+                    }
+                  }
+                  if (result2 === null) {
+                    if (input.charCodeAt(pos) === 36) {
+                      result2 = "$";
+                      pos++;
+                    } else {
+                      result2 = null;
+                      if (reportFailures === 0) {
+                        matchFailed("\"$\"");
+                      }
+                    }
+                  }
+                }
+              }
+            }
+            if (result1 !== null) {
+              result2 = parse___();
+              if (result2 !== null) {
+                result0 = [result0, result1, result2];
+              } else {
+                result0 = null;
+                pos = pos1;
+              }
+            } else {
+              result0 = null;
+              pos = pos1;
+            }
+          } else {
+            result0 = null;
+            pos = pos1;
+          }
+          if (result0 !== null) {
+            result0 = (function(offset, head, tail) {
+                return head + tail.join("");
+              })(pos0, result0[0], result0[1]);
+          }
+          if (result0 === null) {
+            pos = pos0;
+          }
+          reportFailures--;
+          if (reportFailures === 0 && result0 === null) {
+            matchFailed("identifier");
+          }
+          return result0;
+        }
+        
+        function parse_literal() {
+          var result0, result1, result2;
+          var pos0, pos1;
+          
+          reportFailures++;
+          pos0 = pos;
+          pos1 = pos;
+          result0 = parse_doubleQuotedString();
+          if (result0 === null) {
+            result0 = parse_singleQuotedString();
+          }
+          if (result0 !== null) {
+            if (input.charCodeAt(pos) === 105) {
+              result1 = "i";
+              pos++;
+            } else {
+              result1 = null;
+              if (reportFailures === 0) {
+                matchFailed("\"i\"");
+              }
+            }
+            result1 = result1 !== null ? result1 : "";
+            if (result1 !== null) {
+              result2 = parse___();
+              if (result2 !== null) {
+                result0 = [result0, result1, result2];
+              } else {
+                result0 = null;
+                pos = pos1;
+              }
+            } else {
+              result0 = null;
+              pos = pos1;
+            }
+          } else {
+            result0 = null;
+            pos = pos1;
+          }
+          if (result0 !== null) {
+            result0 = (function(offset, value, flags) {
+                return {
+                  type:       "literal",
+                  value:      value,
+                  ignoreCase: flags === "i"
+                };
+              })(pos0, result0[0], result0[1]);
+          }
+          if (result0 === null) {
+            pos = pos0;
+          }
+          reportFailures--;
+          if (reportFailures === 0 && result0 === null) {
+            matchFailed("literal");
+          }
+          return result0;
+        }
+        
+        function parse_string() {
+          var result0, result1;
+          var pos0, pos1;
+          
+          reportFailures++;
+          pos0 = pos;
+          pos1 = pos;
+          result0 = parse_doubleQuotedString();
+          if (result0 === null) {
+            result0 = parse_singleQuotedString();
+          }
+          if (result0 !== null) {
+            result1 = parse___();
+            if (result1 !== null) {
+              result0 = [result0, result1];
+            } else {
+              result0 = null;
+              pos = pos1;
+            }
+          } else {
+            result0 = null;
+            pos = pos1;
+          }
+          if (result0 !== null) {
+            result0 = (function(offset, string) { return string; })(pos0, result0[0]);
+          }
+          if (result0 === null) {
+            pos = pos0;
+          }
+          reportFailures--;
+          if (reportFailures === 0 && result0 === null) {
+            matchFailed("string");
+          }
+          return result0;
+        }
+        
+        function parse_doubleQuotedString() {
+          var result0, result1, result2;
+          var pos0, pos1;
+          
+          pos0 = pos;
+          pos1 = pos;
+          if (input.charCodeAt(pos) === 34) {
+            result0 = "\"";
+            pos++;
+          } else {
+            result0 = null;
+            if (reportFailures === 0) {
+              matchFailed("\"\\\"\"");
+            }
+          }
+          if (result0 !== null) {
+            result1 = [];
+            result2 = parse_doubleQuotedCharacter();
+            while (result2 !== null) {
+              result1.push(result2);
+              result2 = parse_doubleQuotedCharacter();
+            }
+            if (result1 !== null) {
+              if (input.charCodeAt(pos) === 34) {
+                result2 = "\"";
+                pos++;
+              } else {
+                result2 = null;
+                if (reportFailures === 0) {
+                  matchFailed("\"\\\"\"");
+                }
+              }
+              if (result2 !== null) {
+                result0 = [result0, result1, result2];
+              } else {
+                result0 = null;
+                pos = pos1;
+              }
+            } else {
+              result0 = null;
+              pos = pos1;
+            }
+          } else {
+            result0 = null;
+            pos = pos1;
+          }
+          if (result0 !== null) {
+            result0 = (function(offset, chars) { return chars.join(""); })(pos0, result0[1]);
+          }
+          if (result0 === null) {
+            pos = pos0;
+          }
+          return result0;
+        }
+        
+        function parse_doubleQuotedCharacter() {
+          var result0;
+          
+          result0 = parse_simpleDoubleQuotedCharacter();
+          if (result0 === null) {
+            result0 = parse_simpleEscapeSequence();
+            if (result0 === null) {
+              result0 = parse_zeroEscapeSequence();
+              if (result0 === null) {
+                result0 = parse_hexEscapeSequence();
+                if (result0 === null) {
+                  result0 = parse_unicodeEscapeSequence();
+                  if (result0 === null) {
+                    result0 = parse_eolEscapeSequence();
+                  }
+                }
+              }
+            }
+          }
+          return result0;
+        }
+        
+        function parse_simpleDoubleQuotedCharacter() {
+          var result0, result1;
+          var pos0, pos1, pos2;
+          
+          pos0 = pos;
+          pos1 = pos;
+          pos2 = pos;
+          reportFailures++;
+          if (input.charCodeAt(pos) === 34) {
+            result0 = "\"";
+            pos++;
+          } else {
+            result0 = null;
+            if (reportFailures === 0) {
+              matchFailed("\"\\\"\"");
+            }
+          }
+          if (result0 === null) {
+            if (input.charCodeAt(pos) === 92) {
+              result0 = "\\";
+              pos++;
+            } else {
+              result0 = null;
+              if (reportFailures === 0) {
+                matchFailed("\"\\\\\"");
+              }
+            }
+            if (result0 === null) {
+              result0 = parse_eolChar();
+            }
+          }
+          reportFailures--;
+          if (result0 === null) {
+            result0 = "";
+          } else {
+            result0 = null;
+            pos = pos2;
+          }
+          if (result0 !== null) {
+            if (input.length > pos) {
+              result1 = input.charAt(pos);
+              pos++;
+            } else {
+              result1 = null;
+              if (reportFailures === 0) {
+                matchFailed("any character");
+              }
+            }
+            if (result1 !== null) {
+              result0 = [result0, result1];
+            } else {
+              result0 = null;
+              pos = pos1;
+            }
+          } else {
+            result0 = null;
+            pos = pos1;
+          }
+          if (result0 !== null) {
+            result0 = (function(offset, char_) { return char_; })(pos0, result0[1]);
+          }
+          if (result0 === null) {
+            pos = pos0;
+          }
+          return result0;
+        }
+        
+        function parse_singleQuotedString() {
+          var result0, result1, result2;
+          var pos0, pos1;
+          
+          pos0 = pos;
+          pos1 = pos;
+          if (input.charCodeAt(pos) === 39) {
+            result0 = "'";
+            pos++;
+          } else {
+            result0 = null;
+            if (reportFailures === 0) {
+              matchFailed("\"'\"");
+            }
+          }
+          if (result0 !== null) {
+            result1 = [];
+            result2 = parse_singleQuotedCharacter();
+            while (result2 !== null) {
+              result1.push(result2);
+              result2 = parse_singleQuotedCharacter();
+            }
+            if (result1 !== null) {
+              if (input.charCodeAt(pos) === 39) {
+                result2 = "'";
+                pos++;
+              } else {
+                result2 = null;
+                if (reportFailures === 0) {
+                  matchFailed("\"'\"");
+                }
+              }
+              if (result2 !== null) {
+                result0 = [result0, result1, result2];
+              } else {
+                result0 = null;
+                pos = pos1;
+              }
+            } else {
+              result0 = null;
+              pos = pos1;
+            }
+          } else {
+            result0 = null;
+            pos = pos1;
+          }
+          if (result0 !== null) {
+            result0 = (function(offset, chars) { return chars.join(""); })(pos0, result0[1]);
+          }
+          if (result0 === null) {
+            pos = pos0;
+          }
+          return result0;
+        }
+        
+        function parse_singleQuotedCharacter() {
+          var result0;
+          
+          result0 = parse_simpleSingleQuotedCharacter();
+          if (result0 === null) {
+            result0 = parse_simpleEscapeSequence();
+            if (result0 === null) {
+              result0 = parse_zeroEscapeSequence();
+              if (result0 === null) {
+                result0 = parse_hexEscapeSequence();
+                if (result0 === null) {
+                  result0 = parse_unicodeEscapeSequence();
+                  if (result0 === null) {
+                    result0 = parse_eolEscapeSequence();
+                  }
+                }
+              }
+            }
+          }
+          return result0;
+        }
+        
+        function parse_simpleSingleQuotedCharacter() {
+          var result0, result1;
+          var pos0, pos1, pos2;
+          
+          pos0 = pos;
+          pos1 = pos;
+          pos2 = pos;
+          reportFailures++;
+          if (input.charCodeAt(pos) === 39) {
+            result0 = "'";
+            pos++;
+          } else {
+            result0 = null;
+            if (reportFailures === 0) {
+              matchFailed("\"'\"");
+            }
+          }
+          if (result0 === null) {
+            if (input.charCodeAt(pos) === 92) {
+              result0 = "\\";
+              pos++;
+            } else {
+              result0 = null;
+              if (reportFailures === 0) {
+                matchFailed("\"\\\\\"");
+              }
+            }
+            if (result0 === null) {
+              result0 = parse_eolChar();
+            }
+          }
+          reportFailures--;
+          if (result0 === null) {
+            result0 = "";
+          } else {
+            result0 = null;
+            pos = pos2;
+          }
+          if (result0 !== null) {
+            if (input.length > pos) {
+              result1 = input.charAt(pos);
+              pos++;
+            } else {
+              result1 = null;
+              if (reportFailures === 0) {
+                matchFailed("any character");
+              }
+            }
+            if (result1 !== null) {
+              result0 = [result0, result1];
+            } else {
+              result0 = null;
+              pos = pos1;
+            }
+          } else {
+            result0 = null;
+            pos = pos1;
+          }
+          if (result0 !== null) {
+            result0 = (function(offset, char_) { return char_; })(pos0, result0[1]);
+          }
+          if (result0 === null) {
+            pos = pos0;
+          }
+          return result0;
+        }
+        
+        function parse_class() {
+          var result0, result1, result2, result3, result4, result5;
+          var pos0, pos1;
+          
+          reportFailures++;
+          pos0 = pos;
+          pos1 = pos;
+          if (input.charCodeAt(pos) === 91) {
+            result0 = "[";
+            pos++;
+          } else {
+            result0 = null;
+            if (reportFailures === 0) {
+              matchFailed("\"[\"");
+            }
+          }
+          if (result0 !== null) {
+            if (input.charCodeAt(pos) === 94) {
+              result1 = "^";
+              pos++;
+            } else {
+              result1 = null;
+              if (reportFailures === 0) {
+                matchFailed("\"^\"");
+              }
+            }
+            result1 = result1 !== null ? result1 : "";
+            if (result1 !== null) {
+              result2 = [];
+              result3 = parse_classCharacterRange();
+              if (result3 === null) {
+                result3 = parse_classCharacter();
+              }
+              while (result3 !== null) {
+                result2.push(result3);
+                result3 = parse_classCharacterRange();
+                if (result3 === null) {
+                  result3 = parse_classCharacter();
+                }
+              }
+              if (result2 !== null) {
+                if (input.charCodeAt(pos) === 93) {
+                  result3 = "]";
+                  pos++;
+                } else {
+                  result3 = null;
+                  if (reportFailures === 0) {
+                    matchFailed("\"]\"");
+                  }
+                }
+                if (result3 !== null) {
+                  if (input.charCodeAt(pos) === 105) {
+                    result4 = "i";
+                    pos++;
+                  } else {
+                    result4 = null;
+                    if (reportFailures === 0) {
+                      matchFailed("\"i\"");
+                    }
+                  }
+                  result4 = result4 !== null ? result4 : "";
+                  if (result4 !== null) {
+                    result5 = parse___();
+                    if (result5 !== null) {
+                      result0 = [result0, result1, result2, result3, result4, result5];
+                    } else {
+                      result0 = null;
+                      pos = pos1;
+                    }
+                  } else {
+                    result0 = null;
+                    pos = pos1;
+                  }
+                } else {
+                  result0 = null;
+                  pos = pos1;
+                }
+              } else {
+                result0 = null;
+                pos = pos1;
+              }
+            } else {
+              result0 = null;
+              pos = pos1;
+            }
+          } else {
+            result0 = null;
+            pos = pos1;
+          }
+          if (result0 !== null) {
+            result0 = (function(offset, inverted, parts, flags) {
+                var partsConverted = map(parts, function(part) { return part.data; });
+                var rawText = "["
+                  + inverted
+                  + map(parts, function(part) { return part.rawText; }).join("")
+                  + "]"
+                  + flags;
+          
+                return {
+                  type:       "class",
+                  inverted:   inverted === "^",
+                  ignoreCase: flags === "i",
+                  parts:      partsConverted,
+                  // FIXME: Get the raw text from the input directly.
+                  rawText:    rawText
+                };
+              })(pos0, result0[1], result0[2], result0[4]);
+          }
+          if (result0 === null) {
+            pos = pos0;
+          }
+          reportFailures--;
+          if (reportFailures === 0 && result0 === null) {
+            matchFailed("character class");
+          }
+          return result0;
+        }
+        
+        function parse_classCharacterRange() {
+          var result0, result1, result2;
+          var pos0, pos1;
+          
+          pos0 = pos;
+          pos1 = pos;
+          result0 = parse_classCharacter();
+          if (result0 !== null) {
+            if (input.charCodeAt(pos) === 45) {
+              result1 = "-";
+              pos++;
+            } else {
+              result1 = null;
+              if (reportFailures === 0) {
+                matchFailed("\"-\"");
+              }
+            }
+            if (result1 !== null) {
+              result2 = parse_classCharacter();
+              if (result2 !== null) {
+                result0 = [result0, result1, result2];
+              } else {
+                result0 = null;
+                pos = pos1;
+              }
+            } else {
+              result0 = null;
+              pos = pos1;
+            }
+          } else {
+            result0 = null;
+            pos = pos1;
+          }
+          if (result0 !== null) {
+            result0 = (function(offset, begin, end) {
+                if (begin.data.charCodeAt(0) > end.data.charCodeAt(0)) {
+                  throw new this.SyntaxError(
+                    "Invalid character range: " + begin.rawText + "-" + end.rawText + "."
+                  );
+                }
+          
+                return {
+                  data:    [begin.data, end.data],
+                  // FIXME: Get the raw text from the input directly.
+                  rawText: begin.rawText + "-" + end.rawText
+                };
+              })(pos0, result0[0], result0[2]);
+          }
+          if (result0 === null) {
+            pos = pos0;
+          }
+          return result0;
+        }
+        
+        function parse_classCharacter() {
+          var result0;
+          var pos0;
+          
+          pos0 = pos;
+          result0 = parse_bracketDelimitedCharacter();
+          if (result0 !== null) {
+            result0 = (function(offset, char_) {
+                return {
+                  data:    char_,
+                  // FIXME: Get the raw text from the input directly.
+                  rawText: quoteForRegexpClass(char_)
+                };
+              })(pos0, result0);
+          }
+          if (result0 === null) {
+            pos = pos0;
+          }
+          return result0;
+        }
+        
+        function parse_bracketDelimitedCharacter() {
+          var result0;
+          
+          result0 = parse_simpleBracketDelimitedCharacter();
+          if (result0 === null) {
+            result0 = parse_simpleEscapeSequence();
+            if (result0 === null) {
+              result0 = parse_zeroEscapeSequence();
+              if (result0 === null) {
+                result0 = parse_hexEscapeSequence();
+                if (result0 === null) {
+                  result0 = parse_unicodeEscapeSequence();
+                  if (result0 === null) {
+                    result0 = parse_eolEscapeSequence();
+                  }
+                }
+              }
+            }
+          }
+          return result0;
+        }
+        
+        function parse_simpleBracketDelimitedCharacter() {
+          var result0, result1;
+          var pos0, pos1, pos2;
+          
+          pos0 = pos;
+          pos1 = pos;
+          pos2 = pos;
+          reportFailures++;
+          if (input.charCodeAt(pos) === 93) {
+            result0 = "]";
+            pos++;
+          } else {
+            result0 = null;
+            if (reportFailures === 0) {
+              matchFailed("\"]\"");
+            }
+          }
+          if (result0 === null) {
+            if (input.charCodeAt(pos) === 92) {
+              result0 = "\\";
+              pos++;
+            } else {
+              result0 = null;
+              if (reportFailures === 0) {
+                matchFailed("\"\\\\\"");
+              }
+            }
+            if (result0 === null) {
+              result0 = parse_eolChar();
+            }
+          }
+          reportFailures--;
+          if (result0 === null) {
+            result0 = "";
+          } else {
+            result0 = null;
+            pos = pos2;
+          }
+          if (result0 !== null) {
+            if (input.length > pos) {
+              result1 = input.charAt(pos);
+              pos++;
+            } else {
+              result1 = null;
+              if (reportFailures === 0) {
+                matchFailed("any character");
+              }
+            }
+            if (result1 !== null) {
+              result0 = [result0, result1];
+            } else {
+              result0 = null;
+              pos = pos1;
+            }
+          } else {
+            result0 = null;
+            pos = pos1;
+          }
+          if (result0 !== null) {
+            result0 = (function(offset, char_) { return char_; })(pos0, result0[1]);
+          }
+          if (result0 === null) {
+            pos = pos0;
+          }
+          return result0;
+        }
+        
+        function parse_simpleEscapeSequence() {
+          var result0, result1, result2;
+          var pos0, pos1, pos2;
+          
+          pos0 = pos;
+          pos1 = pos;
+          if (input.charCodeAt(pos) === 92) {
+            result0 = "\\";
+            pos++;
+          } else {
+            result0 = null;
+            if (reportFailures === 0) {
+              matchFailed("\"\\\\\"");
+            }
+          }
+          if (result0 !== null) {
+            pos2 = pos;
+            reportFailures++;
+            result1 = parse_digit();
+            if (result1 === null) {
+              if (input.charCodeAt(pos) === 120) {
+                result1 = "x";
+                pos++;
+              } else {
+                result1 = null;
+                if (reportFailures === 0) {
+                  matchFailed("\"x\"");
+                }
+              }
+              if (result1 === null) {
+                if (input.charCodeAt(pos) === 117) {
+                  result1 = "u";
+                  pos++;
+                } else {
+                  result1 = null;
+                  if (reportFailures === 0) {
+                    matchFailed("\"u\"");
+                  }
+                }
+                if (result1 === null) {
+                  result1 = parse_eolChar();
+                }
+              }
+            }
+            reportFailures--;
+            if (result1 === null) {
+              result1 = "";
+            } else {
+              result1 = null;
+              pos = pos2;
+            }
+            if (result1 !== null) {
+              if (input.length > pos) {
+                result2 = input.charAt(pos);
+                pos++;
+              } else {
+                result2 = null;
+                if (reportFailures === 0) {
+                  matchFailed("any character");
+                }
+              }
+              if (result2 !== null) {
+                result0 = [result0, result1, result2];
+              } else {
+                result0 = null;
+                pos = pos1;
+              }
+            } else {
+              result0 = null;
+              pos = pos1;
+            }
+          } else {
+            result0 = null;
+            pos = pos1;
+          }
+          if (result0 !== null) {
+            result0 = (function(offset, char_) {
+                return char_
+                  .replace("b", "\b")
+                  .replace("f", "\f")
+                  .replace("n", "\n")
+                  .replace("r", "\r")
+                  .replace("t", "\t")
+                  .replace("v", "\x0B"); // IE does not recognize "\v".
+              })(pos0, result0[2]);
+          }
+          if (result0 === null) {
+            pos = pos0;
+          }
+          return result0;
+        }
+        
+        function parse_zeroEscapeSequence() {
+          var result0, result1;
+          var pos0, pos1, pos2;
+          
+          pos0 = pos;
+          pos1 = pos;
+          if (input.substr(pos, 2) === "\\0") {
+            result0 = "\\0";
+            pos += 2;
+          } else {
+            result0 = null;
+            if (reportFailures === 0) {
+              matchFailed("\"\\\\0\"");
+            }
+          }
+          if (result0 !== null) {
+            pos2 = pos;
+            reportFailures++;
+            result1 = parse_digit();
+            reportFailures--;
+            if (result1 === null) {
+              result1 = "";
+            } else {
+              result1 = null;
+              pos = pos2;
+            }
+            if (result1 !== null) {
+              result0 = [result0, result1];
+            } else {
+              result0 = null;
+              pos = pos1;
+            }
+          } else {
+            result0 = null;
+            pos = pos1;
+          }
+          if (result0 !== null) {
+            result0 = (function(offset) { return "\x00"; })(pos0);
+          }
+          if (result0 === null) {
+            pos = pos0;
+          }
+          return result0;
+        }
+        
+        function parse_hexEscapeSequence() {
+          var result0, result1, result2;
+          var pos0, pos1;
+          
+          pos0 = pos;
+          pos1 = pos;
+          if (input.substr(pos, 2) === "\\x") {
+            result0 = "\\x";
+            pos += 2;
+          } else {
+            result0 = null;
+            if (reportFailures === 0) {
+              matchFailed("\"\\\\x\"");
+            }
+          }
+          if (result0 !== null) {
+            result1 = parse_hexDigit();
+            if (result1 !== null) {
+              result2 = parse_hexDigit();
+              if (result2 !== null) {
+                result0 = [result0, result1, result2];
+              } else {
+                result0 = null;
+                pos = pos1;
+              }
+            } else {
+              result0 = null;
+              pos = pos1;
+            }
+          } else {
+            result0 = null;
+            pos = pos1;
+          }
+          if (result0 !== null) {
+            result0 = (function(offset, h1, h2) {
+                return String.fromCharCode(parseInt(h1 + h2, 16));
+              })(pos0, result0[1], result0[2]);
+          }
+          if (result0 === null) {
+            pos = pos0;
+          }
+          return result0;
+        }
+        
+        function parse_unicodeEscapeSequence() {
+          var result0, result1, result2, result3, result4;
+          var pos0, pos1;
+          
+          pos0 = pos;
+          pos1 = pos;
+          if (input.substr(pos, 2) === "\\u") {
+            result0 = "\\u";
+            pos += 2;
+          } else {
+            result0 = null;
+            if (reportFailures === 0) {
+              matchFailed("\"\\\\u\"");
+            }
+          }
+          if (result0 !== null) {
+            result1 = parse_hexDigit();
+            if (result1 !== null) {
+              result2 = parse_hexDigit();
+              if (result2 !== null) {
+                result3 = parse_hexDigit();
+                if (result3 !== null) {
+                  result4 = parse_hexDigit();
+                  if (result4 !== null) {
+                    result0 = [result0, result1, result2, result3, result4];
+                  } else {
+                    result0 = null;
+                    pos = pos1;
+                  }
+                } else {
+                  result0 = null;
+                  pos = pos1;
+                }
+              } else {
+                result0 = null;
+                pos = pos1;
+              }
+            } else {
+              result0 = null;
+              pos = pos1;
+            }
+          } else {
+            result0 = null;
+            pos = pos1;
+          }
+          if (result0 !== null) {
+            result0 = (function(offset, h1, h2, h3, h4) {
+                return String.fromCharCode(parseInt(h1 + h2 + h3 + h4, 16));
+              })(pos0, result0[1], result0[2], result0[3], result0[4]);
+          }
+          if (result0 === null) {
+            pos = pos0;
+          }
+          return result0;
+        }
+        
+        function parse_eolEscapeSequence() {
+          var result0, result1;
+          var pos0, pos1;
+          
+          pos0 = pos;
+          pos1 = pos;
+          if (input.charCodeAt(pos) === 92) {
+            result0 = "\\";
+            pos++;
+          } else {
+            result0 = null;
+            if (reportFailures === 0) {
+              matchFailed("\"\\\\\"");
+            }
+          }
+          if (result0 !== null) {
+            result1 = parse_eol();
+            if (result1 !== null) {
+              result0 = [result0, result1];
+            } else {
+              result0 = null;
+              pos = pos1;
+            }
+          } else {
+            result0 = null;
+            pos = pos1;
+          }
+          if (result0 !== null) {
+            result0 = (function(offset, eol) { return eol; })(pos0, result0[1]);
+          }
+          if (result0 === null) {
+            pos = pos0;
+          }
+          return result0;
+        }
+        
+        function parse_digit() {
+          var result0;
+          
+          if (/^[0-9]/.test(input.charAt(pos))) {
+            result0 = input.charAt(pos);
+            pos++;
+          } else {
+            result0 = null;
+            if (reportFailures === 0) {
+              matchFailed("[0-9]");
+            }
+          }
+          return result0;
+        }
+        
+        function parse_hexDigit() {
+          var result0;
+          
+          if (/^[0-9a-fA-F]/.test(input.charAt(pos))) {
+            result0 = input.charAt(pos);
+            pos++;
+          } else {
+            result0 = null;
+            if (reportFailures === 0) {
+              matchFailed("[0-9a-fA-F]");
+            }
+          }
+          return result0;
+        }
+        
+        function parse_letter() {
+          var result0;
+          
+          result0 = parse_lowerCaseLetter();
+          if (result0 === null) {
+            result0 = parse_upperCaseLetter();
+          }
+          return result0;
+        }
+        
+        function parse_lowerCaseLetter() {
+          var result0;
+          
+          if (/^[a-z]/.test(input.charAt(pos))) {
+            result0 = input.charAt(pos);
+            pos++;
+          } else {
+            result0 = null;
+            if (reportFailures === 0) {
+              matchFailed("[a-z]");
+            }
+          }
+          return result0;
+        }
+        
+        function parse_upperCaseLetter() {
+          var result0;
+          
+          if (/^[A-Z]/.test(input.charAt(pos))) {
+            result0 = input.charAt(pos);
+            pos++;
+          } else {
+            result0 = null;
+            if (reportFailures === 0) {
+              matchFailed("[A-Z]");
+            }
+          }
+          return result0;
+        }
+        
+        function parse___() {
+          var result0, result1;
+          
+          result0 = [];
+          result1 = parse_whitespace();
+          if (result1 === null) {
+            result1 = parse_eol();
+            if (result1 === null) {
+              result1 = parse_comment();
+            }
+          }
+          while (result1 !== null) {
+            result0.push(result1);
+            result1 = parse_whitespace();
+            if (result1 === null) {
+              result1 = parse_eol();
+              if (result1 === null) {
+                result1 = parse_comment();
+              }
+            }
+          }
+          return result0;
+        }
+        
+        function parse_comment() {
+          var result0;
+          
+          reportFailures++;
+          result0 = parse_singleLineComment();
+          if (result0 === null) {
+            result0 = parse_multiLineComment();
+          }
+          reportFailures--;
+          if (reportFailures === 0 && result0 === null) {
+            matchFailed("comment");
+          }
+          return result0;
+        }
+        
+        function parse_singleLineComment() {
+          var result0, result1, result2, result3;
+          var pos0, pos1, pos2;
+          
+          pos0 = pos;
+          if (input.substr(pos, 2) === "//") {
+            result0 = "//";
+            pos += 2;
+          } else {
+            result0 = null;
+            if (reportFailures === 0) {
+              matchFailed("\"//\"");
+            }
+          }
+          if (result0 !== null) {
+            result1 = [];
+            pos1 = pos;
+            pos2 = pos;
+            reportFailures++;
+            result2 = parse_eolChar();
+            reportFailures--;
+            if (result2 === null) {
+              result2 = "";
+            } else {
+              result2 = null;
+              pos = pos2;
+            }
+            if (result2 !== null) {
+              if (input.length > pos) {
+                result3 = input.charAt(pos);
+                pos++;
+              } else {
+                result3 = null;
+                if (reportFailures === 0) {
+                  matchFailed("any character");
+                }
+              }
+              if (result3 !== null) {
+                result2 = [result2, result3];
+              } else {
+                result2 = null;
+                pos = pos1;
+              }
+            } else {
+              result2 = null;
+              pos = pos1;
+            }
+            while (result2 !== null) {
+              result1.push(result2);
+              pos1 = pos;
+              pos2 = pos;
+              reportFailures++;
+              result2 = parse_eolChar();
+              reportFailures--;
+              if (result2 === null) {
+                result2 = "";
+              } else {
+                result2 = null;
+                pos = pos2;
+              }
+              if (result2 !== null) {
+                if (input.length > pos) {
+                  result3 = input.charAt(pos);
+                  pos++;
+                } else {
+                  result3 = null;
+                  if (reportFailures === 0) {
+                    matchFailed("any character");
+                  }
+                }
+                if (result3 !== null) {
+                  result2 = [result2, result3];
+                } else {
+                  result2 = null;
+                  pos = pos1;
+                }
+              } else {
+                result2 = null;
+                pos = pos1;
+              }
+            }
+            if (result1 !== null) {
+              result0 = [result0, result1];
+            } else {
+              result0 = null;
+              pos = pos0;
+            }
+          } else {
+            result0 = null;
+            pos = pos0;
+          }
+          return result0;
+        }
+        
+        function parse_multiLineComment() {
+          var result0, result1, result2, result3;
+          var pos0, pos1, pos2;
+          
+          pos0 = pos;
+          if (input.substr(pos, 2) === "/*") {
+            result0 = "/*";
+            pos += 2;
+          } else {
+            result0 = null;
+            if (reportFailures === 0) {
+              matchFailed("\"/*\"");
+            }
+          }
+          if (result0 !== null) {
+            result1 = [];
+            pos1 = pos;
+            pos2 = pos;
+            reportFailures++;
+            if (input.substr(pos, 2) === "*/") {
+              result2 = "*/";
+              pos += 2;
+            } else {
+              result2 = null;
+              if (reportFailures === 0) {
+                matchFailed("\"*/\"");
+              }
+            }
+            reportFailures--;
+            if (result2 === null) {
+              result2 = "";
+            } else {
+              result2 = null;
+              pos = pos2;
+            }
+            if (result2 !== null) {
+              if (input.length > pos) {
+                result3 = input.charAt(pos);
+                pos++;
+              } else {
+                result3 = null;
+                if (reportFailures === 0) {
+                  matchFailed("any character");
+                }
+              }
+              if (result3 !== null) {
+                result2 = [result2, result3];
+              } else {
+                result2 = null;
+                pos = pos1;
+              }
+            } else {
+              result2 = null;
+              pos = pos1;
+            }
+            while (result2 !== null) {
+              result1.push(result2);
+              pos1 = pos;
+              pos2 = pos;
+              reportFailures++;
+              if (input.substr(pos, 2) === "*/") {
+                result2 = "*/";
+                pos += 2;
+              } else {
+                result2 = null;
+                if (reportFailures === 0) {
+                  matchFailed("\"*/\"");
+                }
+              }
+              reportFailures--;
+              if (result2 === null) {
+                result2 = "";
+              } else {
+                result2 = null;
+                pos = pos2;
+              }
+              if (result2 !== null) {
+                if (input.length > pos) {
+                  result3 = input.charAt(pos);
+                  pos++;
+                } else {
+                  result3 = null;
+                  if (reportFailures === 0) {
+                    matchFailed("any character");
+                  }
+                }
+                if (result3 !== null) {
+                  result2 = [result2, result3];
+                } else {
+                  result2 = null;
+                  pos = pos1;
+                }
+              } else {
+                result2 = null;
+                pos = pos1;
+              }
+            }
+            if (result1 !== null) {
+              if (input.substr(pos, 2) === "*/") {
+                result2 = "*/";
+                pos += 2;
+              } else {
+                result2 = null;
+                if (reportFailures === 0) {
+                  matchFailed("\"*/\"");
+                }
+              }
+              if (result2 !== null) {
+                result0 = [result0, result1, result2];
+              } else {
+                result0 = null;
+                pos = pos0;
+              }
+            } else {
+              result0 = null;
+              pos = pos0;
+            }
+          } else {
+            result0 = null;
+            pos = pos0;
+          }
+          return result0;
+        }
+        
+        function parse_eol() {
+          var result0;
+          
+          reportFailures++;
+          if (input.charCodeAt(pos) === 10) {
+            result0 = "\n";
+            pos++;
+          } else {
+            result0 = null;
+            if (reportFailures === 0) {
+              matchFailed("\"\\n\"");
+            }
+          }
+          if (result0 === null) {
+            if (input.substr(pos, 2) === "\r\n") {
+              result0 = "\r\n";
+              pos += 2;
+            } else {
+              result0 = null;
+              if (reportFailures === 0) {
+                matchFailed("\"\\r\\n\"");
+              }
+            }
+            if (result0 === null) {
+              if (input.charCodeAt(pos) === 13) {
+                result0 = "\r";
+                pos++;
+              } else {
+                result0 = null;
+                if (reportFailures === 0) {
+                  matchFailed("\"\\r\"");
+                }
+              }
+              if (result0 === null) {
+                if (input.charCodeAt(pos) === 8232) {
+                  result0 = "\u2028";
+                  pos++;
+                } else {
+                  result0 = null;
+                  if (reportFailures === 0) {
+                    matchFailed("\"\\u2028\"");
+                  }
+                }
+                if (result0 === null) {
+                  if (input.charCodeAt(pos) === 8233) {
+                    result0 = "\u2029";
+                    pos++;
+                  } else {
+                    result0 = null;
+                    if (reportFailures === 0) {
+                      matchFailed("\"\\u2029\"");
+                    }
+                  }
+                }
+              }
+            }
+          }
+          reportFailures--;
+          if (reportFailures === 0 && result0 === null) {
+            matchFailed("end of line");
+          }
+          return result0;
+        }
+        
+        function parse_eolChar() {
+          var result0;
+          
+          if (/^[\n\r\u2028\u2029]/.test(input.charAt(pos))) {
+            result0 = input.charAt(pos);
+            pos++;
+          } else {
+            result0 = null;
+            if (reportFailures === 0) {
+              matchFailed("[\\n\\r\\u2028\\u2029]");
+            }
+          }
+          return result0;
+        }
+        
+        function parse_whitespace() {
+          var result0;
+          
+          reportFailures++;
+          if (/^[ \t\x0B\f\xA0\uFEFF\u1680\u180E\u2000-\u200A\u202F\u205F\u3000]/.test(input.charAt(pos))) {
+            result0 = input.charAt(pos);
+            pos++;
+          } else {
+            result0 = null;
+            if (reportFailures === 0) {
+              matchFailed("[ \\t\\x0B\\f\\xA0\\uFEFF\\u1680\\u180E\\u2000-\\u200A\\u202F\\u205F\\u3000]");
+            }
+          }
+          reportFailures--;
+          if (reportFailures === 0 && result0 === null) {
+            matchFailed("whitespace");
+          }
+          return result0;
+        }
+        
+        
+        function cleanupExpected(expected) {
+          expected.sort();
+          
+          var lastExpected = null;
+          var cleanExpected = [];
+          for (var i = 0; i < expected.length; i++) {
+            if (expected[i] !== lastExpected) {
+              cleanExpected.push(expected[i]);
+              lastExpected = expected[i];
+            }
+          }
+          return cleanExpected;
+        }
+        
+        function computeErrorPosition() {
+          /*
+           * The first idea was to use |String.split| to break the input up to the
+           * error position along newlines and derive the line and column from
+           * there. However IE's |split| implementation is so broken that it was
+           * enough to prevent it.
+           */
+          
+          var line = 1;
+          var column = 1;
+          var seenCR = false;
+          
+          for (var i = 0; i < Math.max(pos, rightmostFailuresPos); i++) {
+            var ch = input.charAt(i);
+            if (ch === "\n") {
+              if (!seenCR) { line++; }
+              column = 1;
+              seenCR = false;
+            } else if (ch === "\r" || ch === "\u2028" || ch === "\u2029") {
+              line++;
+              column = 1;
+              seenCR = true;
+            } else {
+              column++;
+              seenCR = false;
+            }
+          }
+          
+          return { line: line, column: column };
+        }
+        
+        
+        var result = parseFunctions[startRule]();
+        
+        /*
+         * The parser is now in one of the following three states:
+         *
+         * 1. The parser successfully parsed the whole input.
+         *
+         *    - |result !== null|
+         *    - |pos === input.length|
+         *    - |rightmostFailuresExpected| may or may not contain something
+         *
+         * 2. The parser successfully parsed only a part of the input.
+         *
+         *    - |result !== null|
+         *    - |pos < input.length|
+         *    - |rightmostFailuresExpected| may or may not contain something
+         *
+         * 3. The parser did not successfully parse any part of the input.
+         *
+         *   - |result === null|
+         *   - |pos === 0|
+         *   - |rightmostFailuresExpected| contains at least one failure
+         *
+         * All code following this comment (including called functions) must
+         * handle these states.
+         */
+        if (result === null || pos !== input.length) {
+          var offset = Math.max(pos, rightmostFailuresPos);
+          var found = offset < input.length ? input.charAt(offset) : null;
+          var errorPosition = computeErrorPosition();
+          
+          throw new this.SyntaxError(
+            cleanupExpected(rightmostFailuresExpected),
+            found,
+            offset,
+            errorPosition.line,
+            errorPosition.column
+          );
+        }
+        
+        return result;
+      },
+      
+      /* Returns the parser source code. */
+      toSource: function() { return this._source; }
+    };
+    
+    /* Thrown when a parser encounters a syntax error. */
+    
+    result.SyntaxError = function(expected, found, offset, line, column) {
+      function buildMessage(expected, found) {
+        var expectedHumanized, foundHumanized;
+        
+        switch (expected.length) {
+          case 0:
+            expectedHumanized = "end of input";
+            break;
+          case 1:
+            expectedHumanized = expected[0];
+            break;
+          default:
+            expectedHumanized = expected.slice(0, expected.length - 1).join(", ")
+              + " or "
+              + expected[expected.length - 1];
+        }
+        
+        foundHumanized = found ? quote(found) : "end of input";
+        
+        return "Expected " + expectedHumanized + " but " + foundHumanized + " found.";
+      }
+      
+      this.name = "SyntaxError";
+      this.expected = expected;
+      this.found = found;
+      this.message = buildMessage(expected, found);
+      this.offset = offset;
+      this.line = line;
+      this.column = column;
+    };
+    
+    result.SyntaxError.prototype = Error.prototype;
+    
+    return result;
+  })();
+  PEG.compiler = {
+    /*
+     * Names of passes that will get run during the compilation (in the specified
+     * order).
+     */
+    appliedPassNames: [
+      "reportMissingRules",
+      "reportLeftRecursion",
+      "removeProxyRules",
+      "computeVarNames",
+      "computeParams"
+    ],
+
+    /*
+     * Generates a parser from a specified grammar AST. Throws |PEG.GrammarError|
+     * if the AST contains a semantic error. Note that not all errors are detected
+     * during the generation and some may protrude to the generated parser and
+     * cause its malfunction.
+     */
+    compile: function(ast, options) {
+      var that = this;
+
+      each(this.appliedPassNames, function(passName) {
+        that.passes[passName](ast);
+      });
+
+      var source = this.emitter(ast, options);
+      var result = eval(source);
+      result._source = source;
+
+      return result;
+    }
+  };
+
+  /*
+   * Compiler passes.
+   *
+   * Each pass is a function that is passed the AST. It can perform checks on it
+   * or modify it as needed. If the pass encounters a semantic error, it throws
+   * |PEG.GrammarError|.
+   */
+  PEG.compiler.passes = {
+    /* Checks that all referenced rules exist. */
+    reportMissingRules: function(ast) {
+      function nop() {}
+
+      function checkExpression(node) { check(node.expression); }
+
+      function checkSubnodes(propertyName) {
+        return function(node) { each(node[propertyName], check); };
+      }
+
+      var check = buildNodeVisitor({
+        grammar:      checkSubnodes("rules"),
+        rule:         checkExpression,
+        choice:       checkSubnodes("alternatives"),
+        sequence:     checkSubnodes("elements"),
+        labeled:      checkExpression,
+        simple_and:   checkExpression,
+        simple_not:   checkExpression,
+        semantic_and: nop,
+        semantic_not: nop,
+        optional:     checkExpression,
+        zero_or_more: checkExpression,
+        one_or_more:  checkExpression,
+        action:       checkExpression,
+
+        rule_ref:
+          function(node) {
+            if (!findRuleByName(ast, node.name)) {
+              throw new PEG.GrammarError(
+                "Referenced rule \"" + node.name + "\" does not exist."
+              );
+            }
+          },
+
+        literal:      nop,
+        any:          nop,
+        "class":      nop
+      });
+
+      check(ast);
+    },
+
+    /* Checks that no left recursion is present. */
+    reportLeftRecursion: function(ast) {
+      function nop() {}
+
+      function checkExpression(node, appliedRules) {
+        check(node.expression, appliedRules);
+      }
+
+      function checkSubnodes(propertyName) {
+        return function(node, appliedRules) {
+          each(node[propertyName], function(subnode) {
+            check(subnode, appliedRules);
+          });
+        };
+      }
+
+      var check = buildNodeVisitor({
+        grammar:     checkSubnodes("rules"),
+
+        rule:
+          function(node, appliedRules) {
+            check(node.expression, appliedRules.concat(node.name));
+          },
+
+        choice:      checkSubnodes("alternatives"),
+
+        sequence:
+          function(node, appliedRules) {
+            if (node.elements.length > 0) {
+              check(node.elements[0], appliedRules);
+            }
+          },
+
+        labeled:      checkExpression,
+        simple_and:   checkExpression,
+        simple_not:   checkExpression,
+        semantic_and: nop,
+        semantic_not: nop,
+        optional:     checkExpression,
+        zero_or_more: checkExpression,
+        one_or_more:  checkExpression,
+        action:       checkExpression,
+
+        rule_ref:
+          function(node, appliedRules) {
+            if (contains(appliedRules, node.name)) {
+              throw new PEG.GrammarError(
+                "Left recursion detected for rule \"" + node.name + "\"."
+              );
+            }
+            check(findRuleByName(ast, node.name), appliedRules);
+          },
+
+        literal:      nop,
+        any:          nop,
+        "class":      nop
+      });
+
+      check(ast, []);
+    },
+
+    /*
+     * Removes proxy rules -- that is, rules that only delegate to other rule.
+     */
+    removeProxyRules: function(ast) {
+      function isProxyRule(node) {
+        return node.type === "rule" && node.expression.type === "rule_ref";
+      }
+
+      function replaceRuleRefs(ast, from, to) {
+        function nop() {}
+
+        function replaceInExpression(node, from, to) {
+          replace(node.expression, from, to);
+        }
+
+        function replaceInSubnodes(propertyName) {
+          return function(node, from, to) {
+            each(node[propertyName], function(subnode) {
+              replace(subnode, from, to);
+            });
+          };
+        }
+
+        var replace = buildNodeVisitor({
+          grammar:      replaceInSubnodes("rules"),
+          rule:         replaceInExpression,
+          choice:       replaceInSubnodes("alternatives"),
+          sequence:     replaceInSubnodes("elements"),
+          labeled:      replaceInExpression,
+          simple_and:   replaceInExpression,
+          simple_not:   replaceInExpression,
+          semantic_and: nop,
+          semantic_not: nop,
+          optional:     replaceInExpression,
+          zero_or_more: replaceInExpression,
+          one_or_more:  replaceInExpression,
+          action:       replaceInExpression,
+
+          rule_ref:
+            function(node, from, to) {
+              if (node.name === from) {
+                node.name = to;
+              }
+            },
+
+          literal:      nop,
+          any:          nop,
+          "class":      nop
+        });
+
+        replace(ast, from, to);
+      }
+
+      var indices = [];
+
+      each(ast.rules, function(rule, i) {
+        if (isProxyRule(rule)) {
+          replaceRuleRefs(ast, rule.name, rule.expression.name);
+          if (rule.name === ast.startRule) {
+            ast.startRule = rule.expression.name;
+          }
+          indices.push(i);
+        }
+      });
+
+      indices.reverse();
+
+      each(indices, function(index) {
+        ast.rules.splice(index, 1);
+      });
+    },
+
+    /*
+     * Computes names of variables used for storing match results and parse
+     * positions in generated code. These variables are organized as two stacks.
+     * The following will hold after running this pass:
+     *
+     *   * All nodes except "grammar" and "rule" nodes will have a |resultVar|
+     *     property. It will contain a name of the variable that will store a
+     *     match result of the expression represented by the node in generated
+     *     code.
+     *
+     *   * Some nodes will have a |posVar| property. It will contain a name of the
+     *     variable that will store a parse position in generated code.
+     *
+     *   * All "rule" nodes will contain |resultVars| and |posVars| properties.
+     *     They will contain a list of values of |resultVar| and |posVar|
+     *     properties used in rule's subnodes. (This is useful to declare
+     *     variables in generated code.)
+     */
+    computeVarNames: function(ast) {
+      function resultVar(index) { return "result" + index; }
+      function posVar(index)    { return "pos"    + index; }
+
+      function computeLeaf(node, index) {
+        node.resultVar = resultVar(index.result);
+
+        return { result: 0, pos: 0 };
+      }
+
+      function computeFromExpression(delta) {
+        return function(node, index) {
+          var depth = compute(
+                node.expression,
+                {
+                  result: index.result + delta.result,
+                  pos:    index.pos    + delta.pos
+                }
+              );
+
+          node.resultVar = resultVar(index.result);
+          if (delta.pos !== 0) {
+            node.posVar = posVar(index.pos);
+          }
+
+          return {
+            result: depth.result + delta.result,
+            pos:    depth.pos    + delta.pos
+          };
+        };
+      }
+
+      var compute = buildNodeVisitor({
+        grammar:
+          function(node, index) {
+            each(node.rules, function(node) {
+              compute(node, index);
+            });
+          },
+
+        rule:
+          function(node, index) {
+            var depth = compute(node.expression, index);
+
+            node.resultVar  = resultVar(index.result);
+            node.resultVars = map(range(depth.result + 1), resultVar);
+            node.posVars    = map(range(depth.pos),        posVar);
+          },
+
+        choice:
+          function(node, index) {
+            var depths = map(node.alternatives, function(alternative) {
+              return compute(alternative, index);
+            });
+
+            node.resultVar = resultVar(index.result);
+
+            return {
+              result: Math.max.apply(null, pluck(depths, "result")),
+              pos:    Math.max.apply(null, pluck(depths, "pos"))
+            };
+          },
+
+        sequence:
+          function(node, index) {
+            var depths = map(node.elements, function(element, i) {
+              return compute(
+                element,
+                { result: index.result + i, pos: index.pos + 1 }
+              );
+            });
+
+            node.resultVar = resultVar(index.result);
+            node.posVar    = posVar(index.pos);
+
+            return {
+              result:
+                node.elements.length > 0
+                  ? Math.max.apply(
+                      null,
+                      map(depths, function(d, i) { return i + d.result; })
+                    )
+                  : 0,
+
+              pos:
+                node.elements.length > 0
+                  ? 1 + Math.max.apply(null, pluck(depths, "pos"))
+                  : 1
+            };
+          },
+
+        labeled:      computeFromExpression({ result: 0, pos: 0 }),
+        simple_and:   computeFromExpression({ result: 0, pos: 1 }),
+        simple_not:   computeFromExpression({ result: 0, pos: 1 }),
+        semantic_and: computeLeaf,
+        semantic_not: computeLeaf,
+        optional:     computeFromExpression({ result: 0, pos: 0 }),
+        zero_or_more: computeFromExpression({ result: 1, pos: 0 }),
+        one_or_more:  computeFromExpression({ result: 1, pos: 0 }),
+        action:       computeFromExpression({ result: 0, pos: 1 }),
+        rule_ref:     computeLeaf,
+        literal:      computeLeaf,
+        any:          computeLeaf,
+        "class":      computeLeaf
+      });
+
+      compute(ast, { result: 0, pos: 0 });
+    },
+
+    /*
+     * This pass walks through the AST and tracks what labels are visible at each
+     * point. For "action", "semantic_and" and "semantic_or" nodes it computes
+     * parameter names and values for the function used in generated code. (In the
+     * emitter, user's code is wrapped into a function that is immediately
+     * executed. Its parameter names correspond to visible labels and its
+     * parameter values to their captured values). Implicitly, this pass defines
+     * scoping rules for labels.
+     *
+     * After running this pass, all "action", "semantic_and" and "semantic_or"
+     * nodes will have a |params| property containing an object mapping parameter
+     * names to the expressions that will be used as their values.
+     */
+    computeParams: function(ast) {
+      var envs = [];
+
+      function scoped(f) {
+        envs.push({});
+        f();
+        envs.pop();
+      }
+
+      function nop() {}
+
+      function computeForScopedExpression(node) {
+        scoped(function() { compute(node.expression); });
+      }
+
+      function computeParams(node) {
+        var env = envs[envs.length - 1], params = {}, name;
+
+        for (name in env) {
+          params[name] = env[name];
+        }
+        node.params = params;
+      }
+
+      var compute = buildNodeVisitor({
+        grammar:
+          function(node) {
+            each(node.rules, compute);
+          },
+
+        rule:         computeForScopedExpression,
+
+        choice:
+          function(node) {
+            scoped(function() { each(node.alternatives, compute); });
+          },
+
+        sequence:
+          function(node) {
+            var env = envs[envs.length - 1], name;
+
+            function fixup(name) {
+              each(pluck(node.elements, "resultVar"), function(resultVar, i) {
+                if ((new RegExp("^" + resultVar + "(\\[\\d+\\])*$")).test(env[name])) {
+                  env[name] = node.resultVar + "[" + i + "]"
+                            + env[name].substr(resultVar.length);
+                }
+              });
+            }
+
+            each(node.elements, compute);
+
+            for (name in env) {
+              fixup(name);
+            }
+          },
+
+        labeled:
+          function(node) {
+            envs[envs.length - 1][node.label] = node.resultVar;
+
+            scoped(function() { compute(node.expression); });
+          },
+
+        simple_and:   computeForScopedExpression,
+        simple_not:   computeForScopedExpression,
+        semantic_and: computeParams,
+        semantic_not: computeParams,
+        optional:     computeForScopedExpression,
+        zero_or_more: computeForScopedExpression,
+        one_or_more:  computeForScopedExpression,
+
+        action:
+          function(node) {
+            scoped(function() {
+              compute(node.expression);
+              computeParams(node);
+            });
+          },
+
+        rule_ref:     nop,
+        literal:      nop,
+        any:          nop,
+        "class":      nop
+      });
+
+      compute(ast);
+    }
+  };
+  /* Emits the generated code for the AST. */
+  PEG.compiler.emitter = function(ast, options) {
+    options = options || {};
+    if (options.cache === undefined) {
+      options.cache = false;
+    }
+    if (options.trackLineAndColumn === undefined) {
+      options.trackLineAndColumn = false;
+    }
+
+    /*
+     * Codie 1.1.0
+     *
+     * https://github.com/dmajda/codie
+     *
+     * Copyright (c) 2011-2012 David Majda
+     * Licensend under the MIT license.
+     */
+    var Codie = (function(undefined) {
+
+    function stringEscape(s) {
+      function hex(ch) { return ch.charCodeAt(0).toString(16).toUpperCase(); }
+
+      /*
+       * ECMA-262, 5th ed., 7.8.4: All characters may appear literally in a
+       * string literal except for the closing quote character, backslash,
+       * carriage return, line separator, paragraph separator, and line feed.
+       * Any character may appear in the form of an escape sequence.
+       *
+       * For portability, we also escape escape all control and non-ASCII
+       * characters. Note that "\0" and "\v" escape sequences are not used
+       * because JSHint does not like the first and IE the second.
+       */
+      return s
+        .replace(/\\/g,   '\\\\') // backslash
+        .replace(/"/g,    '\\"')  // closing double quote
+        .replace(/\x08/g, '\\b')  // backspace
+        .replace(/\t/g,   '\\t')  // horizontal tab
+        .replace(/\n/g,   '\\n')  // line feed
+        .replace(/\f/g,   '\\f')  // form feed
+        .replace(/\r/g,   '\\r')  // carriage return
+        .replace(/[\x00-\x07\x0B\x0E\x0F]/g, function(ch) { return '\\x0' + hex(ch); })
+        .replace(/[\x10-\x1F\x80-\xFF]/g,    function(ch) { return '\\x'  + hex(ch); })
+        .replace(/[\u0180-\u0FFF]/g,         function(ch) { return '\\u0' + hex(ch); })
+        .replace(/[\u1080-\uFFFF]/g,         function(ch) { return '\\u'  + hex(ch); });
+    }
+
+    function push(s) { return '__p.push(' + s + ');'; }
+
+    function pushRaw(template, length, state) {
+      function unindent(code, level, unindentFirst) {
+        return code.replace(
+          new RegExp('^.{' + level +'}', "gm"),
+          function(str, offset) {
+            if (offset === 0) {
+              return unindentFirst ? '' : str;
+            } else {
+              return "";
+            }
+          }
+        );
+      }
+
+      var escaped = stringEscape(unindent(
+            template.substring(0, length),
+            state.indentLevel(),
+            state.atBOL
+          ));
+
+      return escaped.length > 0 ? push('"' + escaped + '"') : '';
+    }
+
+
+    var Codie = {
+      /* Codie version (uses semantic versioning). */
+      VERSION: "1.1.0",
+
+      /*
+       * Specifies by how many characters do #if/#else and #for unindent their
+       * content in the generated code.
+       */
+      indentStep: 2,
+
+      /* Description of #-commands. Extend to define your own commands. */
+      commands: {
+        "if":   {
+          params:  /^(.*)$/,
+          compile: function(state, prefix, params) {
+            return ['if(' + params[0] + '){', []];
+          },
+          stackOp: "push"
+        },
+        "else": {
+          params:  /^$/,
+          compile: function(state) {
+            var stack = state.commandStack,
+                insideElse = stack[stack.length - 1] === "else",
+                insideIf   = stack[stack.length - 1] === "if";
+
+            if (insideElse) { throw new Error("Multiple #elses."); }
+            if (!insideIf)  { throw new Error("Using #else outside of #if."); }
+
+            return ['}else{', []];
+          },
+          stackOp: "replace"
+        },
+        "for":  {
+          params:  /^([a-zA-Z_][a-zA-Z0-9_]*)[ \t]+in[ \t]+(.*)$/,
+          init:    function(state) {
+            state.forCurrLevel = 0;  // current level of #for loop nesting
+            state.forMaxLevel  = 0;  // maximum level of #for loop nesting
+          },
+          compile: function(state, prefix, params) {
+            var c = '__c' + state.forCurrLevel, // __c for "collection"
+                l = '__l' + state.forCurrLevel, // __l for "length"
+                i = '__i' + state.forCurrLevel; // __i for "index"
+
+            state.forCurrLevel++;
+            if (state.forMaxLevel < state.forCurrLevel) {
+              state.forMaxLevel = state.forCurrLevel;
+            }
+
+            return [
+              c + '=' + params[1] + ';'
+                + l + '=' + c + '.length;'
+                + 'for(' + i + '=0;' + i + '<' + l + ';' + i + '++){'
+                + params[0] + '=' + c + '[' + i + '];',
+              [params[0], c, l, i]
+            ];
+          },
+          exit:    function(state) { state.forCurrLevel--; },
+          stackOp: "push"
+        },
+        "end":  {
+          params:  /^$/,
+          compile: function(state) {
+            var stack = state.commandStack, exit;
+
+            if (stack.length === 0) { throw new Error("Too many #ends."); }
+
+            exit = Codie.commands[stack[stack.length - 1]].exit;
+            if (exit) { exit(state); }
+
+            return ['}', []];
+          },
+          stackOp: "pop"
+        },
+        "block": {
+          params: /^(.*)$/,
+          compile: function(state, prefix, params) {
+            var x = '__x', // __x for "prefix",
+                n = '__n', // __n for "lines"
+                l = '__l', // __l for "length"
+                i = '__i'; // __i for "index"
+
+            /*
+             * Originally, the generated code used |String.prototype.replace|, but
+             * it is buggy in certain versions of V8 so it was rewritten. See the
+             * tests for details.
+             */
+            return [
+              x + '="' + stringEscape(prefix.substring(state.indentLevel())) + '";'
+                + n + '=(' + params[0] + ').toString().split("\\n");'
+                + l + '=' + n + '.length;'
+                + 'for(' + i + '=0;' + i + '<' + l + ';' + i + '++){'
+                + n + '[' + i +']=' + x + '+' + n + '[' + i + ']+"\\n";'
+                + '}'
+                + push(n + '.join("")'),
+              [x, n, l, i]
+            ];
+          },
+          stackOp: "nop"
+        }
+      },
+
+      /*
+       * Compiles a template into a function. When called, this function will
+       * execute the template in the context of an object passed in a parameter and
+       * return the result.
+       */
+      template: function(template) {
+        var stackOps = {
+          push:    function(stack, name) { stack.push(name); },
+          replace: function(stack, name) { stack[stack.length - 1] = name; },
+          pop:     function(stack)       { stack.pop(); },
+          nop:     function()            { }
+        };
+
+        function compileExpr(state, expr) {
+          state.atBOL = false;
+          return [push(expr), []];
+        }
+
+        function compileCommand(state, prefix, name, params) {
+          var command, match, result;
+
+          command = Codie.commands[name];
+          if (!command) { throw new Error("Unknown command: #" + name + "."); }
+
+          match = command.params.exec(params);
+          if (match === null) {
+            throw new Error(
+              "Invalid params for command #" + name + ": " + params + "."
+            );
+          }
+
+          result = command.compile(state, prefix, match.slice(1));
+          stackOps[command.stackOp](state.commandStack, name);
+          state.atBOL = true;
+          return result;
+        }
+
+        var state = {               // compilation state
+              commandStack: [],     //   stack of commands as they were nested
+              atBOL:        true,   //   is the next character to process at BOL?
+              indentLevel:  function() {
+                return Codie.indentStep * this.commandStack.length;
+              }
+            },
+            code = '',              // generated template function code
+            vars = ['__p=[]'],      // variables used by generated code
+            name, match, result, i;
+
+        /* Initialize state. */
+        for (name in Codie.commands) {
+          if (Codie.commands[name].init) { Codie.commands[name].init(state); }
+        }
+
+        /* Compile the template. */
+        while ((match = /^([ \t]*)#([a-zA-Z_][a-zA-Z0-9_]*)(?:[ \t]+([^ \t\n][^\n]*))?[ \t]*(?:\n|$)|#\{([^}]*)\}/m.exec(template)) !== null) {
+          code += pushRaw(template, match.index, state);
+          result = match[2] !== undefined && match[2] !== ""
+            ? compileCommand(state, match[1], match[2], match[3] || "") // #-command
+            : compileExpr(state, match[4]);                             // #{...}
+          code += result[0];
+          vars = vars.concat(result[1]);
+          template = template.substring(match.index + match[0].length);
+        }
+        code += pushRaw(template, template.length, state);
+
+        /* Check the final state. */
+        if (state.commandStack.length > 0) { throw new Error("Missing #end."); }
+
+        /* Sanitize the list of variables used by commands. */
+        vars.sort();
+        for (i = 0; i < vars.length; i++) {
+          if (vars[i] === vars[i - 1]) { vars.splice(i--, 1); }
+        }
+
+        /* Create the resulting function. */
+        return new Function("__v", [
+          '__v=__v||{};',
+          'var ' + vars.join(',') + ';',
+          'with(__v){',
+          code,
+          'return __p.join("").replace(/^\\n+|\\n+$/g,"");};'
+        ].join(''));
+      }
+    };
+
+    return Codie;
+
+    })();
+
+    var templates = (function() {
+      var name,
+          templates = {},
+          sources = {
+            grammar: [
+              '(function(){',
+              '  /*',
+              '   * Generated by PEG.js 0.7.0.',
+              '   *',
+              '   * http://pegjs.majda.cz/',
+              '   */',
+              '  ',
+              /* This needs to be in sync with |quote| in utils.js. */
+              '  function quote(s) {',
+              '    /*',
+              '     * ECMA-262, 5th ed., 7.8.4: All characters may appear literally in a',
+              '     * string literal except for the closing quote character, backslash,',
+              '     * carriage return, line separator, paragraph separator, and line feed.',
+              '     * Any character may appear in the form of an escape sequence.',
+              '     *',
+              '     * For portability, we also escape escape all control and non-ASCII',
+              '     * characters. Note that "\\0" and "\\v" escape sequences are not used',
+              '     * because JSHint does not like the first and IE the second.',
+              '     */',
+              '     return \'"\' + s',
+              '      .replace(/\\\\/g, \'\\\\\\\\\')  // backslash',
+              '      .replace(/"/g, \'\\\\"\')    // closing quote character',
+              '      .replace(/\\x08/g, \'\\\\b\') // backspace',
+              '      .replace(/\\t/g, \'\\\\t\')   // horizontal tab',
+              '      .replace(/\\n/g, \'\\\\n\')   // line feed',
+              '      .replace(/\\f/g, \'\\\\f\')   // form feed',
+              '      .replace(/\\r/g, \'\\\\r\')   // carriage return',
+              '      .replace(/[\\x00-\\x07\\x0B\\x0E-\\x1F\\x80-\\uFFFF]/g, escape)',
+              '      + \'"\';',
+              '  }',
+              '  ',
+              '  var result = {',
+              '    /*',
+              '     * Parses the input with a generated parser. If the parsing is successfull,',
+              '     * returns a value explicitly or implicitly specified by the grammar from',
+              '     * which the parser was generated (see |PEG.buildParser|). If the parsing is',
+              '     * unsuccessful, throws |PEG.parser.SyntaxError| describing the error.',
+              '     */',
+              '    parse: function(input, startRule) {',
+              '      var parseFunctions = {',
+              '        #for rule in node.rules',
+              '          #{string(rule.name) + ": parse_" + rule.name + (rule !== node.rules[node.rules.length - 1] ? "," : "")}',
+              '        #end',
+              '      };',
+              '      ',
+              '      if (startRule !== undefined) {',
+              '        if (parseFunctions[startRule] === undefined) {',
+              '          throw new Error("Invalid rule name: " + quote(startRule) + ".");',
+              '        }',
+              '      } else {',
+              '        startRule = #{string(node.startRule)};',
+              '      }',
+              '      ',
+              '      #{posInit("pos")};',
+              '      var reportFailures = 0;', // 0 = report, anything > 0 = do not report
+              '      #{posInit("rightmostFailuresPos")};',
+              '      var rightmostFailuresExpected = [];',
+              '      #if options.cache',
+              '        var cache = {};',
+              '      #end',
+              '      ',
+              /* This needs to be in sync with |padLeft| in utils.js. */
+              '      function padLeft(input, padding, length) {',
+              '        var result = input;',
+              '        ',
+              '        var padLength = length - input.length;',
+              '        for (var i = 0; i < padLength; i++) {',
+              '          result = padding + result;',
+              '        }',
+              '        ',
+              '        return result;',
+              '      }',
+              '      ',
+              /* This needs to be in sync with |escape| in utils.js. */
+              '      function escape(ch) {',
+              '        var charCode = ch.charCodeAt(0);',
+              '        var escapeChar;',
+              '        var length;',
+              '        ',
+              '        if (charCode <= 0xFF) {',
+              '          escapeChar = \'x\';',
+              '          length = 2;',
+              '        } else {',
+              '          escapeChar = \'u\';',
+              '          length = 4;',
+              '        }',
+              '        ',
+              '        return \'\\\\\' + escapeChar + padLeft(charCode.toString(16).toUpperCase(), \'0\', length);',
+              '      }',
+              '      ',
+              '      #if options.trackLineAndColumn',
+              '        function clone(object) {',
+              '          var result = {};',
+              '          for (var key in object) {',
+              '            result[key] = object[key];',
+              '          }',
+              '          return result;',
+              '        }',
+              '        ',
+              '        function advance(pos, n) {',
+              '          var endOffset = pos.offset + n;',
+              '          ',
+              '          for (var offset = pos.offset; offset < endOffset; offset++) {',
+              '            var ch = input.charAt(offset);',
+              '            if (ch === "\\n") {',
+              '              if (!pos.seenCR) { pos.line++; }',
+              '              pos.column = 1;',
+              '              pos.seenCR = false;',
+              '            } else if (ch === "\\r" || ch === "\\u2028" || ch === "\\u2029") {',
+              '              pos.line++;',
+              '              pos.column = 1;',
+              '              pos.seenCR = true;',
+              '            } else {',
+              '              pos.column++;',
+              '              pos.seenCR = false;',
+              '            }',
+              '          }',
+              '          ',
+              '          pos.offset += n;',
+              '        }',
+              '        ',
+              '      #end',
+              '      function matchFailed(failure) {',
+              '        if (#{posOffset("pos")} < #{posOffset("rightmostFailuresPos")}) {',
+              '          return;',
+              '        }',
+              '        ',
+              '        if (#{posOffset("pos")} > #{posOffset("rightmostFailuresPos")}) {',
+              '          rightmostFailuresPos = #{posClone("pos")};',
+              '          rightmostFailuresExpected = [];',
+              '        }',
+              '        ',
+              '        rightmostFailuresExpected.push(failure);',
+              '      }',
+              '      ',
+              '      #for rule in node.rules',
+              '        #block emit(rule)',
+              '        ',
+              '      #end',
+              '      ',
+              '      function cleanupExpected(expected) {',
+              '        expected.sort();',
+              '        ',
+              '        var lastExpected = null;',
+              '        var cleanExpected = [];',
+              '        for (var i = 0; i < expected.length; i++) {',
+              '          if (expected[i] !== lastExpected) {',
+              '            cleanExpected.push(expected[i]);',
+              '            lastExpected = expected[i];',
+              '          }',
+              '        }',
+              '        return cleanExpected;',
+              '      }',
+              '      ',
+              '      #if !options.trackLineAndColumn',
+              '        function computeErrorPosition() {',
+              '          /*',
+              '           * The first idea was to use |String.split| to break the input up to the',
+              '           * error position along newlines and derive the line and column from',
+              '           * there. However IE\'s |split| implementation is so broken that it was',
+              '           * enough to prevent it.',
+              '           */',
+              '          ',
+              '          var line = 1;',
+              '          var column = 1;',
+              '          var seenCR = false;',
+              '          ',
+              '          for (var i = 0; i < Math.max(pos, rightmostFailuresPos); i++) {',
+              '            var ch = input.charAt(i);',
+              '            if (ch === "\\n") {',
+              '              if (!seenCR) { line++; }',
+              '              column = 1;',
+              '              seenCR = false;',
+              '            } else if (ch === "\\r" || ch === "\\u2028" || ch === "\\u2029") {',
+              '              line++;',
+              '              column = 1;',
+              '              seenCR = true;',
+              '            } else {',
+              '              column++;',
+              '              seenCR = false;',
+              '            }',
+              '          }',
+              '          ',
+              '          return { line: line, column: column };',
+              '        }',
+              '      #end',
+              '      ',
+              '      #if node.initializer',
+              '        #block emit(node.initializer)',
+              '      #end',
+              '      ',
+              '      var result = parseFunctions[startRule]();',
+              '      ',
+              '      /*',
+              '       * The parser is now in one of the following three states:',
+              '       *',
+              '       * 1. The parser successfully parsed the whole input.',
+              '       *',
+              '       *    - |result !== null|',
+              '       *    - |#{posOffset("pos")} === input.length|',
+              '       *    - |rightmostFailuresExpected| may or may not contain something',
+              '       *',
+              '       * 2. The parser successfully parsed only a part of the input.',
+              '       *',
+              '       *    - |result !== null|',
+              '       *    - |#{posOffset("pos")} < input.length|',
+              '       *    - |rightmostFailuresExpected| may or may not contain something',
+              '       *',
+              '       * 3. The parser did not successfully parse any part of the input.',
+              '       *',
+              '       *   - |result === null|',
+              '       *   - |#{posOffset("pos")} === 0|',
+              '       *   - |rightmostFailuresExpected| contains at least one failure',
+              '       *',
+              '       * All code following this comment (including called functions) must',
+              '       * handle these states.',
+              '       */',
+              '      if (result === null || #{posOffset("pos")} !== input.length) {',
+              '        var offset = Math.max(#{posOffset("pos")}, #{posOffset("rightmostFailuresPos")});',
+              '        var found = offset < input.length ? input.charAt(offset) : null;',
+              '        #if options.trackLineAndColumn',
+              '          var errorPosition = #{posOffset("pos")} > #{posOffset("rightmostFailuresPos")} ? pos : rightmostFailuresPos;',
+              '        #else',
+              '          var errorPosition = computeErrorPosition();',
+              '        #end',
+              '        ',
+              '        throw new this.SyntaxError(',
+              '          cleanupExpected(rightmostFailuresExpected),',
+              '          found,',
+              '          offset,',
+              '          errorPosition.line,',
+              '          errorPosition.column',
+              '        );',
+              '      }',
+              '      ',
+              '      return result;',
+              '    },',
+              '    ',
+              '    /* Returns the parser source code. */',
+              '    toSource: function() { return this._source; }',
+              '  };',
+              '  ',
+              '  /* Thrown when a parser encounters a syntax error. */',
+              '  ',
+              '  result.SyntaxError = function(expected, found, offset, line, column) {',
+              '    function buildMessage(expected, found) {',
+              '      var expectedHumanized, foundHumanized;',
+              '      ',
+              '      switch (expected.length) {',
+              '        case 0:',
+              '          expectedHumanized = "end of input";',
+              '          break;',
+              '        case 1:',
+              '          expectedHumanized = expected[0];',
+              '          break;',
+              '        default:',
+              '          expectedHumanized = expected.slice(0, expected.length - 1).join(", ")',
+              '            + " or "',
+              '            + expected[expected.length - 1];',
+              '      }',
+              '      ',
+              '      foundHumanized = found ? quote(found) : "end of input";',
+              '      ',
+              '      return "Expected " + expectedHumanized + " but " + foundHumanized + " found.";',
+              '    }',
+              '    ',
+              '    this.name = "SyntaxError";',
+              '    this.expected = expected;',
+              '    this.found = found;',
+              '    this.message = buildMessage(expected, found);',
+              '    this.offset = offset;',
+              '    this.line = line;',
+              '    this.column = column;',
+              '  };',
+              '  ',
+              '  result.SyntaxError.prototype = Error.prototype;',
+              '  ',
+              '  return result;',
+              '})()'
+            ],
+            rule: [
+              'function parse_#{node.name}() {',
+              '  #if options.cache',
+              '    var cacheKey = "#{node.name}@" + #{posOffset("pos")};',
+              '    var cachedResult = cache[cacheKey];',
+              '    if (cachedResult) {',
+              '      pos = #{posClone("cachedResult.nextPos")};',
+              '      return cachedResult.result;',
+              '    }',
+              '    ',
+              '  #end',
+              '  #if node.resultVars.length > 0',
+              '    var #{node.resultVars.join(", ")};',
+              '  #end',
+              '  #if node.posVars.length > 0',
+              '    var #{node.posVars.join(", ")};',
+              '  #end',
+              '  ',
+              '  #if node.displayName !== null',
+              '    reportFailures++;',
+              '  #end',
+              '  #block emit(node.expression)',
+              '  #if node.displayName !== null',
+              '    reportFailures--;',
+              '    if (reportFailures === 0 && #{node.resultVar} === null) {',
+              '      matchFailed(#{string(node.displayName)});',
+              '    }',
+              '  #end',
+              '  #if options.cache',
+              '    ',
+              '    cache[cacheKey] = {',
+              '      nextPos: #{posClone("pos")},',
+              '      result:  #{node.resultVar}',
+              '    };',
+              '  #end',
+              '  return #{node.resultVar};',
+              '}'
+            ],
+            choice: [
+              '#block emit(alternative)',
+              '#block nextAlternativesCode'
+            ],
+            "choice.next": [
+              'if (#{node.resultVar} === null) {',
+              '  #block code',
+              '}'
+            ],
+            sequence: [
+              '#{posSave(node)};',
+              '#block code'
+            ],
+            "sequence.iteration": [
+              '#block emit(element)',
+              'if (#{element.resultVar} !== null) {',
+              '  #block code',
+              '} else {',
+              '  #{node.resultVar} = null;',
+              '  #{posRestore(node)};',
+              '}'
+            ],
+            "sequence.inner": [
+              '#{node.resultVar} = [#{pluck(node.elements, "resultVar").join(", ")}];'
+            ],
+            simple_and: [
+              '#{posSave(node)};',
+              'reportFailures++;',
+              '#block emit(node.expression)',
+              'reportFailures--;',
+              'if (#{node.resultVar} !== null) {',
+              '  #{node.resultVar} = "";',
+              '  #{posRestore(node)};',
+              '} else {',
+              '  #{node.resultVar} = null;',
+              '}'
+            ],
+            simple_not: [
+              '#{posSave(node)};',
+              'reportFailures++;',
+              '#block emit(node.expression)',
+              'reportFailures--;',
+              'if (#{node.resultVar} === null) {',
+              '  #{node.resultVar} = "";',
+              '} else {',
+              '  #{node.resultVar} = null;',
+              '  #{posRestore(node)};',
+              '}'
+            ],
+            semantic_and: [
+              '#{node.resultVar} = (function(#{(options.trackLineAndColumn ? ["offset", "line", "column"] : ["offset"]).concat(keys(node.params)).join(", ")}) {#{node.code}})(#{(options.trackLineAndColumn ? ["pos.offset", "pos.line", "pos.column"] : ["pos"]).concat(values(node.params)).join(", ")}) ? "" : null;'
+            ],
+            semantic_not: [
+              '#{node.resultVar} = (function(#{(options.trackLineAndColumn ? ["offset", "line", "column"] : ["offset"]).concat(keys(node.params)).join(", ")}) {#{node.code}})(#{(options.trackLineAndColumn ? ["pos.offset", "pos.line", "pos.column"] : ["pos"]).concat(values(node.params)).join(", ")}) ? null : "";'
+            ],
+            optional: [
+              '#block emit(node.expression)',
+              '#{node.resultVar} = #{node.resultVar} !== null ? #{node.resultVar} : "";'
+            ],
+            zero_or_more: [
+              '#{node.resultVar} = [];',
+              '#block emit(node.expression)',
+              'while (#{node.expression.resultVar} !== null) {',
+              '  #{node.resultVar}.push(#{node.expression.resultVar});',
+              '  #block emit(node.expression)',
+              '}'
+            ],
+            one_or_more: [
+              '#block emit(node.expression)',
+              'if (#{node.expression.resultVar} !== null) {',
+              '  #{node.resultVar} = [];',
+              '  while (#{node.expression.resultVar} !== null) {',
+              '    #{node.resultVar}.push(#{node.expression.resultVar});',
+              '    #block emit(node.expression)',
+              '  }',
+              '} else {',
+              '  #{node.resultVar} = null;',
+              '}'
+            ],
+            action: [
+              '#{posSave(node)};',
+              '#block emit(node.expression)',
+              'if (#{node.resultVar} !== null) {',
+              '  #{node.resultVar} = (function(#{(options.trackLineAndColumn ? ["offset", "line", "column"] : ["offset"]).concat(keys(node.params)).join(", ")}) {#{node.code}})(#{(options.trackLineAndColumn ? [node.posVar + ".offset", node.posVar + ".line", node.posVar + ".column"] : [node.posVar]).concat(values(node.params)).join(", ")});',
+              '}',
+              'if (#{node.resultVar} === null) {',
+              '  #{posRestore(node)};',
+              '}'
+            ],
+            rule_ref: [
+              '#{node.resultVar} = parse_#{node.name}();'
+            ],
+            literal: [
+              '#if node.value.length === 0',
+              '  #{node.resultVar} = "";',
+              '#else',
+              '  #if !node.ignoreCase',
+              '    #if node.value.length === 1',
+              '      if (input.charCodeAt(#{posOffset("pos")}) === #{node.value.charCodeAt(0)}) {',
+              '    #else',
+              '      if (input.substr(#{posOffset("pos")}, #{node.value.length}) === #{string(node.value)}) {',
+              '    #end',
+              '  #else',
+              /*
+               * One-char literals are not optimized when case-insensitive
+               * matching is enabled. This is because there is no simple way to
+               * lowercase a character code that works for character outside ASCII
+               * letters. Moreover, |toLowerCase| can change string length,
+               * meaning the result of lowercasing a character can be more
+               * characters.
+               */
+              '    if (input.substr(#{posOffset("pos")}, #{node.value.length}).toLowerCase() === #{string(node.value.toLowerCase())}) {',
+              '  #end',
+              '    #if !node.ignoreCase',
+              '      #{node.resultVar} = #{string(node.value)};',
+              '    #else',
+              '      #{node.resultVar} = input.substr(#{posOffset("pos")}, #{node.value.length});',
+              '    #end',
+              '    #{posAdvance(node.value.length)};',
+              '  } else {',
+              '    #{node.resultVar} = null;',
+              '    if (reportFailures === 0) {',
+              '      matchFailed(#{string(string(node.value))});',
+              '    }',
+              '  }',
+              '#end'
+            ],
+            any: [
+              'if (input.length > #{posOffset("pos")}) {',
+              '  #{node.resultVar} = input.charAt(#{posOffset("pos")});',
+              '  #{posAdvance(1)};',
+              '} else {',
+              '  #{node.resultVar} = null;',
+              '  if (reportFailures === 0) {',
+              '    matchFailed("any character");',
+              '  }',
+              '}'
+            ],
+            "class": [
+              'if (#{regexp}.test(input.charAt(#{posOffset("pos")}))) {',
+              '  #{node.resultVar} = input.charAt(#{posOffset("pos")});',
+              '  #{posAdvance(1)};',
+              '} else {',
+              '  #{node.resultVar} = null;',
+              '  if (reportFailures === 0) {',
+              '    matchFailed(#{string(node.rawText)});',
+              '  }',
+              '}'
+            ]
+          };
+
+      for (name in sources) {
+        templates[name] = Codie.template(sources[name].join('\n'));
+      }
+
+      return templates;
+    })();
+
+    function fill(name, vars) {
+      vars.string  = quote;
+      vars.pluck   = pluck;
+      vars.keys    = keys;
+      vars.values  = values;
+      vars.emit    = emit;
+      vars.options = options;
+
+      /* Position-handling macros */
+      if (options.trackLineAndColumn) {
+        vars.posInit    = function(name) {
+          return "var "
+               + name
+               + " = "
+               + "{ offset: 0, line: 1, column: 1, seenCR: false }";
+        };
+        vars.posClone   = function(name) { return "clone(" + name + ")"; };
+        vars.posOffset  = function(name) { return name + ".offset"; };
+
+        vars.posAdvance = function(n)    { return "advance(pos, " + n + ")"; };
+      } else {
+        vars.posInit    = function(name) { return "var " + name + " = 0"; };
+        vars.posClone   = function(name) { return name; };
+        vars.posOffset  = function(name) { return name; };
+
+        vars.posAdvance = function(n) {
+          return n === 1 ? "pos++" : "pos += " + n;
+        };
+      }
+      vars.posSave    = function(node) {
+        return node.posVar + " = " + vars.posClone("pos");
+      };
+      vars.posRestore = function(node) {
+        return "pos" + " = " + vars.posClone(node.posVar);
+      };
+
+      return templates[name](vars);
+    }
+
+    function emitSimple(name) {
+      return function(node) { return fill(name, { node: node }); };
+    }
+
+    var emit = buildNodeVisitor({
+      grammar: emitSimple("grammar"),
+
+      initializer: function(node) { return node.code; },
+
+      rule: emitSimple("rule"),
+
+      /*
+       * The contract for all code fragments generated by the following functions
+       * is as follows.
+       *
+       * The code fragment tries to match a part of the input starting with the
+       * position indicated in |pos|. That position may point past the end of the
+       * input.
+       *
+       * * If the code fragment matches the input, it advances |pos| to point to
+       *   the first chracter following the matched part of the input and sets
+       *   variable with a name stored in |node.resultVar| to an appropriate
+       *   value. This value is always non-|null|.
+       *
+       * * If the code fragment does not match the input, it returns with |pos|
+       *   set to the original value and it sets a variable with a name stored in
+       *   |node.resultVar| to |null|.
+       *
+       * The code can use variables with names stored in |resultVar| and |posVar|
+       * properties of the current node's subnodes. It can't use any other
+       * variables.
+       */
+
+      choice: function(node) {
+        var code, nextAlternativesCode;
+
+        for (var i = node.alternatives.length - 1; i >= 0; i--) {
+          nextAlternativesCode = i !== node.alternatives.length - 1
+            ? fill("choice.next", { node: node, code: code })
+            : '';
+          code = fill("choice", {
+            alternative:          node.alternatives[i],
+            nextAlternativesCode: nextAlternativesCode
+          });
+        }
+
+        return code;
+      },
+
+      sequence: function(node) {
+        var code = fill("sequence.inner", { node: node });
+
+        for (var i = node.elements.length - 1; i >= 0; i--) {
+          code = fill("sequence.iteration", {
+            node:    node,
+            element: node.elements[i],
+            code:    code
+          });
+        }
+
+        return fill("sequence", { node: node, code: code });
+      },
+
+      labeled: function(node) { return emit(node.expression); },
+
+      simple_and:   emitSimple("simple_and"),
+      simple_not:   emitSimple("simple_not"),
+      semantic_and: emitSimple("semantic_and"),
+      semantic_not: emitSimple("semantic_not"),
+      optional:     emitSimple("optional"),
+      zero_or_more: emitSimple("zero_or_more"),
+      one_or_more:  emitSimple("one_or_more"),
+      action:       emitSimple("action"),
+      rule_ref:     emitSimple("rule_ref"),
+      literal:      emitSimple("literal"),
+      any:          emitSimple("any"),
+
+      "class": function(node) {
+        var regexp;
+
+        if (node.parts.length > 0) {
+          regexp = '/^['
+            + (node.inverted ? '^' : '')
+            + map(node.parts, function(part) {
+                return part instanceof Array
+                  ? quoteForRegexpClass(part[0])
+                    + '-'
+                    + quoteForRegexpClass(part[1])
+                  : quoteForRegexpClass(part);
+              }).join('')
+            + ']/' + (node.ignoreCase ? 'i' : '');
+        } else {
+          /*
+           * Stupid IE considers regexps /[]/ and /[^]/ syntactically invalid, so
+           * we translate them into euqivalents it can handle.
+           */
+          regexp = node.inverted ? '/^[\\S\\s]/' : '/^(?!)/';
+        }
+
+        return fill("class", { node: node, regexp: regexp });
+      }
+    });
+
+    return emit(ast);
+  };
+
+  return PEG;
+})

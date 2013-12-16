@@ -1,0 +1,12 @@
+sprite.sheet sprite.name :draw {
+  SpriteSheet.get(@sprite.sheet).draw(@sprite.name, @sprite.x, @sprite.y, @sprite.options or {})
+}
+
+sprite.sheet sprite.name :draw_at x y {
+  SpriteSheet.get(@sprite.sheet).draw(@sprite.name, ?x, ?y, @sprite.options or {})
+}
+
+sprite.sheet sprite.name :update {
+  @sprite.width = SpriteSheet.get(@sprite.sheet).sprites[@sprite.name].w
+  @sprite.height = SpriteSheet.get(@sprite.sheet).sprites[@sprite.name].h
+}

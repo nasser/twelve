@@ -1,0 +1,33 @@
+bear {
+  @alertness = @current_alertness()
+  $$('bear_listener').awake() if @alertness > 100
+}
+
+bear_listener .awake {
+
+}
+
+bear .draw {
+  frame = if @alertness <= 40 then   "sleeping"
+  else if 40 < @alertness <= 50 then "drowzy"
+  else if 50 < @alertness <= 60 then "agitated"
+  else if 60 < @alertness <= 100 then "awake"
+
+  Graphics.draw sprite:"bear-#{frame}"
+}
+
+bear .current_alertness {
+  noise = feel = light = smell = 0
+  $$("item").forEach (item) ->
+    noise += item.noise
+    feel += item.feel
+    light += item.light
+    smell += item.smell
+
+  noise = Math.clamp noise, 0, 100
+  feel = Math.clamp feel, 0, 100
+  light = Math.clamp light, 0, 100
+  smell = Math.clamp smell, 0, 100
+
+  (noise + feel + light + smell) * Time.delta
+}

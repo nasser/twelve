@@ -1,0 +1,94 @@
+# base
+
+item :start { @noise = @light = @feel = @smell = 0 }
+item :effect { @noise + @light + @feel + @smell }
+
+# simple items
+
+item="sunglasses" { @light = -20 }
+item="sun" { @light = 40 }
+item="cotton-balls" { @noise = -40 }
+item="vest" { @feel = -20 }
+item="tranq" { @noise = @light = @feel = @smell = -40 }
+
+# complex items
+
+item="fedora" :start { @enabled = no }
+item="fedora" { @light = if @enabled then -20 else 0 }
+
+item="clock" :start { @time = 20 }
+item="clock" :snooze { @time += 5 }
+item="clock" {
+  @time -= args.delta if @time > 0
+  @time = 0 if @time < 0
+  @noise = if @time <= 0 then 40 else 5
+}
+
+item="radio" :start { @station = "static" }
+item="radio" {
+  @noise = switch @station
+    when "static" then 20
+    when "lullaby" then -40
+    when "deathmetal" then 40
+}
+
+item="popcorn" :start {
+  @time = 20
+  @pressed_cross = @pressed_circle = @pressed_square = @pressed_triangle = no
+}
+item="popcorn" {
+  if @all_buttons_pressed()
+    @time -= args.delta if @time > 0
+    @noise = if @time > 0 then 20 else 5
+    @smell = if @time > 0 then 5 else 20
+}
+item="popcorn" :all_buttons_pressed {
+  @pressed_cross and @pressed_circle and @pressed_square and @pressed_triangle
+}
+item="popcorn" :press {
+  @['pressed_' + args.button] = yes
+}
+
+item="jack" :start { @time = 20 }
+item="jack" {
+  @time -= args.delta if @time > 0
+  @noise = if @time > 0 then 10 else 40
+}
+
+item="jack" :wind_up   { @time += 5 }
+item="jack" :wind_down { @time -= 5 }
+
+inventory name :click {
+  World.spawn "item='#{@name}'"
+}
+
+# draw
+
+item :draw { Graphics.draw sprite:@item }
+
+item="clock" :draw {
+  frame = if @time > 0 then "quiet" else "noisy"
+  Graphics.draw sprite:"clock-#{frame}"
+}
+
+item="radio" :draw {
+  Graphics.draw sprite:"radio-#{@station}"
+}
+
+# editor
+
+item :editor.draw {
+  Editor.label "Effect", @effect()
+  
+  Editor.space()
+  
+  @feel = Editor.slider "Feel", @feel
+  @noise = Editor.slider "Noise", @noise
+  @light = Editor.slider "Light", @light
+  @smell = Editor.slider "Smell", @smell
+
+  Editor.space()
+
+  Editor.button "Reset", =>
+    @feel = @noise = @light = @smell = 0
+}
